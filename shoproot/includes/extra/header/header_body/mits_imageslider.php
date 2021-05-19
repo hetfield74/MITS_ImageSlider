@@ -12,12 +12,12 @@
  * --------------------------------------------------------------
  */
 
-if (defined(MODULE_MITS_IMAGESLIDER_STATUS) && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
+if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
 
   $mits_imageslider_active = false;
-  if (MODULE_MITS_IMAGESLIDER_SHOW == 'start' && basename($PHP_SELF) == FILENAME_DEFAULT && !isset($_GET['cPath']) && !isset($_GET['manufacturers_id'])) {
+  if (defined('MODULE_MITS_IMAGESLIDER_SHOW') && MODULE_MITS_IMAGESLIDER_SHOW == 'start' && basename($PHP_SELF) == FILENAME_DEFAULT && !isset($_GET['cPath']) && !isset($_GET['manufacturers_id'])) {
     $mits_imageslider_active = true;
-  } elseif (MODULE_MITS_IMAGESLIDER_SHOW == 'general') {
+  } elseif (defined('MODULE_MITS_IMAGESLIDER_SHOW') && MODULE_MITS_IMAGESLIDER_SHOW == 'general') {
     $mits_imageslider_active = true;
   }
 

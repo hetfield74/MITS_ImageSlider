@@ -12,9 +12,11 @@
  * --------------------------------------------------------------
  */
 
-switch ($type) {
-  case 'imagesliders_description':
-    $editorName = 'imagesliders_description[' . $langID . ']';
-    $default_editor_height = 400;
-    break;
+if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
+  switch ($type) {
+    case 'imagesliders_description':
+      $editorName = 'imagesliders_description[' . $langID . ']';
+      $default_editor_height = 400;
+      break;
+  }
 }

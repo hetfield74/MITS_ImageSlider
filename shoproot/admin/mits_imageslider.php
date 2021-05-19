@@ -206,7 +206,7 @@ require(DIR_WS_INCLUDES . 'javascript/jQueryDateTimePicker/datepicker.js.php');
   </style>
 <?php
 if (USE_WYSIWYG == 'true') {
-  $query = xtc_db_query("SELECT code FROM " . TABLE_LANGUAGES . " WHERE languages_id='" . (int)$_SESSION['languages_id'] . "'");
+  $query = xtc_db_query("SELECT code FROM " . TABLE_LANGUAGES . " WHERE languages_id = " . (int)$_SESSION['languages_id']);
   $data = xtc_db_fetch_array($query);
   // generate editor
   echo PHP_EOL . (!function_exists('editorJSLink') ? '<script type="text/javascript" src="includes/modules/fckeditor/fckeditor.js"></script>' : '') . PHP_EOL;

@@ -20,7 +20,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
           $imagesliders_group = xtc_db_prepare_input($_POST['imagesliders_group']);
           xtc_db_query("UPDATE " . TABLE_CONTENT_MANAGER . " 
                            SET imagesliders_group = '" . $imagesliders_group . "' 
-                         WHERE content_group = '" . (int)$_GET['coID'] . "'");
+                         WHERE content_group = " . (int)$_GET['coID']);
         }
       }
     }

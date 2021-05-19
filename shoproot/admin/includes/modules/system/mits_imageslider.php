@@ -19,7 +19,7 @@ class mits_imageslider {
 
   function __construct() {
     $this->code = 'mits_imageslider';
-    $this->version = '2.03';
+    $this->version = '2.04';
     $this->title = MODULE_MITS_IMAGESLIDER_TEXT_TITLE . ' - v' . $this->version;
     $this->description = MODULE_MITS_IMAGESLIDER_TEXT_DESCRIPTION;
     $this->sort_order = ((defined('MODULE_MITS_IMAGESLIDER_SORT_ORDER')) ? MODULE_MITS_IMAGESLIDER_SORT_ORDER : 0);

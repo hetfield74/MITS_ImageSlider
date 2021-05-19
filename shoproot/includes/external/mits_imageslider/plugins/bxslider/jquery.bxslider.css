@@ -5,7 +5,7 @@
 .mits_bxslider {
   visibility: hidden;
 }
-#content ul.mits_bxslider, #content ul.mits_bxslider li {
+#content ul.mits_bxslider, #content ul.mits_bxslider li, ul.mits_bxslider, ul.mits_bxslider li {
   margin: 0;
   padding: 0;
   list-style: none;

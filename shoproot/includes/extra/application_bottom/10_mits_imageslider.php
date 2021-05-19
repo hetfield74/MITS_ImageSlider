@@ -12,11 +12,11 @@
  * --------------------------------------------------------------
  */
 
-if (defined(MODULE_MITS_IMAGESLIDER_STATUS) && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && $mits_imageslider_active == true) {
+if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && $mits_imageslider_active == true) {
   defined('MODULE_MITS_IMAGESLIDER_LOADCSS') or define('MODULE_MITS_IMAGESLIDER_LOADCSS', 'true');
   defined('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT') or define('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT', 'true');
 
-  if (!empty(MODULE_MITS_IMAGESLIDER_TYPE)) {
+  if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && !empty(MODULE_MITS_IMAGESLIDER_TYPE)) {
     switch (MODULE_MITS_IMAGESLIDER_TYPE) {
 
       case 'bxSlider':
@@ -87,7 +87,7 @@ if (defined(MODULE_MITS_IMAGESLIDER_STATUS) && MODULE_MITS_IMAGESLIDER_STATUS ==
         break;	
 
       default:
-        if (strpos(CURRENT_TEMPLATE,'tpl_modified') === false) {
+        if (defined('CURRENT_TEMPLATE') && strpos(CURRENT_TEMPLATE,'tpl_modified') === false) {
           if (MODULE_MITS_IMAGESLIDER_LOADCSS == 'true') {
             echo '<link rel="stylesheet" href="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/bxslider/jquery.bxslider.min.css', '', $request_type, false) . '" type="text/css" media="screen" />';
           }

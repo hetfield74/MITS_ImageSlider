@@ -73,7 +73,7 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
             $url = xtc_href_link($mits_imageslider_data['imagesliders_url']);
             break;
           case 2:
-            $url = xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link((int)$mits_imageslider_data['imagesliders_url'], xtc_get_products_name((int)$mits_imageslider_data['imagesliders_url'])));
+            $url = xtc_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$mits_imageslider_data['imagesliders_url']);
             break;
           case 3:
             $url = xtc_href_link(FILENAME_DEFAULT, xtc_category_link((int)$mits_imageslider_data['imagesliders_url'], mits_get_categories_name((int)$mits_imageslider_data['imagesliders_url'])));
@@ -333,7 +333,8 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
       }
 
       if (!empty($mits_imagesliders_string)) {
-        return '<!-- MITS Imageslider v2.03 (c)2008-2020 by Hetfield - www.MerZ-IT-SerVice.de - Begin --><div class="mits_imageslider_container">' . $mits_imagesliders_string . '</div><!-- MITS Imageslider v2.03 (c)2008-2020 by Hetfield - www.MerZ-IT-SerVice.de - End -->';
+        $version = (defined('MODULE_MITS_IMAGESLIDER_VERSION') && MODULE_MITS_IMAGESLIDER_VERSION != '') ? ' v' . MODULE_MITS_IMAGESLIDER_VERSION : '';
+        return '<!-- MITS Imageslider' . $version . ' (c)2008-2020 by Hetfield - www.MerZ-IT-SerVice.de - Begin --><div class="mits_imageslider_container">' . $mits_imagesliders_string . '</div><!-- MITS Imageslider' . $version . ' (c)2008-2020 by Hetfield - www.MerZ-IT-SerVice.de - End -->';
       } else {
         return false;
       }
