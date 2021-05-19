@@ -59,7 +59,7 @@ Die Installation des Modul MITS ImageSlider ist in der aktuellen Shopversion 2.x
     6. Markieren sie dort den Eintrag 
          MITS ImageSlider © by Hetfield (MerZ IT-SerVice) 
        und klicken sie dann auf der rechten Seite auf den Button Installieren. Das Modul wird nun komplett installiert. 
-       Sollten sie von einer früheren Version 1.5 updaten, erledigt das Moduls die Anpassung der Datenbank komplett für sie.
+       Sollten sie von einer früheren Version updaten, erledigt das Moduls die Anpassung der Datenbank komplett für sie.
        Aktivieren sie dazu im Bearbeitungsmodus bei "Modulaktualisierung" die Checkbox für
          Datenbankaktualisierung für den MITS ImageSlider durchführen?
        und klicken sie auf speichern.
