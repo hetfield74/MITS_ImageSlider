@@ -1,8 +1,8 @@
 
 #########################################################################################################
 
-MITS ImageSlider v2.04 für modified eCommerce Shopsoftware
-(c) Copyright 2008-2017 byHetfield - MerZ IT-SerVice
+MITS ImageSlider für modified eCommerce Shopsoftware
+(c) Copyright by Hetfield - MerZ IT-SerVice
 
 Author: 	Hetfield - https://www.merz-it-service.de
 Version: 	modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678
