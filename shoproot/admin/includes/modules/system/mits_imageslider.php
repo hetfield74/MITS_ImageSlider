@@ -35,16 +35,21 @@ class mits_imageslider {
       }
 
       if (!defined('MODULE_MITS_IMAGESLIDER_CUSTOM_CODE')) {
-        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_CUSTOM_CODE', '<div class=\"content_banner cf\">
-  <ul class=\"bxcarousel_slider\">
-    ###SLIDERITEM###
-    <li>
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_CUSTOM_CODE', '<div class=\"content_slider cf\">
+  <div class=\"slider_home\">  
+    ###SLIDERITEM###    
+    <div class=\"slider_item\">
       <a href=\"{LINK}\" title=\"{TITLE}\" {LINKTARGET}>
-        <img src=\"{IMAGE}\" alt=\"{IMAGEALT}\" title=\"{TITLE}\" />
+        <picture>
+          <source media=\"(max-width:600px)\" data-srcset=\"{MOBILEIMAGE}\">
+          <source media=\"(max-width:1023px)\" data-srcset=\"{TABLETIMAGE}\">
+          <source data-srcset=\"{MAINIMAGE}\">
+          <img class=\"lazyload\" data-src=\"{MAINIMAGE}\" alt=\"{IMAGEALT}\" title=\"{TITLE}\" />
+        </picture>        
       </a>
-    </li>
+    </div>
     ###SLIDERITEM###
-  </ul>
+  </div>
 </div>',  '6', '5', 'xtc_cfg_textarea(', now())");
       }
 
