@@ -348,6 +348,8 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
           if (sizeof($sliderdata) > 0 && $customcode_slider != '') {
             $mits_imagesliders_string .= $customcode_top;
             for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+              $sliderdata[$i]['tablet_bild'] = ($sliderdata[$i]['tablet_bild'] != '') ? $sliderdata[$i]['tablet_bild'] : $sliderdata[$i]['bild'];
+              $sliderdata[$i]['mobile_bild'] = ($sliderdata[$i]['mobile_bild'] != '') ? $sliderdata[$i]['mobile_bild'] : $sliderdata[$i]['tablet_bild'];
               $customcode_slider_item = $customcode_slider;
               $customcode_slider_item = str_replace('{ID}', $sliderdata[$i]['id'], $customcode_slider_item);
               $customcode_slider_item = str_replace('{LINK}', $sliderdata[$i]['link'], $customcode_slider_item);
