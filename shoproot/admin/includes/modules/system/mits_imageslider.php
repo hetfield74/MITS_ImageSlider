@@ -20,10 +20,10 @@ class mits_imageslider {
   function __construct() {
     $this->code = 'mits_imageslider';
     $this->version = '2.04';
-    $this->title = MODULE_MITS_IMAGESLIDER_TEXT_TITLE . ' - v' . $this->version;
-    $this->description = MODULE_MITS_IMAGESLIDER_TEXT_DESCRIPTION;
-    $this->sort_order = ((defined('MODULE_MITS_IMAGESLIDER_SORT_ORDER')) ? MODULE_MITS_IMAGESLIDER_SORT_ORDER : 0);
-    $this->enabled = ((MODULE_MITS_IMAGESLIDER_STATUS == 'true') ? true : false);
+    $this->title = constant('MODULE_' . strtoupper($this->code) . '_TEXT_TITLE') . ' - v' . $this->version;
+    $this->description = constant('MODULE_' . strtoupper($this->code) . '_TEXT_DESCRIPTION');
+    $this->sort_order = defined('MODULE_' . strtoupper($this->code) . '_SORT_ORDER') ? constant('MODULE_' . strtoupper($this->code) . '_SORT_ORDER') : 0;
+    $this->enabled = ((constant('MODULE_' . strtoupper($this->code) . '_STATUS') == 'true') ? true : false);
   }
 
   function process($file) {
