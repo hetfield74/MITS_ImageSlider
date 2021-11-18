@@ -175,7 +175,7 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'Slick tpl_modified') {
 
         if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string = (sizeof($sliderdata) == 1) ? '<div class="mits_sliderimage"><div>' : '<div class="content_slider cf">
+          $mits_imagesliders_string = (sizeof($sliderdata) == 1) ? '<div class="mits_sliderimage"><div>' : '<div><div class="content_slider cf">
               <div class="slider_home">';
           for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
             //$slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="slick-desc">' . $sliderdata[$i]['text'] . '</div>' : '');
@@ -198,7 +198,7 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
 						</div>';
           }
           $mits_imagesliders_string .= '</div>
-					</div>';
+					</div></div>';
         }
       }
 
