@@ -47,6 +47,7 @@ define('TARGET_PARENT', '_parent');
 define('TYP_PRODUCT', 'Link zum Produkt (bitte nur die productsID bei Linkadresse eintragen)');
 define('TYP_CATEGORIE', 'Link zur Kategorie (bitte nur die catID bei Linkadresse eintragen)');
 define('TYP_CONTENT', 'Link zur Contentseite (bitte nur die coID bei Linkadresse eintragen)');
+define('TYP_MANUFACTURER', 'Link zum Hersteller (bitte nur die mID bei Linkadresse eintragen)');
 define('TYP_INTERN', 'Interner Shoplink (z.B. account.php oder newsletter.php)');
 define('TYP_EXTERN', 'Externer Link (z.B. http://www.example.org)');
 define('TEXT_IMAGESLIDERS_DESCRIPTION', 'Bildbeschreibung:');

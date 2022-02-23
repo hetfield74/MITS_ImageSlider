@@ -47,6 +47,7 @@ define('TARGET_PARENT', '_parent');
 define('TYP_PRODUCT', 'URL for a product (please insert only the productsID at Link-URL)');
 define('TYP_CATEGORIE', 'URL for a categorie (please insert only the catID at Link-URL)');
 define('TYP_CONTENT', 'URL for a contentsite (please insert only the coID at Link-URL)');
+define('TYP_MANUFACTURER', 'URL for a manufacturer (please insert only the mID at Link-URL)');
 define('TYP_INTERN', 'Internal Shop-URL (e.g. account.php or newsletter.php)');
 define('TYP_EXTERN', 'External URL (e.g. http://www.example.org)');
 define('TEXT_IMAGESLIDERS_DESCRIPTION', 'Image-description:');

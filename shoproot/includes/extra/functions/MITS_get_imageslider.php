@@ -81,6 +81,9 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
           case 4:
             $url = xtc_href_link(FILENAME_CONTENT, 'coID=' . (int)$mits_imageslider_data['imagesliders_url']);
             break;
+          case 5:
+            $url = xtc_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . (int)$mits_imageslider_data['imagesliders_url']);
+            break;
           default:
             $url = xtc_href_link(FILENAME_DEFAULT);
         }
@@ -371,7 +374,7 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
 
       if (!empty($mits_imagesliders_string)) {
         $version = (defined('MODULE_MITS_IMAGESLIDER_VERSION') && MODULE_MITS_IMAGESLIDER_VERSION != '') ? ' v' . MODULE_MITS_IMAGESLIDER_VERSION : '';
-        return '<!-- MITS Imageslider' . $version . ' (c)2008-2020 by Hetfield - www.MerZ-IT-SerVice.de - Begin --><div class="mits_imageslider_container">' . $mits_imagesliders_string . '</div><!-- MITS Imageslider' . $version . ' (c)2008-2020 by Hetfield - www.MerZ-IT-SerVice.de - End -->';
+        return '<!-- MITS Imageslider' . $version . ' (c)2008-2022 by Hetfield - www.MerZ-IT-SerVice.de - Begin --><div class="mits_imageslider_container">' . $mits_imagesliders_string . '</div><!-- MITS Imageslider' . $version . ' (c)2008-2022 by Hetfield - www.MerZ-IT-SerVice.de - End -->';
       } else {
         return false;
       }

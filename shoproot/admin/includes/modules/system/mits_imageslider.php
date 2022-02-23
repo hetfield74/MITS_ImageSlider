@@ -19,7 +19,7 @@ class mits_imageslider {
 
   function __construct() {
     $this->code = 'mits_imageslider';
-    $this->version = '2.04';
+    $this->version = '2.05';
     $this->title = constant('MODULE_' . strtoupper($this->code) . '_TEXT_TITLE') . ' - v' . $this->version;
     $this->description = constant('MODULE_' . strtoupper($this->code) . '_TEXT_DESCRIPTION');
     $this->sort_order = defined('MODULE_' . strtoupper($this->code) . '_SORT_ORDER') ? constant('MODULE_' . strtoupper($this->code) . '_SORT_ORDER') : 0;
