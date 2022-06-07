@@ -499,11 +499,14 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                       }
                       ?>
                     </td>
-                    <td class="dataTableContent" align="right"><?php if ((is_object($iInfo)) && ($imagesliders['imagesliders_id'] == $iInfo->imagesliders_id)) {
+                    <td class="dataTableContent" align="right">
+                      <?php
+                      if (isset($iInfo) && is_object($iInfo) && ($imagesliders['imagesliders_id'] == $iInfo->imagesliders_id)) {
                         echo xtc_image(DIR_WS_IMAGES . 'icon_arrow_right.gif');
                       } else {
-                        echo '<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page')) . 'page=' . $_GET['page'] . '&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>';
-                      } ?>&nbsp;
+                        echo '<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>';
+                      }
+                      ?>&nbsp;
                     </td></tr>
                     <?php
                   }
