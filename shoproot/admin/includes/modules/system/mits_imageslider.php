@@ -19,23 +19,24 @@ class mits_imageslider {
 
   function __construct() {
     $this->code = 'mits_imageslider';
-    $this->version = '2.05';
-    $this->title = constant('MODULE_' . strtoupper($this->code) . '_TEXT_TITLE') . ' - v' . $this->version;
-    $this->description = constant('MODULE_' . strtoupper($this->code) . '_TEXT_DESCRIPTION');
-    $this->sort_order = defined('MODULE_' . strtoupper($this->code) . '_SORT_ORDER') ? constant('MODULE_' . strtoupper($this->code) . '_SORT_ORDER') : 0;
-    $this->enabled = ((constant('MODULE_' . strtoupper($this->code) . '_STATUS') == 'true') ? true : false);
+    $this->name = 'MODULE_' . strtoupper($this->code);
+    $this->version = defined($this->name . '_VERSION') ? constant($this->name . '_VERSION') : '2.06';
+    $this->title = constant($this->name . '_TEXT_TITLE') . ' - v' . $this->version;
+    $this->description = constant($this->name . '_TEXT_DESCRIPTION');
+    $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
+    $this->enabled = (defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true') ? true : false);
   }
 
   function process($file) {
     if (isset($_POST['imageslider_update']) && $_POST['imageslider_update'] == true) {
       if (defined('MODULE_MITS_IMAGESLIDER_VERSION')) {
-        xtc_db_query("UPDATE ".TABLE_CONFIGURATION." SET configuration_value = '" . $this->version . "' WHERE configuration_key = 'MODULE_MITS_IMAGESLIDER_VERSION'");
+        xtc_db_query("UPDATE ".TABLE_CONFIGURATION." SET configuration_value = '" . $this->version . "' WHERE configuration_key = '" . $this->name . "_VERSION'");
       } else {
-        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_VERSION', '" . $this->version . "',  '6', '7', NULL, now())");
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_VERSION', '" . $this->version . "', 6, 99, NULL, now())");
       }
 
       if (!defined('MODULE_MITS_IMAGESLIDER_CUSTOM_CODE')) {
-        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_CUSTOM_CODE', '<div class=\"content_slider cf\">
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_CUSTOM_CODE', '<div class=\"content_slider cf\">
   <div class=\"slider_home\">  
     ###SLIDERITEM###    
     <div class=\"slider_item\">
@@ -54,12 +55,12 @@ class mits_imageslider {
       }
 
       if (!defined('MODULE_MITS_IMAGESLIDER_LAZYLOAD')) {
-        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_LAZYLOAD', 'false',  '6', '8', 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LAZYLOAD', 'false', 6, 8, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
       }
 
       xtc_db_query("UPDATE ".TABLE_CONFIGURATION."
                        SET set_function = 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), '
-                     WHERE configuration_key = 'MODULE_MITS_IMAGESLIDER_TYPE'");
+                     WHERE configuration_key = '" . $this->name . "_TYPE'");
 
       xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " CHANGE `imagesliders_name` `imagesliders_name` VARCHAR(255) NOT NULL DEFAULT ''");
       xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " CHANGE `imagesliders_title` `imagesliders_title` VARCHAR(255) NOT NULL");
@@ -120,7 +121,7 @@ class mits_imageslider {
         xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN expires_date datetime default NULL');
       }
     }
-    if (isset($_POST['configuration']) && $_POST['configuration']['MODULE_MITS_IMAGESLIDER_STATUS'] == 'true') {
+    if (isset($_POST['configuration']) && $_POST['configuration'][$this->name . '_STATUS'] == 'true') {
       //xtc_redirect(xtc_href_link(FILENAME_MITS_IMAGESLIDER));
     }
   }
@@ -191,15 +192,15 @@ class mits_imageslider {
       xtc_db_query("ALTER TABLE " . TABLE_ADMIN_ACCESS . " ADD `mits_imageslider` INT( 1 ) NOT NULL DEFAULT '0'");
       xtc_db_query("UPDATE " . TABLE_ADMIN_ACCESS . " SET `mits_imageslider` = 1");
     }
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_STATUS', 'true',  '6', '1', 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_SHOW', 'start',  '6', '2', 'xtc_cfg_select_option(array(\'start\', \'general\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_TYPE', 'Slick tpl_modified',  '6', '4', 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT', 'false',  '6', '6', 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_LOADCSS', 'false',  '6', '7', 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_LAZYLOAD', 'false',  '6', '8', 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MAX_DISPLAY_IMAGESLIDERS_RESULTS', '20',  '6', '9', NULL, now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_VERSION', '" . $this->version . "',  '6', '0', NULL, now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_CUSTOM_CODE', '<div class=\"content_slider cf\">
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_STATUS', 'true', 6, 1, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_SHOW', 'start', 6, 2, 'xtc_cfg_select_option(array(\'start\', \'general\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TYPE', 'Slick tpl_modified', 6, 4, 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LOADJAVASCRIPT', 'false', 6, 6, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LOADCSS', 'false', 6, 7, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LAZYLOAD', 'false', 6, 8, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_RESULTS', '20', 6, 9, NULL, now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_VERSION', '" . $this->version . "', 6, 99, NULL, now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_CUSTOM_CODE', '<div class=\"content_slider cf\">
   <div class=\"slider_home\">  
     ###SLIDERITEM###    
     <div class=\"slider_item\">
@@ -214,7 +215,7 @@ class mits_imageslider {
     </div>
     ###SLIDERITEM###
   </div>
-</div>',  '6', '5', 'xtc_cfg_textarea(', now())");
+</div>', 6, 5, 'xtc_cfg_textarea(', now())");
     xtc_db_query("ALTER TABLE " . TABLE_CATEGORIES . " ADD COLUMN imagesliders_group VARCHAR(255) NULL");
     xtc_db_query("ALTER TABLE " . TABLE_PRODUCTS . " ADD COLUMN imagesliders_group VARCHAR(255) NULL");
     xtc_db_query("ALTER TABLE " . TABLE_CONTENT_MANAGER . " ADD COLUMN imagesliders_group VARCHAR(255) NULL");
@@ -232,14 +233,14 @@ class mits_imageslider {
 
   function keys() {
     $key = array(
-      'MODULE_MITS_IMAGESLIDER_STATUS',
-      'MODULE_MITS_IMAGESLIDER_SHOW',
-      'MODULE_MITS_IMAGESLIDER_TYPE',
-      'MODULE_MITS_IMAGESLIDER_CUSTOM_CODE',
-      'MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT',
-      'MODULE_MITS_IMAGESLIDER_LOADCSS',
-      'MODULE_MITS_IMAGESLIDER_LAZYLOAD',
-      'MAX_DISPLAY_IMAGESLIDERS_RESULTS'
+      $this->name . '_STATUS',
+      $this->name . '_SHOW',
+      $this->name . '_TYPE',
+      $this->name . '_CUSTOM_CODE',
+      $this->name . '_LOADJAVASCRIPT',
+      $this->name . '_LOADCSS',
+      $this->name . '_LAZYLOAD',
+      $this->name . '_RESULTS'
     );
 
     return $key;

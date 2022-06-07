@@ -36,13 +36,15 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
     require_once(DIR_FS_INC . 'xtc_get_products_name.inc.php');
     require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/mits_get_categories_name.inc.php');
 
-    $mits_imagesliders_query = xtDBquery("SELECT * FROM " . TABLE_MITS_IMAGESLIDER . " i, " . TABLE_MITS_IMAGESLIDER_INFO . " ii
-													 WHERE ii.languages_id = " . (int)$_SESSION['languages_id'] . "
-													 AND i.imagesliders_id = ii.imagesliders_id
-													 AND ii.imagesliders_image != ''
-													 AND i.status = 0
-													 AND i.imagesliders_group = '" . xtc_db_input($group) . "'
-													 ORDER BY i.sorting, i.imagesliders_id ASC");
+    $mits_imagesliders_query = xtDBquery("SELECT * 
+                                            FROM " . TABLE_MITS_IMAGESLIDER . " i, 
+                                                 " . TABLE_MITS_IMAGESLIDER_INFO . " ii
+													                 WHERE ii.languages_id = " . (int)$_SESSION['languages_id'] . "
+													                   AND i.imagesliders_id = ii.imagesliders_id
+													                   AND ii.imagesliders_image != ''
+													                   AND i.status = 0
+													                   AND i.imagesliders_group = '" . xtc_db_input($group) . "'
+													              ORDER BY i.sorting, i.imagesliders_id ASC");
     if (xtc_db_num_rows($mits_imagesliders_query, true)) {
       $mits_imagesliders_string = '';
       $sliderdata = array();
@@ -119,21 +121,22 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
 
       }
 
+      $count_slides = sizeof($sliderdata);
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'bxSlider') {
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string .= '
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = '
 					<ul class="mits_bxslider">';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
               if ($sliderdata[$i]['mobile_bild'] != '') $img .= '<source media="(max-width:600px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_bild'] . '">';
               if ($sliderdata[$i]['tablet_bild'] != '') $img .= '<source media="(max-width:1023px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['tablet_bild'] . '">';
               $img .= '<source ' . $datasrc . 'srcset="' . $sliderdata[$i]['haupt_bild'] . '">';
-              $img .= '<img ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['haupt_bild'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['titel'] . '" />';
+              $img .= '<img src="' . $sliderdata[$i]['haupt_bild'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['titel'] . '" />';
               $img .= '</picture>';
             } else {
-              $img = '<img ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['haupt_bild'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['titel'] . '" />';
+              $img = '<img src="' . $sliderdata[$i]['haupt_bild'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['titel'] . '" />';
             }
             $mits_imagesliders_string .= '
 						<li>
@@ -148,10 +151,10 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
       }
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'bxSlider tpl_modified') {
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string .= '<div class="content_banner cf">
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = '<div class="content_banner cf">
 					<ul class="bxcarousel_slider">';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
               if ($sliderdata[$i]['mobile_bild'] != '') $img .= '<source media="(max-width:600px)" data-srcset="' . $sliderdata[$i]['mobile_bild'] . '">';
@@ -176,12 +179,11 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
       }
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'Slick tpl_modified') {
-
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string = (sizeof($sliderdata) == 1) ? '<div class="mits_sliderimage"><div>' : '<div><div class="content_slider cf">
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = ($count_slides == 1) ? '<div class="mits_sliderimage"><div>' : '<div><div class="content_slider cf">
               <div class="slider_home">';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
-            //$slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="slick-desc">' . $sliderdata[$i]['text'] . '</div>' : '');
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
+            $slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="slick-desc">' . $sliderdata[$i]['text'] . '</div>' : '');
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
               if ($sliderdata[$i]['mobile_bild'] != '') $img .= '<source media="(max-width:600px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_bild'] . '">';
@@ -200,16 +202,15 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
 							' . $slidertext . '
 						</div>';
           }
-          $mits_imagesliders_string .= '</div>
-					</div></div>';
+          $mits_imagesliders_string .= '</div>';
+          $mits_imagesliders_string .= ($count_slides == 1) ? '</div><style>.mits_sliderimage img{max-width:100%}</style>' : '</div></div>';
         }
       }
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'Slick') {
-
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string = (sizeof($sliderdata) == 1) ? '<div class="mits_sliderimage">' : '<div class="mits_slickslider">';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = ($count_slides == 1) ? '<div class="mits_sliderimage">' : '<div class="mits_slickslider">';
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             $slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="slick-desc">' . $sliderdata[$i]['text'] . '</div>' : '');
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
@@ -231,15 +232,16 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
           }
           $mits_imagesliders_string .= '
 					</div>';
+          $mits_imagesliders_string .= ($count_slides == 1) ? '<style>.mits_sliderimage img{max-width:100%}</style>' : '';
         }
       }
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'NivoSlider') {
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string .= '
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = '
 					<div class="slider-wrapper theme-default">
 						<div class="ribbon"></div>';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             $mits_imagesliders_string .= chr(9) . '<div id="' . $sliderdata[$i]['id'] . '" class="nivo-html-caption">' . chr(13);
             if ($sliderdata[$i]['titel'] != '') $mits_imagesliders_string .= chr(9) . chr(9) . '<h3>' . strip_tags($sliderdata[$i]['titel']) . '</h3>' . chr(13);
             if ($sliderdata[$i]['text'] != '') $mits_imagesliders_string .= chr(9) . chr(9) . '<div>' . strip_tags($sliderdata[$i]['text']) . '</div>' . chr(13);
@@ -247,7 +249,7 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
           }
           $mits_imagesliders_string .= '
 						<div class="nivoSlider mits_nivoSlider">' . chr(13);
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
               if ($sliderdata[$i]['mobile_bild'] != '') $img .= '<source media="(max-width:600px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_bild'] . '">';
@@ -270,12 +272,12 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
       }
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'FlexSlider') {
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string .= '
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = '
 					<div class="flex-container">
 						<div class="flexslider">
 							<ul class="slides">';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             $slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="flex-caption"><div class="flex-caption-header">' . $sliderdata[$i]['titel'] . '</div><div>' . $sliderdata[$i]['text'] . '</div></div>' : '<div class="flex-caption"><div class="flex-caption-header">' . $sliderdata[$i]['titel'] . '</div></div>');
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
@@ -303,11 +305,11 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
       }
 
       if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE == 'jQuery.innerfade') {
-        if (sizeof($sliderdata) > 0) {
-          $mits_imagesliders_string .= '				
+        if ($count_slides > 0) {
+          $mits_imagesliders_string = '				
 					<div class="mits_imageslider">
 						<ul class="imageslider">';
-          for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          for ($i = 0, $n = $count_slides; $i < $n; $i++) {
             if ($sliderdata[$i]['mobile_bild'] != '' || $sliderdata[$i]['mobile_bild'] != '') {
               $img = '<picture>';
               if ($sliderdata[$i]['mobile_bild'] != '') $img .= '<source media="(max-width:600px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_bild'] . '">';
@@ -348,9 +350,9 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
           $customcode_slider = (isset($customcode[1]) && !empty($customcode[1])) ? $customcode[1] : '';
           $customcode_bottom = (isset($customcode[2]) && !empty($customcode[2])) ? $customcode[2] : '';
 
-          if (sizeof($sliderdata) > 0 && $customcode_slider != '') {
-            $mits_imagesliders_string .= $customcode_top;
-            for ($i = 0, $n = sizeof($sliderdata); $i < $n; $i++) {
+          if ($count_slides > 0 && $customcode_slider != '') {
+            $mits_imagesliders_string = $customcode_top;
+            for ($i = 0, $n = $count_slides; $i < $n; $i++) {
               $sliderdata[$i]['tablet_bild'] = ($sliderdata[$i]['tablet_bild'] != '') ? $sliderdata[$i]['tablet_bild'] : $sliderdata[$i]['bild'];
               $sliderdata[$i]['mobile_bild'] = ($sliderdata[$i]['mobile_bild'] != '') ? $sliderdata[$i]['mobile_bild'] : $sliderdata[$i]['tablet_bild'];
               $customcode_slider_item = $customcode_slider;
@@ -372,9 +374,9 @@ function MITS_get_imageslider($group = 'mits_imageslider') {
         }
       }
 
-      if (!empty($mits_imagesliders_string)) {
+      if (isset($mits_imagesliders_string) && $mits_imagesliders_string != '') {
         $version = (defined('MODULE_MITS_IMAGESLIDER_VERSION') && MODULE_MITS_IMAGESLIDER_VERSION != '') ? ' v' . MODULE_MITS_IMAGESLIDER_VERSION : '';
-        return '<!-- MITS Imageslider' . $version . ' (c)2008-2022 by Hetfield - www.MerZ-IT-SerVice.de - Begin --><div class="mits_imageslider_container">' . $mits_imagesliders_string . '</div><!-- MITS Imageslider' . $version . ' (c)2008-2022 by Hetfield - www.MerZ-IT-SerVice.de - End -->';
+        return '<!-- MITS Imageslider' . $version . ' (c)2008-' . date('Y') . ' by Hetfield - www.MerZ-IT-SerVice.de - Begin --><div class="mits_imageslider_container">' . $mits_imagesliders_string . '</div><!-- MITS Imageslider' . $version . ' (c)2008-' . date('Y') . ' by Hetfield - www.MerZ-IT-SerVice.de - End -->';
       } else {
         return false;
       }

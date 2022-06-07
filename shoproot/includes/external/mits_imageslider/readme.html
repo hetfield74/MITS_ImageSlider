@@ -116,19 +116,19 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
         <li>Wechseln sie in den Administrationsbereich und rufen sie den Men&uuml;punkt <i>Module -&gt; System-Module</i> auf.</li>
         <li>Markieren sie dort den Eintrag <i>MITS ImageSlider &copy; by Hetfield (MerZ IT-SerVice)</i> und klicken sie dann auf der rechten Seite auf den Button <i>Installieren</i>. Das Modul wird nun komplett installiert. Sollten sie von einer fr&uuml;heren Version updaten, erledigt das Modul die Anpassung der Datenbank komplett f&uuml;r sie. Aktivieren sie dazu im Bearbeitungsmodus bei <i>Modulaktualisierung</i> die Checkbox f&uuml;r <i>Datenbankaktualisierung f&uuml;r den MITS ImageSlider durchf&uuml;hren?</i> und klicken sie auf speichern.</li>
         <li>Konfigurieren sie nun das Modul nach ihren W&uuml;nschen. Die verschiedenen Einstellm&ouml;glichkeiten sind im Modul erkl&auml;rt.</li>
-        <li>Rufen sie den Men&uuml;punkt <i>Hilfsprogramme -&gt; MITS ImageSlider v2.04</i> auf. Dort k&ouml;nnen sie Eintr&auml;ge anlegen, bearbeiten oder l&ouml;schen. </li>
+        <li>Rufen sie den Men&uuml;punkt <i>Hilfsprogramme -&gt; MITS ImageSlider v2.06</i> auf. Dort k&ouml;nnen sie Eintr&auml;ge anlegen, bearbeiten oder l&ouml;schen. </li>
       </ol>
 
       <h3>2. Den MITS ImageSlider im Template verf&uuml;gbar machen</h3>
       <p>Um einen ImageSlider im Template anzuzeigen gibt es in der neuen Version verschiedene M&ouml;glichkeiten.</p>
 
       <h4>Variante 1: Per Smarty-Variable in der index.html des verwendeten Templates</h4>
-      <p>F&uuml;gen Sie f&uuml;r den Aufruf des Standard-ImageSlider-Gruppe MITS_IMAGESLIDER einfach folgende Smarty-Variable an die gew&uuml;nschte Stelle in ihrer index.html ein:</p>
+      <p>F&uuml;gen Sie f&uuml;r den Aufruf des Standard-ImageSlider-Gruppe <i>MITS_IMAGESLIDER</i> einfach folgende Smarty-Variable an die gew&uuml;nschte Stelle in ihrer index.html ein:</p>
       <pre>
         {if isset($MITS_IMAGESLIDER)}{$MITS_IMAGESLIDER}{/if}
       </pre>
 
-      <p>M&ouml;chten sie z.B. eine andere ImageSlider-Gruppe anzeigen lassen, dann f&uuml;gen Sie f&uuml;r den Aufruf der anderen ImageSlider-Gruppe (in diesem Beispiel mit dem Gruppennamen ANDRER_IMAGESLIDER) einfach folgende Smarty-Variable an die gew&uuml;nschte Stelle in ihrer index.html ein:</p>
+      <p>M&ouml;chten sie z.B. eine andere ImageSlider-Gruppe anzeigen lassen, dann f&uuml;gen Sie f&uuml;r den Aufruf der anderen ImageSlider-Gruppe (in diesem Beispiel mit dem Gruppennamen <i>ANDRER_IMAGESLIDER</i>) einfach folgende Smarty-Variable an die gew&uuml;nschte Stelle in ihrer index.html ein:</p>
         <pre>
         {if isset($ANDERER_IMAGESLIDER)}{$ANDERER_IMAGESLIDER}{/if}
       </pre>
@@ -141,17 +141,17 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
         <li>theme-light</li>
       </ul>
 
-      <p>Diese k&ouml;nnen Sie durch Anpassung der Smarty-Variable per replace-Befehl wechseln. Im folgenden Beispiel wird das Theme von theme-default auf theme-bar gewechselt:</p>
+      <p>Diese k&ouml;nnen Sie durch Anpassung der Smarty-Variable per replace-Befehl wechseln. Im folgenden Beispiel wird das Theme von <i>theme-default</i> auf <i>theme-bar</i> gewechselt:</p>
         <pre>
         {if isset($MITS_IMAGESLIDER)}
-        {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-bar'}
+          {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-bar'}
         {/if}
       </pre>
 
-      <p>Hier ein weiteres Beispiel, diesmal wird das Theme von theme-default auf theme-light gewechselt:</p>
+      <p>Hier ein weiteres Beispielf&uuml;r den Nivo-Slider, diesmal wird das Theme von <i>theme-default</i> auf <i>theme-light</i> gewechselt:</p>
       <pre>
         {if isset($ANDERER_IMAGESLIDER)}
-        {$ANDERER_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-light'}
+          {$ANDERER_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-light'}
         {/if}
       </pre>
 
@@ -169,29 +169,29 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
       </pre>
 
       <h4>Variante 2: Als Smarty-Plugin &uuml;berall im Template verwenden</h4>
-      <p>Neu seit dem MITS ImageSlider v2.03 ist die Nutzung des ImageSliders als Smarty-Plugin. Damit k&ouml;nnen Sie den ImageSlider in jeder beliebigen HTML-Template-Datei aufrufen. Vorraussetzung daf&uuml;r ist die Einstellung der Anzeigeart <i>general</i>. Der Standardaufruf mit der Gruppe MITS_IMAGESLIDER sieht wie folgt aus:</p>
+      <p>Neu seit dem MITS ImageSlider v2.02 ist die Nutzung des ImageSliders als Smarty-Plugin. Damit k&ouml;nnen Sie den ImageSlider in jeder beliebigen HTML-Template-Datei aufrufen. Voraussetzung daf&uuml;r ist die Einstellung der Anzeigeart <i>general</i>. Der Standardaufruf mit der Gruppe <i>MITS_IMAGESLIDER</i> sieht wie folgt aus:</p>
         <pre>
         {getImageSlider slidergroup=mits_imageslider}
       </pre>
 
-      <p>Der Aufruf mit einer anderen Gruppe (hier z.B. die ImageSlider-Gruppe ANDERER_IMAGESLIDER) sieht wie folgt aus:</p>
+      <p>Der Aufruf mit einer anderen Gruppe (hier z.B. die ImageSlider-Gruppe <i>ANDERER_IMAGESLIDER</i>) sieht wie folgt aus:</p>
       <pre>
         {getImageSlider slidergroup=anderer_imageslider}
       </pre>
 
-      <p>Durch die Erweiterung des Aufrufs um den Parameter <i>nivotheme</i> k&ouml;nnen sie bei der Verwendung des Slider-Plugins &quot;NivoSlider&quot; das Theme wechseln. Im folgenden Beispiel wird das Theme von theme-default auf theme-bar gewechselt:</p>
+      <p>Durch die Erweiterung des Aufrufs um den Parameter <i>nivotheme</i> k&ouml;nnen sie bei der Verwendung des Slider-Plugins &quot;NivoSlider&quot; das Theme wechseln. Im folgenden Beispiel wird das Theme von <i>theme-default</i> auf <i>theme-bar</i> gewechselt:</p>
         <pre>
         {getImageSlider slidergroup=mits_imageslider nivotheme=theme-bar}
       </pre>
 
-      <p>Hier ein weiteres Beispiel, diesmal wird das Theme von theme-default auf theme-dark gewechselt:</p>
+      <p>Hier ein weiteres Beispiel f&uuml;r den Nivo-Slider, diesmal wird das Theme von <i>theme-default</i> auf <i>theme-dark</i> gewechselt:</p>
       <pre>
         {getImageSlider slidergroup=anderer_imageslider nivotheme=theme-dark}
       </pre>
 
       <p>Optional k&ouml;nnen Sie seit der Version 2.03 auch bei Produkten und Kategorien jeweils eine Slidergruppe zuweisen. Damit k&ouml;nnen Sie f&uuml;r Produkte und Kategorien einfach eigene Slider erstellen und pflegen ohne viel Aufwand. Zur Nutzung dieser Funktion m&uuml;ssen Sie allerdings einige Templateanpassungen vornehmen.</p>
 
-      <p>F&uuml;r die Anpassung zur Slideranzeige bei Produkten m&uuml;ssen Sie in den gew&uuml;nschten Templatevorlagen f&uuml;r ihre Produkte(dazu geh&ouml;ren alle Template-Dateien im Ordner <i>module/product_info</i>  ihres Templates, z.B. <i>shoproot/templates/tpl_modified_responsive/module/product_info/product_info_tabs_v1.html</i>) einfach an gew&uuml;nschter Stelle folgende Zeile einf&uuml;gen:</p>
+      <p>F&uuml;r die Anpassung zur Slideranzeige bei Produkten m&uuml;ssen Sie in den gew&uuml;nschten Templatevorlagen f&uuml;r ihre Produkte(dazu geh&ouml;ren alle Template-Dateien im Ordner <i>module/product_info</i> ihres Templates, z.B. <i>shoproot/templates/tpl_modified_responsive/module/product_info/product_info_tabs_v1.html</i>) einfach an gew&uuml;nschter Stelle folgende Zeile einf&uuml;gen:</p>
       <pre>
         {if isset($MITS_PRODUCTS_IMAGESLIDER)}{$MITS_PRODUCTS_IMAGESLIDER}{/if}
       </pre>
@@ -207,7 +207,7 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
       </pre>
 
       <h3>3. Fertig</h3>
-      <p>Wir hoffen, der neue MITS ImageSlider f&uuml;r die modified eCommerce Shopsoftware 2.x gef&auml;llt ihnen! Ben&ouml;tigen sie Unterst&uuml;tzung bei der indivduellen Anpassung des Modul oder haben sie eventuell doch Probleme beim Einbau? Gerne k&ouml;nnen sie unseren kostenpflichtigen Support in Anspruch nehmen. Kontaktieren sie uns einfach unter <a href="https://www.merz-it-service.de/Kontakt:_:7.html" target="_blank">info@merz-it-service.de</a>
+      <p>Wir hoffen, der neue MITS ImageSlider f&uuml;r die modified eCommerce Shopsoftware 2.x gef&auml;llt ihnen! Ben&ouml;tigen sie Unterst&uuml;tzung bei der individuellen Anpassung des Moduls oder haben sie eventuell doch Probleme beim Einbau? Gerne k&ouml;nnen sie unseren kostenpflichtigen Support in Anspruch nehmen. Kontaktieren sie uns einfach unter <a href="https://www.merz-it-service.de/Kontakt:_:7.html" target="_blank">info@merz-it-service.de</a>
 
     </div>
   </main>

@@ -12,51 +12,74 @@
  * --------------------------------------------------------------
  */
 
-function xtc_get_imageslider_image($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_image FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_image'];
+function xtc_get_imageslider_image($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_image FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_image'];
+  }
 }
 
-function xtc_get_imageslider_tablet_image($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_tablet_image FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_tablet_image'];
+function xtc_get_imageslider_tablet_image($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_tablet_image FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_tablet_image'];
+  }
 }
 
-function xtc_get_imageslider_mobile_image($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_mobile_image FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_mobile_image'];
+function xtc_get_imageslider_mobile_image($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_mobile_image FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_mobile_image'];
+  }
 }
 
-function xtc_get_imageslider_url($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_url FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_url'];
+function xtc_get_imageslider_url($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_url FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_url'];
+  }
 }
 
-function xtc_get_imageslider_url_target($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_url_target FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_url_target'];
+function xtc_get_imageslider_url_target($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_url_target FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_url_target'];
+  }
 }
 
-function xtc_get_imageslider_url_typ($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_url_typ FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_url_typ'];
+function xtc_get_imageslider_url_typ($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_url_typ FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_url_typ'];
+  }
 }
 
-function xtc_get_imageslider_title($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_title FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_title'];
+function xtc_get_imageslider_title($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_title FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_title'];
+  }
 }
 
-function xtc_get_imageslider_description($imageslider_id, $language_id) {
-  $imageslider_query = xtc_db_query("SELECT imagesliders_description FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = '" . (int)xtc_db_input($imageslider_id) . "' AND languages_id = '" . (int)xtc_db_input($language_id) . "'");
-  $imageslider = xtc_db_fetch_array($imageslider_query);
-  return $imageslider['imagesliders_description'];
+function xtc_get_imageslider_description($imageslider_id, $language_id = '') {
+  $language_id = ($language_id == '') ? (int)$_SESSION['languages_id'] : $language_id;
+  $imageslider_query = xtc_db_query("SELECT imagesliders_description FROM " . TABLE_MITS_IMAGESLIDER_INFO . " WHERE imagesliders_id = " . (int)$imageslider_id . " AND languages_id = " . (int)$language_id);
+  if (xtc_db_num_rows($imageslider_query) > 0) {
+    $imageslider = xtc_db_fetch_array($imageslider_query);
+    return $imageslider['imagesliders_description'];
+  }
 }
-?>

@@ -1,11 +1,9 @@
 
-#########################################################################################################
-
-MITS ImageSlider für modified eCommerce Shopsoftware
+# MITS ImageSlider für modified eCommerce Shopsoftware
 (c) Copyright by Hetfield - MerZ IT-SerVice
 
-Author: 	Hetfield - https://www.merz-it-service.de
-Version: 	modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678
+- Author: 	Hetfield - https://www.merz-it-service.de
+- Version: 	modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678
 
 Original nur von hier:
 https://www.merz-it-service.de/Shop-Module/MITS-ImageSlider-fuer-modified-eCommerce-Shopsoftware-by-Hetfield.html
@@ -13,25 +11,25 @@ https://www.merz-it-service.de/Shop-Module/MITS-ImageSlider-fuer-modified-eComme
 Download bei GitHub:
 https://github.com/hetfield74/MITS_ImageSlider/
 
-#########################################################################################################
+<hr />
 
-Lizenzinformationen:
----------------------------------------------------------------------------------------------------------
+### Lizenzinformationen:
+
 Diese Erweiterung ist unter der GNU/GPL lizensiert. Eine Kopie der Lizenz liegt diesem Modul bei 
 oder kann unter der URL http://www.gnu.org/licenses/gpl-2.0.txt heruntergeladen werden. Die 
 Copyrighthinweise müssen erhalten bleiben, bzw. mit eingebaut werden. Zuwiderhandlungen verstoßen 
 gegen das Urheberrecht und die GPL und werden zivil- und strafrechtlich verfolgt!
 
-#########################################################################################################
+<hr />
 
-Anleitung für das Modul MITS ImageSlider
-=========================================================================================================
----------------------------------------------------------------------------------------------------------
+## Anleitung für das Modul MITS ImageSlider
+
 Sie finden die aktuellste Installationsanleitung unter https://imageslider.merz-it-service.de/readme.html
----------------------------------------------------------------------------------------------------------
 
-1. Installation
---------------------------------------------------------------------------------------------------------
+<hr />
+
+## 1. Installation
+
 Systemvoraussetzung: Funktionsfähige modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678
 
 Vor der Installation des Moduls sichern sie bitte komplett ihre aktuelle Shopinstallation (Dateien und Datenbank)!
@@ -66,33 +64,26 @@ Die Installation des Modul MITS ImageSlider ist in der aktuellen Shopversion 2.x
 
     7. Konfigurieren sie nun das Modul nach ihren Wünschen. Die verschiedenen Einstellmöglichkeiten sind im Modul erklärt.
 
-    8. Rufen sie den Menüpunkt Hilfsprogramme -> MITS ImageSlider v2.04 auf. 
+    8. Rufen sie den Menüpunkt Hilfsprogramme -> MITS ImageSlider v2.06 auf. 
        Dort können sie Einträge anlegen, bearbeiten oder löschen.
 
 
+## 2. Den MITS ImageSlider im Template verfügbar machen
 
-
-2. Den MITS ImageSlider im Template verfügbar machen
---------------------------------------------------------------------------------------------------------
 Um den ImageSlider im Template anzuzeigen, gibt es in der neuen Version verschiedene Möglichkeiten.
 
-Variante 1: Per Smarty-Variable in der index.html des verwendeten Templates
+### Variante 1: Per Smarty-Variable in der index.html des verwendeten Templates
 
-Fügen Sie für den Aufruf des Standard-ImageSlider-Gruppe MITS_IMAGESLIDER einfach folgende 
-Smarty-Variable an die gewünschte Stelle in ihrer index.html ein:
+Fügen Sie für den Aufruf des Standard-ImageSlider-Gruppe *MITS_IMAGESLIDER* einfach folgende Smarty-Variable an die gewünschte Stelle in ihrer index.html ein:
 
-  {if isset($MITS_IMAGESLIDER)}{$MITS_IMAGESLIDER}{/if}
+    {if isset($MITS_IMAGESLIDER)}{$MITS_IMAGESLIDER}{/if}
+
+Möchten sie z.B. eine andere ImageSlider-Gruppe anzeigen lassen, dann fügen Sie für den Aufruf der anderen ImageSlider-Gruppe (in diesem Beispiel mit dem Gruppennamen *ANDRER_IMAGESLIDER*) einfach folgende Smarty-Variable an die gewünschte Stelle in ihrer index.html ein:
+
+    {if isset($ANDERER_IMAGESLIDER)}{$ANDERER_IMAGESLIDER}{/if}
         
-
-Möchten sie z.B. eine andere ImageSlider-Gruppe anzeigen lassen, dann fügen Sie für den Aufruf der 
-anderen ImageSlider-Gruppe (in diesem Beispiel mit dem Gruppennamen ANDRER_IMAGESLIDER) einfach 
-folgende Smarty-Variable an die gewünschte Stelle in ihrer index.html ein:
-
-  {if isset($ANDERER_IMAGESLIDER)}{$ANDERER_IMAGESLIDER}{/if}
-        
-
-Verwenden Sie das Slider-Plugin "NivoSlider", dann stehen ihnen insgesamt 4 verschieden Themes (Designs) 
-zur Auswahl. Folgende 4 Themes stehen ihnen beim NivoSlider zur Verfügung:
+Verwenden Sie das Slider-Plugin "NivoSlider", dann stehen ihnen insgesamt 4 verschieden Themes (Designs) zur Auswahl. 
+Folgende 4 Themes stehen ihnen beim NivoSlider zur Verfügung:
 
   - theme-bar
   - theme-dark
@@ -100,106 +91,86 @@ zur Auswahl. Folgende 4 Themes stehen ihnen beim NivoSlider zur Verfügung:
   - theme-light
 
 Diese können Sie durch Anpassung der Smarty-Variable per replace-Befehl wechseln. 
-Im folgenden Beispiel wird das Theme von theme-default auf theme-bar gewechselt:
+Im folgenden Beispiel wird das Theme von *theme-default* auf *theme-bar* gewechselt:
 
-  {if isset($MITS_IMAGESLIDER)}
-    {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-bar'}
-  {/if}
-        
+    {if isset($MITS_IMAGESLIDER)}
+      {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-bar'}
+    {/if}
 
-Hier ein weiteres Beispiel, diesmal wird das Theme von theme-default auf theme-light gewechselt:
+Hier ein weiteres Beispiel für den Nivo-Slider, dabei wird das Theme von *theme-default* auf *theme-light* gewechselt:
 
-  {if isset($ANDERER_IMAGESLIDER)}
-    {$ANDERER_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-light'}
-  {/if}
+    {if isset($ANDERER_IMAGESLIDER)}
+      {$ANDERER_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-light'}
+    {/if}
 
-Hinweis: Der NivoSlider wird nicht mehr weiterentwickelt und funktioniert nicht mehr in aktuellen Templates
-mit höheren jQuery-Versionen.
-        
+Hinweis: Der NivoSlider wird nicht mehr weiterentwickelt und funktioniert nicht mehr in aktuellen Templates mit höheren jQuery-Versionen.
 
-Sie können die Einstellung des ImagSlider-Moduls zur Anzeige start (nur auf der Startseite verfügbar) 
-auch anders lösen. Stellen sie dazu die Anzeigedes Imagesliders auf general um. Anschließend können Sie 
-dann zur Beschränkung der Anzeige auf die Startseite auch folgenden Smarty-Code in der index.html verwenden:
+Sie können die Einstellung des ImagSlider-Moduls zur Anzeige start (nur auf der Startseite verfügbar) auch anders lösen. Stellen sie dazu die Anzeige des Imagesliders auf ***general*** um. Anschließend können Sie dann zur Beschränkung der Anzeige auf die Startseite auch folgenden Smarty-Code in der index.html verwenden:
 
-  {if strstr ($smarty.server.PHP_SELF, 'index')}
-    {if !strstr ($smarty.server.PHP_SELF, 'checkout')}
-      {if $smarty.get.cPath==null and $smarty.get.manufacturers_id==''}
-        {if isset($MITS_IMAGESLIDER)}
-          {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-dark'}
+    {if strstr ($smarty.server.PHP_SELF, 'index')}
+      {if !strstr ($smarty.server.PHP_SELF, 'checkout')}
+        {if $smarty.get.cPath==null and $smarty.get.manufacturers_id==''}
+          {if isset($MITS_IMAGESLIDER)}
+            {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-dark'}
+          {/if}
         {/if}
       {/if}
     {/if}
-  {/if}
         
 
-Variante 2: Als Smarty-Plugin überall im Template verwenden
+### Variante 2: Als Smarty-Plugin überall im Template verwenden
 
-Neu seit dem ImageSlider v2.02 ist die Nutzung des ImageSliders als Smarty-Plugin. Damit können Sie den ImageSlider 
-in jeder beliebigen HTML-Template-Datei aufrufen. Vorraussetzung dafür ist die Einstellung der Anzeigeart general. 
-Der Standardaufruf mit der Gruppe MITS_IMAGESLIDER sieht wie folgt aus:
+Neu seit dem ImageSlider v2.02 ist die Nutzung des ImageSliders als Smarty-Plugin. Damit können Sie den ImageSlider in jeder beliebigen HTML-Template-Datei aufrufen. Voraussetzung dafür ist die Einstellung der Anzeigeart ***general***. 
 
-  {getImageSlider slidergroup=mits_imageslider}
+Der Standardaufruf mit der Gruppe *MITS_IMAGESLIDER* sieht wie folgt aus:
+
+    {getImageSlider slidergroup=mits_imageslider}
+
+Der Aufruf mit einer anderen Gruppe (hier z.B. die ImageSlider-Gruppe *ANDERER_IMAGESLIDER*) sieht wie folgt aus:
+
+    {getImageSlider slidergroup=anderer_imageslider}
+
+Durch die Erweiterung des Aufrufs um den Parameter nivotheme können sie bei der Verwendung des Slider-Plugins "NivoSlider" das Theme wechseln. 
+Im folgenden Beispiel wird das Theme von *theme-default* auf *theme-bar* gewechselt:
+
+    {getImageSlider slidergroup=mits_imageslider nivotheme=theme-bar}
         
 
-Der Aufruf mit einer anderen Gruppe (hier z.B. die ImageSlider-Gruppe ANDERER_IMAGESLIDER) sieht wie folgt aus:
+Hier ein weiteres Beispiel, diesmal wird das Theme von *theme-default* auf *theme-dark* gewechselt:
 
-  {getImageSlider slidergroup=anderer_imageslider}
-        
-
-Durch die Erweiterung des Aufrufs um den Parameter nivotheme können sie bei der Verwendung 
-des Slider-Plugins "NivoSlider" das Theme wechseln. 
-Im folgenden Beispiel wird das Theme von theme-default auf theme-bar gewechselt:
-
-  {getImageSlider slidergroup=mits_imageslider nivotheme=theme-bar}
-        
-
-Hier ein weiteres Beispiel, diesmal wird das Theme von theme-default auf theme-dark gewechselt:
-
-  {getImageSlider slidergroup=anderer_imageslider nivotheme=theme-dark}
-        
+    {getImageSlider slidergroup=anderer_imageslider nivotheme=theme-dark}
 
 Optional können Sie seit der Version 2.03 auch bei Produkten und Kategorien eine Slidergruppe zuweisen.
 Damit können Sie für Produkte und Kategorien einfach eigene Slider erstellen und pflegen ohne viel Aufwand.
 Zur Nutzung dieser Funktion müssen Sie allerdings einige Templateanpassungen vornehmen.
 
-Für die Anpassung zur Slideranzeige bei Produkten müssen Sie in den gewünschten Templatevorlagen für ihre Produkte
-(dazu gehören alle Template-Dateien im Ordner module/product_info  ihres Templates, z.B. 
-shoproot/templates/tpl_modified_responsive/module/product_info/product_info_tabs_v1.html) einfach 
-an gewünschter Stelle folgende Zeile einfügen:
+Für die Anpassung zur Slideranzeige bei Produkten müssen Sie in den gewünschten Templatevorlagen für ihre Produkte (dazu gehören alle Template-Dateien im Ordner *module/product_info* ihres Templates, z.B. *shoproot/templates/tpl_modified_responsive/module/product_info/product_info_tabs_v1.html*) einfach an gewünschter Stelle folgende Zeile einfügen:
 
-  {if isset($MITS_PRODUCTS_IMAGESLIDER)}{$MITS_PRODUCTS_IMAGESLIDER}{/if}
+    {if isset($MITS_PRODUCTS_IMAGESLIDER)}{$MITS_PRODUCTS_IMAGESLIDER}{/if}
 
-
-Für die Anpassung zur Slideranzeige bei Kategorien müssen Sie die Templatevorlagen für ihre Kategorien
-(dazu gehören alle Template-Dateien im Ordner module/product_listing und module/categorie_listing ihres Templates, 
-z.B. shoproot/templates/tpl_modified_responsive/module/product_listing/product_listing_v1.html oder
-shoproot/templates/tpl_modified_responsive/module/categorie_listing/categorie_listing.html) anpassen.
+Für die Anpassung zur Slideranzeige bei Kategorien müssen Sie die Templatevorlagen für ihre Kategorien (dazu gehören alle Template-Dateien im Ordner *module/product_listing* und *module/categorie_listing* ihres Templates, z.B. *shoproot/templates/tpl_modified_responsive/module/product_listing/product_listing_v1.html* oder *shoproot/templates/tpl_modified_responsive/module/categorie_listing/categorie_listing.html*) anpassen.
 Dazu einfach in der jeweiligen Datei an gewünschter Stelle folgende Zeile einfügen:
 
-  {if isset($MITS_CATEGORIES_IMAGESLIDER)}{$MITS_CATEGORIES_IMAGESLIDER}{/if}
+    {if isset($MITS_CATEGORIES_IMAGESLIDER)}{$MITS_CATEGORIES_IMAGESLIDER}{/if}
 
+Für die Anpassung zur Slideranzeige bei Content-Seiten müssen Sie in die Templatevorlage für die Content-Seiten *content.html* im Ordner *module* ihres Templates (z.B. *shoproot/templates/tpl_modified_responsive/module/content.html*) einfach an gewünschter Stelle folgende Zeile einfügen:
 
-Für die Anpassung zur Slideranzeige bei Content-Seiten müssen Sie in die Templatevorlage für die Content-Seiten 
-<i>content.html</i> im Ordner <i>module</i> ihres Templates 
-(z.B. <i>shoproot/templates/tpl_modified_responsive/module/content.html</i>) einfach an gewünschter 
-Stelle folgende Zeile einfügen:
+    {if isset($MITS_CONTENT_IMAGESLIDER)}{$MITS_CONTENT_IMAGESLIDER}{/if}
 
-  {if isset($MITS_CONTENT_IMAGESLIDER)}{$MITS_CONTENT_IMAGESLIDER}{/if}
+## 3. Fertig
 
+<hr />
 
-3. Fertig
---------------------------------------------------------------------------------------------------------
-Wir hoffen, der neue MITS ImageSlider für die modified eCommerce Shopsoftware 2.x gefällt ihnen! 
-Benötigen sie Unterstützung bei der indivduellen Anpassung des Modul oder haben sie eventuell doch 
-Probleme beim Einbau? Gerne können sie unseren kostenpflichtigen Support in Anspruch nehmen. 
-Kontaktieren sie uns einfach unter info@merz-it-service.de
+Wir hoffen, der neue MITS ImageSlider für die modified eCommerce Shopsoftware 2.x gefällt ihnen!
+Benötigen sie Unterstützung bei der individuellen Anpassung des Moduls oder haben sie eventuell doch Probleme beim Einbau?
+Gerne können sie unseren kostenpflichtigen Support in Anspruch nehmen.
+Kontaktieren sie uns einfach unter <a href="https://www.merz-it-service.de/Kontakt.html">info(at)merz-it-service.de</a>
 
-
-########################################################################################################
-
+<hr />
+<img src="https://www.merz-it-service.de/images/logo.png" alt="MerZ IT-SerVice" title="MerZ IT-SerVice" />
 MerZ IT-SerVice
 Nicole Grewe - Am Berndebach 35a - D-57439 Attendorn
 Telefon: 0 27 22 - 63 13 63 - Telefax: 0 27 22 - 63 14 00
-E-Mail: Info(at)MerZ-IT-SerVice.de - Internet: www.MerZ-IT-SerVice.de
+E-Mail: <a href="https://www.merz-it-service.de/Kontakt.html">Info(at)MerZ-IT-SerVice.de</a> - Internet: <a href="https://www.merz-it-service.de">www.MerZ-IT-SerVice.de</a>
 
-########################################################################################################
+<hr />

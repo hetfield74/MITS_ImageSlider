@@ -42,10 +42,9 @@ define('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT_TITLE', 'JavaScript-Files vom Sli
 define('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT_DESC', 'Das Modul MITS ImageSlider verwendet bei der Einstellung "true" die Javascript-Dateien vom MITS ImageSlider-Modul. Bei der Einstellung "false" werden die Javascript-Dateien nicht geladen. Die Einstellung "false" ist eigentlich nur dann notwendig, wenn das gew&uuml;nschte Slider-Plugin bereits durch andere Anpassungen im Shop verf&uuml;gbar ist (z.B. durch manuelle Installation im Template o.&auml;). Bei der Einstellung "false" wird nur die Datei <i>mits_imageslider.js</i> im jeweiligen Plugin-Ordner (<i>includes/external/mits_imageslider/plugins/PLUGINNAME/</i>) geladen. Bei der Plugin-Auswahl <i>custom</i> werden keine Dateien geladen und diese Einstellung wird ignoriert.</i>');
 define('MODULE_MITS_IMAGESLIDER_LOADCSS_TITLE', 'CSS-Files vom Slider-Plugin laden?');
 define('MODULE_MITS_IMAGESLIDER_LOADCSS_DESC', 'Das Modul MITS ImageSlider verwendet bei der Einstellung "true" die CSS-Dateien vom MITS ImageSlider-Modul. Bei der Einstellung "false" werden die CSS-Dateien nicht geladen. Die Einstellung "false" ist eigentlich nur dann notwendig, wenn das gew&uuml;nschte Slider-Plugin bereits durch andere Anpassungen im Shop verf&uuml;gbar ist (z.B. durch manuelle Installation/Anpassungen im Template o.&auml;). Bei der Plugin-Auswahl <i>custom</i> werden keine Dateien geladen und diese Einstellung wird ignoriert.');
-define('MAX_DISPLAY_IMAGESLIDERS_RESULTS_TITLE', 'Anzeige MITS ImageSlider-Eintr&auml;ge pro Seite in der Administration');
-define('MAX_DISPLAY_IMAGESLIDERS_RESULTS_DESC', 'Wieviel MITS ImageSlider-Eintr&auml;ge sollen pro Seite im Administrationsbereich des Shops angezeigt werden? Die Einstellung kann auch direkt in der &Uuml;bersicht ge&auml;ndert werden.');
+define('MODULE_MITS_IMAGESLIDER_RESULTS_TITLE', 'Anzeige MITS ImageSlider-Eintr&auml;ge pro Seite in der Administration');
+define('MODULE_MITS_IMAGESLIDER_RESULTS_DESC', 'Wieviel MITS ImageSlider-Eintr&auml;ge sollen pro Seite im Administrationsbereich des Shops angezeigt werden? Die Einstellung kann auch direkt in der &Uuml;bersicht ge&auml;ndert werden.');
 define('MODULE_MITS_IMAGESLIDER_UPDATE_TITLE', 'Modulaktualisierung');
 define('MODULE_MITS_IMAGESLIDER_DO_UPDATE', 'Datenbankaktualisierung f&uuml;r den MITS ImageSlider durchf&uuml;hren?');
 define('MODULE_MITS_IMAGESLIDER_LAZYLOAD_TITLE', 'Lazy Load');
-define('MODULE_MITS_IMAGESLIDER_LAZYLOAD_DESC', 'Soll der Support f&uuml;r lazyload aktiviert werden?');
-?>
+define('MODULE_MITS_IMAGESLIDER_LAZYLOAD_DESC', 'Soll der Support f&uuml;r lazyload aktiviert werden? (Nicht f&uuml;r alle Plugins m&ouml;glich!)');

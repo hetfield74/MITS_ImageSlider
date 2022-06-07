@@ -53,7 +53,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
   $add_categories_fields[] = 'imagesliders_group';
 
   if ($check_cmsslidergroup_field === false && $check_catslidergroup_field === false && $check_proslidergroup_field === false) {
-    if (MODULE_MITS_IMAGESLIDER_TYPE != '') {
+    if (defined('MODULE_MITS_IMAGESLIDER_TYPE') && MODULE_MITS_IMAGESLIDER_TYPE != '') {
       $slidertype = MODULE_MITS_IMAGESLIDER_TYPE;
     } else {
       $slidertype = 'Slick tpl_modified';

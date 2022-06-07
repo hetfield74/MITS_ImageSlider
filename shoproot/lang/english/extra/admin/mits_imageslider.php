@@ -12,8 +12,10 @@
  * --------------------------------------------------------------
  */
 
-define('MITS_BOX_IMAGESLIDER', 'MITS ImageSlider - v' . MODULE_MITS_IMAGESLIDER_VERSION);
-define('TEXT_IMAGESLIDERS_GROUP', 'MITS ImageSlider-Group:
+if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && defined('MODULE_MITS_IMAGESLIDER_VERSION')) {
+  defined('MITS_BOX_IMAGESLIDER') or define('MITS_BOX_IMAGESLIDER', 'MITS ImageSlider - v' . MODULE_MITS_IMAGESLIDER_VERSION);
+  defined('TEXT_IMAGESLIDERS_GROUP') or define('TEXT_IMAGESLIDERS_GROUP', 'MITS ImageSlider-Group:
 <span class="tooltip"><img src="images/icons/tooltip_icon.png"  style="border:0;">
   <em>Here you can assign an existing MITS ImageSlider group, which is displayed in the frontend. The prerequisite is that the corresponding template files have been added.</em>
 </span>');
+}

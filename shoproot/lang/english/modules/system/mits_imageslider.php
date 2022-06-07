@@ -42,10 +42,9 @@ define('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT_TITLE', 'JavaScript files loaded 
 define('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT_DESC', 'The module uses the MITS ImageSlider JavaScript files from the MITS ImageSlider module when "true". When set to "alse" the javascript files are not loaded. The "false" is really only necessary if the desired slider plugin is already available through other customizations in the shop (for example, by manually installing the template or similar). When set to "false" only the file is mits_imageslider.js the respective plug-in folder (<i>includes/external/mits_imageslider/plugins/PLUGINNAME/</i>) loaded. If the plugin is selected <i>custom</i> no files are loaded and this setting is ignored.');
 define('MODULE_MITS_IMAGESLIDER_LOADCSS_TITLE', 'CSS files loaded from Slider Plugin?');
 define('MODULE_MITS_IMAGESLIDER_LOADCSS_DESC', 'The module MITS ImageSlider used when "true" the CSS files from the MITS ImageSlider module. When set to "alse" CSS files are not loaded. The "false" is really only necessary if the desired slider plugin is already available through other customizations in the shop (for example, by manual installation/adjustments in the template or similar). If the plugin is selected <i>custom</i> no files are loaded and this setting is ignored.');
-define('MAX_DISPLAY_IMAGESLIDERS_RESULTS_TITLE', 'Display MITS ImageSlider entries per page in the Administration');
-define('MAX_DISPLAY_IMAGESLIDERS_RESULTS_DESC', 'How much MITS ImageSlider entries to be displayed per page in the administration area of the store? The setting can be changed directly in the overview.');
+define('MODULE_MITS_IMAGESLIDER_RESULTS_TITLE', 'Display MITS ImageSlider entries per page in the Administration');
+define('MODULE_MITS_IMAGESLIDER_RESULTS_DESC', 'How much MITS ImageSlider entries to be displayed per page in the administration area of the store? The setting can be changed directly in the overview.');
 define('MODULE_MITS_IMAGESLIDER_UPDATE_TITLE', 'Modulupdate');
 define('MODULE_MITS_IMAGESLIDER_DO_UPDATE', 'Do the database updates for the MITS ImageSlider?');
 define('MODULE_MITS_IMAGESLIDER_LAZYLOAD_TITLE', 'Lazy Load');
 define('MODULE_MITS_IMAGESLIDER_LAZYLOAD_DESC', 'Activate support for lazyload?');
-?>

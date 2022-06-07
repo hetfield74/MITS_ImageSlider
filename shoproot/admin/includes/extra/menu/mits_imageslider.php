@@ -19,7 +19,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
     'admin_access_name' => 'mits_imageslider',
     'filename'          => 'mits_imageslider.php',
     'boxname'           => MITS_BOX_IMAGESLIDER,
-    'parameter'         => '',
+    'parameters'         => '',
     'ssl'               => ''
   );
 }
