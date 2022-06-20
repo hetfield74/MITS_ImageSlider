@@ -168,8 +168,8 @@ Kontaktieren sie uns einfach unter <a href="https://www.merz-it-service.de/Konta
 
 <hr />
 <img src="https://www.merz-it-service.de/images/logo.png" alt="MerZ IT-SerVice" title="MerZ IT-SerVice" />
-MerZ IT-SerVice
-Nicole Grewe - Am Berndebach 35a - D-57439 Attendorn
+
+**MerZ IT-SerVice** Nicole Grewe - Am Berndebach 35a - D-57439 Attendorn
 Telefon: 0 27 22 - 63 13 63 - Telefax: 0 27 22 - 63 14 00
 E-Mail: <a href="https://www.merz-it-service.de/Kontakt.html">Info(at)MerZ-IT-SerVice.de</a> - Internet: <a href="https://www.merz-it-service.de">www.MerZ-IT-SerVice.de</a>
 

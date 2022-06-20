@@ -25,7 +25,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
   $languages = xtc_get_languages();
 
   //display per page
-  $cfg_max_display_results_key = defined('MODULE_MITS_IMAGESLIDER_RESULTS') ? MODULE_MITS_IMAGESLIDER_RESULTS : 20;
+  $cfg_max_display_results_key = defined('MODULE_MITS_IMAGESLIDER_MAX_DISPLAY_RESULTS') ? MODULE_MITS_IMAGESLIDER_MAX_DISPLAY_RESULTS : 20;
   $page_max_display_results = xtc_cfg_save_max_display_results($cfg_max_display_results_key);
 
   require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php');
@@ -56,7 +56,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
             'sorting'            => $imagesliders_sorting,
             'imagesliders_group' => $imagesliders_group
       );
-      if ($imageslider_error != true) {
+      if ($imageslider_error !== true) {
         if ($action == 'insert') {
           $insert_sql_data = array('date_added' => 'now()');
           $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
@@ -248,7 +248,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       <!-- body_text //-->
       <td class="<?php echo $css_class; ?>" width="100%" valign="top">
         <div class="pageHeadingImage"><?php echo xtc_image(DIR_WS_ICONS . 'heading/icon_configuration.png'); ?></div>
-        <div class="pageHeading"><?php echo HEADING_TITLE_IMAGESLIDERS . '<small style="font-weight:normal;font-size:0.6em;"> - v' . MODULE_MITS_IMAGESLIDER_VERSION . '</small>'; ?></div>
+        <div class="pageHeading"><?php echo HEADING_TITLE_IMAGESLIDERS . '<small style="font-weight:normal;font-size:0.6em;">' . (defined('MODULE_MITS_IMAGESLIDER_VERSION') ? ' - v' . MODULE_MITS_IMAGESLIDER_VERSION : '') . '</small>'; ?></div>
         <div class="main pdg2 flt-l"><?php echo HEADING_SUBTITLE_IMAGESLIDERS; ?></div>
         <div style="clear:both;"></div>
         <?php
@@ -394,12 +394,12 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
 
                 <?php
                 $imageslider_url_string = TEXT_TYP . '<br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '0', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 0 ? true : false) . TYP_EXTERN . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '1', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 1 ? true : false) . TYP_INTERN . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '2', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 2 ? true : false) . TYP_PRODUCT . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '3', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 3 ? true : false) . TYP_CATEGORIE . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '4', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 4 ? true : false) . TYP_CONTENT . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '5', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 5 ? true : false) . TYP_MANUFACTURER . '</label><br /><br />' .
+                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '0', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 0) . TYP_EXTERN . '</label><br />' .
+                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '1', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 1) . TYP_INTERN . '</label><br />' .
+                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '2', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 2) . TYP_PRODUCT . '</label><br />' .
+                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '3', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 3) . TYP_CATEGORIE . '</label><br />' .
+                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '4', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 4) . TYP_CONTENT . '</label><br />' .
+                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '5', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 5) . TYP_MANUFACTURER . '</label><br /><br />' .
                       TEXT_URL . xtc_draw_input_field('imagesliders_url[' . $languages[$i]['id'] . ']', xtc_get_imageslider_url($imageslider['imagesliders_id'], $languages[$i]['id']), 'style="width:50%;"') . '&nbsp;' . TEXT_TARGET . '&nbsp;' . xtc_draw_pull_down_menu('imagesliders_url_target[' . $languages[$i]['id'] . ']', $url_target_array, xtc_get_imageslider_url_target($imageslider['imagesliders_id'], $languages[$i]['id'])) . '<br /><br />';
                 ?>
                 <table class="tableInput border0">

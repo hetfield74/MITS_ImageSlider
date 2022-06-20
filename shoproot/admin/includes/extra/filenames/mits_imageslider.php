@@ -12,4 +12,4 @@
  * --------------------------------------------------------------
  */
 
-define('FILENAME_MITS_IMAGESLIDER', 'mits_imageslider.php');
+defined('FILENAME_MITS_IMAGESLIDER') or define('FILENAME_MITS_IMAGESLIDER', 'mits_imageslider.php');

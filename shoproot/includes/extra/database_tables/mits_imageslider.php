@@ -12,5 +12,5 @@
  * --------------------------------------------------------------
  */
 
-define('TABLE_MITS_IMAGESLIDER', 'imagesliders');
-define('TABLE_MITS_IMAGESLIDER_INFO', 'imagesliders_info');
+defined('TABLE_MITS_IMAGESLIDER') or define('TABLE_MITS_IMAGESLIDER', 'imagesliders');
+defined('TABLE_MITS_IMAGESLIDER_INFO') or define('TABLE_MITS_IMAGESLIDER_INFO', 'imagesliders_info');
