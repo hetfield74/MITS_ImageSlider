@@ -12,7 +12,7 @@
  * --------------------------------------------------------------
  */
 
-if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && $mits_imageslider_active == true) {
+if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && isset($mits_imageslider_active) && $mits_imageslider_active === true) {
   defined('MODULE_MITS_IMAGESLIDER_LOADCSS') or define('MODULE_MITS_IMAGESLIDER_LOADCSS', 'true');
   defined('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT') or define('MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT', 'true');
 

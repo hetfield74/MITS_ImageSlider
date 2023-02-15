@@ -54,7 +54,9 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
             'imagesliders_name'  => $imagesliders_name,
             'status'             => $imagesliders_status,
             'sorting'            => $imagesliders_sorting,
-            'imagesliders_group' => $imagesliders_group
+            'imagesliders_group' => $imagesliders_group,
+            'expires_date'       => 'null',
+            'date_scheduled'     => 'null'
       );
       if ($imageslider_error !== true) {
         if ($action == 'insert') {
@@ -152,12 +154,12 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
             xtc_db_perform(TABLE_MITS_IMAGESLIDER_INFO, $lang_data_array, 'update', "imagesliders_id = '" . $imagesliders_id . "' AND languages_id = " . $language_id);
           }
 
-          if ($_POST['expires_date'] != '' && $_POST['expires_date'] != '0000-00-00') {
+          if ($_POST['expires_date'] != '' && $_POST['expires_date'] != '0000-00-00 00:00:00') {
             $expires_date = date('Y-m-d 23:59:59', strtotime($_POST['expires_date']));
             xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET expires_date = '" . xtc_db_input($expires_date) . "' WHERE imagesliders_id = " . $imagesliders_id);
           }
 
-          if ($_POST['date_scheduled'] != '' && $_POST['date_scheduled'] != '0000-00-00') {
+          if ($_POST['date_scheduled'] != '' && $_POST['date_scheduled'] != '0000-00-00 00:00:00') {
             $date_scheduled = date('Y-m-d 00:00:00', strtotime($_POST['date_scheduled']));
             xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET date_scheduled = '" . xtc_db_input($date_scheduled) . "' WHERE imagesliders_id = " . $imagesliders_id);
           }

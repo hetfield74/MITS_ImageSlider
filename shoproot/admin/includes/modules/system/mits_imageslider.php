@@ -216,8 +216,8 @@ class mits_imageslider {
 					  `date_last_click` datetime default NULL,
 					  PRIMARY KEY  (`imagesliders_id`,`languages_id`)
 					)");
-      xtc_db_query("ALTER TABLE " . TABLE_ADMIN_ACCESS . " ADD `mits_imageslider` INT(1) NOT NULL DEFAULT '0'");
-      xtc_db_query("UPDATE " . TABLE_ADMIN_ACCESS . " SET `mits_imageslider` = 1 WHERE customers_id != 'groups'");
+      xtc_db_query("ALTER TABLE " . TABLE_ADMIN_ACCESS . " ADD `" . $this->code . "` INT(1) NOT NULL DEFAULT '0'");
+      xtc_db_query("UPDATE " . TABLE_ADMIN_ACCESS . " SET `" . $this->code . "` = 1 WHERE customers_id != 'groups'");
     }
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_STATUS', 'true', 6, 1, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_SHOW', 'start', 6, 2, 'xtc_cfg_select_option(array(\'start\', \'general\'), ', now())");
@@ -253,7 +253,7 @@ class mits_imageslider {
     xtc_db_query("DELETE FROM " . TABLE_CONFIGURATION . " WHERE configuration_key LIKE '" . $this->name . "_%'");
     xtc_db_query("DROP TABLE " . TABLE_MITS_IMAGESLIDER);
     xtc_db_query("DROP TABLE " . TABLE_MITS_IMAGESLIDER_INFO);
-    xtc_db_query("ALTER TABLE " . TABLE_ADMIN_ACCESS . " DROP COLUMN `mits_imageslider`");
+    xtc_db_query("ALTER TABLE " . TABLE_ADMIN_ACCESS . " DROP COLUMN `" . $this->code . "`");
     xtc_db_query("ALTER TABLE " . TABLE_CATEGORIES . " DROP imagesliders_group");
     xtc_db_query("ALTER TABLE " . TABLE_PRODUCTS . " DROP imagesliders_group");
     xtc_db_query("ALTER TABLE " . TABLE_CONTENT_MANAGER . " DROP imagesliders_group");
