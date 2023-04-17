@@ -134,11 +134,45 @@ Durch die Erweiterung des Aufrufs um den Parameter nivotheme können sie bei der
 Im folgenden Beispiel wird das Theme von *theme-default* auf *theme-bar* gewechselt:
 
     {getImageSlider slidergroup=mits_imageslider nivotheme=theme-bar}
-        
+
 
 Hier ein weiteres Beispiel, diesmal wird das Theme von *theme-default* auf *theme-dark* gewechselt:
 
     {getImageSlider slidergroup=anderer_imageslider nivotheme=theme-dark}
+
+Der ImageSlider kann seit der Version 2.10 auch als Array in einer Smarty-Variablen zur&uuml;ckgegeben werden f&uuml;r individuelle Darstellungen, die dann per foreach im Template genutzt werden kann. Das sieht wie folgt aus (hier gezeigt als Beispiel f&uuml;r die ImageSlider-Gruppe *ANDERER_IMAGESLIDER*):
+      
+        {getImageSlider slidergroup=anderer_imageslider get_smarty_array=true}
+        <div class="content_slider cf">
+          <div class="slider_home">
+            {foreach item=slider_data from=$anderer_imageslider}
+            <div class="slider_item">
+              <a href="{$slider_data.link}" title="{$slider_data.titel}" {$slider_data.target}>
+                <picture>
+                  <source media="(max-width:600px)" data-srcset="{$slider_data.mobile_bild}">
+                  <source media="(max-width:1023px)" data-srcset="{$slider_data.tablet_bild}">
+                  <source data-srcset="{$slider_data.haupt_bild}">
+                  <img class="lazyload" data-src="{$slider_data.haupt_bild}" alt="{$slider_data.alt}" title="{$slider_data.titel}" />
+                </picture>
+              </a>
+            </div>
+            {/foreach}
+          </div>
+        </div>
+      
+
+Folgende Variablen sind für diesen Fall verfügbar:
+<ul>
+<li><strong>id</strong> (ID des Slidereintrags)</li>
+<li><strong>haupt_bild</strong> (Bildadresse vom Hauptbild des Slidereintrags)</li>
+<li><strong>tablet_bild</strong> (Bildadresse zur Tablet-Ansicht des Slidereintrags)</li>
+<li><strong>mobile_bild</strong> (Bildadresse zur mobilen Ansicht des Slidereintrags)</li>
+<li><strong>link</strong> (URL des Slidereintrags)</li>
+<li><strong>target</strong> (Zielfenster der URL)</li>
+<li><strong>alt</strong> (Alt-Text für Bild)</li>
+<li><strong>titel</strong> (Titel für Bild)</li>
+<li><strong>text</strong> (Text aus dem Editor)</li>
+</ul>
 
 Optional können Sie seit der Version 2.03 auch bei Produkten und Kategorien eine Slidergruppe zuweisen.
 Damit können Sie für Produkte und Kategorien einfach eigene Slider erstellen und pflegen ohne viel Aufwand.

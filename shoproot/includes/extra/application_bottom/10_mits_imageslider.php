@@ -40,8 +40,8 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         }
         if (MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT == 'true') {
           echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/slick/slick/slick.min.js', '', $request_type, false) . '" type="text/javascript"></script>';
+          echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/slick/slick/mits_imageslider.js', '', $request_type, false) . '" type="text/javascript"></script>';
         }
-        echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/slick/slick/mits_imageslider.js', '', $request_type, false) . '" type="text/javascript"></script>';
         break;
 
       case 'Slick tpl_modified':

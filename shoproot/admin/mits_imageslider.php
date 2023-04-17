@@ -72,8 +72,8 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       }
 
       $languages = xtc_get_languages();
-      $accepted_imagesliders_image_files_extensions = array("jpg", "jpeg", "jpe", "gif", "png", "bmp", "tiff", "tif", "bmp", "svg");
-      $accepted_imagesliders_image_files_mime_types = array("image/jpeg", "image/gif", "image/png", "image/bmp", "image/svg+xml");
+      $accepted_imagesliders_image_files_extensions = array("jpg", "jpeg", "jpe", "gif", "png", "webp", "bmp", "tiff", "tif", "bmp", "svg");
+      $accepted_imagesliders_image_files_mime_types = array("image/jpeg", "image/gif", "image/png", "image/webp", "image/bmp", "image/svg+xml");
       for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
         if (isset($_POST['imagesliders_image_delete' . $i]) && $_POST['imagesliders_image_delete' . $i] == 'imagesliders_image_delete' . $i) {
           $image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);

@@ -38,6 +38,9 @@ class mits_imageslider {
 
   function process($file) {
     if (isset($_POST['imageslider_update']) && $_POST['imageslider_update'] == true) {
+
+      @unlink(DIR_FS_DOCUMENT_ROOT . DIR_FS_EXTERNAL . 'mits_imageslider/functions/mits_get_categories_name.inc.php');
+
       xtc_db_query("UPDATE " . TABLE_ADMIN_ACCESS . " SET `" . strtolower($this->code) . "` = 0 WHERE customers_id = 'groups'");
 
       $version_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_VERSION'");
