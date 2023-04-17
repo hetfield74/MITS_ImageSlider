@@ -142,23 +142,25 @@ Hier ein weiteres Beispiel, diesmal wird das Theme von *theme-default* auf *them
 
 Der ImageSlider kann seit der Version 2.10 auch als Array in einer Smarty-Variablen zur&uuml;ckgegeben werden f&uuml;r individuelle Darstellungen, die dann per foreach im Template genutzt werden kann. Das sieht wie folgt aus (hier gezeigt als Beispiel f&uuml;r die ImageSlider-Gruppe *ANDERER_IMAGESLIDER*):
       
-        {getImageSlider slidergroup=anderer_imageslider get_smarty_array=true}
-        <div class="content_slider cf">
-          <div class="slider_home">
-            {foreach item=slider_data from=$anderer_imageslider}
-            <div class="slider_item">
-              <a href="{$slider_data.link}" title="{$slider_data.titel}" {$slider_data.target}>
-                <picture>
-                  <source media="(max-width:600px)" data-srcset="{$slider_data.mobile_bild}">
-                  <source media="(max-width:1023px)" data-srcset="{$slider_data.tablet_bild}">
-                  <source data-srcset="{$slider_data.haupt_bild}">
-                  <img class="lazyload" data-src="{$slider_data.haupt_bild}" alt="{$slider_data.alt}" title="{$slider_data.titel}" />
-                </picture>
-              </a>
-            </div>
-            {/foreach}
-          </div>
+    {getImageSlider slidergroup=anderer_imageslider get_smarty_array=true}
+    {if isset($anderer_imageslider)}
+    <div class="content_slider cf">
+      <div class="slider_home">
+      {foreach item=slider_data from=$anderer_imageslider}
+        <div class="slider_item">
+          <a href="{$slider_data.link}" title="{$slider_data.title}" {$slider_data.target}>
+            <picture>
+              {if $slider_data.mobile_image != ''}<source media="(max-width:600px)" data-srcset="{$slider_data.mobile_image}">{/if}
+              {if $slider_data.tablet_image != ''}<source media="(max-width:1023px)" data-srcset="{$slider_data.tablet_image}">{/if}
+              <source data-srcset="{$slider_data.main_image}">
+              <img class="lazyload" data-src="{$slider_data.main_image}" alt="{$slider_data.alt}" title="{$slider_data.title}" />
+            </picture>
+          </a>
         </div>
+        {/foreach}
+      </div>
+    </div>
+    {/if}
       
 
 Folgende Variablen sind für diesen Fall verfügbar:
