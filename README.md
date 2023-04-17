@@ -164,9 +164,9 @@ Der ImageSlider kann seit der Version 2.10 auch als Array in einer Smarty-Variab
 Folgende Variablen sind für diesen Fall verfügbar:
 <ul>
 <li><strong>id</strong> (ID des Slidereintrags)</li>
-<li><strong>haupt_bild</strong> (Bildadresse vom Hauptbild des Slidereintrags)</li>
-<li><strong>tablet_bild</strong> (Bildadresse zur Tablet-Ansicht des Slidereintrags)</li>
-<li><strong>mobile_bild</strong> (Bildadresse zur mobilen Ansicht des Slidereintrags)</li>
+<li><strong>main_image</strong> (Bildadresse vom Hauptbild des Slidereintrags)</li>
+<li><strong>tablet_image</strong> (Bildadresse zur Tablet-Ansicht des Slidereintrags)</li>
+<li><strong>mobile_image</strong> (Bildadresse zur mobilen Ansicht des Slidereintrags)</li>
 <li><strong>link</strong> (URL des Slidereintrags)</li>
 <li><strong>target</strong> (Zielfenster der URL)</li>
 <li><strong>alt</strong> (Alt-Text für Bild)</li>
