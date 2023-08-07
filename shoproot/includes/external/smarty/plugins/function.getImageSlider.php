@@ -45,5 +45,3 @@ function smarty_function_getImageSlider($params, &$smarty) {
   }
 
 }
-
-?>

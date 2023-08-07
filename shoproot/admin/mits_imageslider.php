@@ -485,7 +485,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                     <td class="dataTableContent" align="left" width="20%">
                       <?php
                       for ($i = 0; $i < sizeof($languages); $i++) {
-                        echo xtc_image(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/admin/images/' . $languages[$i]['image'], $languages[$i]['name']) . xtc_info_image(xtc_get_imageslider_image($imagesliders['imagesliders_id'], $languages[$i]['id']), $imagesliders['imagesliders_name'], '', '', 'style="max-width:100%;max-height:50px;padding-right:6px;"');
+                        echo '<div>' . xtc_image(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/admin/images/' . $languages[$i]['image'], $languages[$i]['name']) . xtc_info_image(xtc_get_imageslider_image($imagesliders['imagesliders_id'], $languages[$i]['id']), $imagesliders['imagesliders_name'], '', '', 'style="max-width:100%;max-height:50px;padding-right:6px;"') . '</div>';
                       }
                       ?>
                     </td>

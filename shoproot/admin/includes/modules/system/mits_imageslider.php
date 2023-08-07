@@ -15,12 +15,12 @@
 defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
 
 class mits_imageslider {
-  var $code, $title, $description, $enabled;
+  var $code, $name, $version, $sort_order, $title, $description, $enabled, $do_update, $_check;
 
   function __construct() {
     $this->code = 'mits_imageslider';
     $this->name = 'MODULE_' . strtoupper($this->code);
-    $this->version = '2.13';
+    $this->version = '2.15';
     $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
     $this->enabled = (defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true') ? true : false);
     $version_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_VERSION'");
@@ -39,7 +39,8 @@ class mits_imageslider {
   function process($file) {
     if (isset($_POST['imageslider_update']) && $_POST['imageslider_update'] == true) {
 
-      @unlink(DIR_FS_DOCUMENT_ROOT . DIR_FS_EXTERNAL . 'mits_imageslider/functions/mits_get_categories_name.inc.php');
+      @unlink(DIR_FS_EXTERNAL . 'mits_imageslider/functions/mits_get_categories_name.inc.php');
+      @unlink(DIR_FS_DOCUMENT_ROOT . (defined('DIR_ADMIN') ? DIR_ADMIN : 'admin/') . 'includes/extra/application_bottom/mits_imageslider.php');
 
       xtc_db_query("UPDATE " . TABLE_ADMIN_ACCESS . " SET `" . strtolower($this->code) . "` = 0 WHERE customers_id = 'groups'");
 
@@ -88,8 +89,16 @@ class mits_imageslider {
         xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LAZYLOAD', 'false', 6, 8, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
       }
 
+      $pictureset_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_MOBILEWIDTH'");
+      if (!xtc_db_num_rows($pictureset_query)) {
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_MOBILEWIDTH', '600', 6, 9, NULL, now())");
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TABLETWIDTH', '1023', 6, 10, NULL, now())");
+        $max_display_results = defined($this->name . '_MAX_DISPLAY_RESULTS') ? constant($this->name . '_MAX_DISPLAY_RESULTS') : '20';
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_MAX_DISPLAY_RESULTS', '" . $max_display_results . "', 6, 20, NULL, now())");
+      }
+
       xtc_db_query("UPDATE ".TABLE_CONFIGURATION."
-                       SET set_function = 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), '
+                       SET set_function = 'xtc_cfg_select_option(array(\'Splide tpl_modified_nova\', \'Splide\', \'Slick tpl_modified\', \'Slick\', \'bxSlider tpl_modified\', \'bxSlider\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), '
                      WHERE configuration_key = '" . $this->name . "_TYPE'");
 
       xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " CHANGE `imagesliders_name` `imagesliders_name` VARCHAR(255) NOT NULL DEFAULT ''");
@@ -166,8 +175,12 @@ class mits_imageslider {
 
   function check() {
     if (!isset($this->_check)) {
-      $check_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_STATUS'");
-      $this->_check = xtc_db_num_rows($check_query);
+      if (defined($this->name . '_STATUS')) {
+        $this->_check = true;
+      } else {
+        $check_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_STATUS'");
+        $this->_check = xtc_db_num_rows($check_query);
+      }
     }
     return $this->_check;
   }
@@ -223,12 +236,14 @@ class mits_imageslider {
       xtc_db_query("UPDATE " . TABLE_ADMIN_ACCESS . " SET `" . $this->code . "` = 1 WHERE customers_id != 'groups'");
     }
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_STATUS', 'true', 6, 1, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_SHOW', 'start', 6, 2, 'xtc_cfg_select_option(array(\'start\', \'general\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TYPE', 'Slick tpl_modified', 6, 4, 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_SHOW', 'general', 6, 2, 'xtc_cfg_select_option(array(\'start\', \'general\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TYPE', 'Slick tpl_modified', 6, 4, 'xtc_cfg_select_option(array(\'Splide tpl_modified_nova\', \'Splide\', \'Slick tpl_modified\', \'Slick\', \'bxSlider tpl_modified\', \'bxSlider\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LOADJAVASCRIPT', 'false', 6, 6, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LOADCSS', 'false', 6, 7, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LAZYLOAD', 'false', 6, 8, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_MAX_DISPLAY_RESULTS', '20', 6, 9, NULL, now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_MOBILEWIDTH', '600', 6, 9, NULL, now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TABLETWIDTH', '1023', 6, 10, NULL, now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_MAX_DISPLAY_RESULTS', '20', 6, 20, NULL, now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_VERSION', '" . $this->version . "', 6, 99, NULL, now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_CUSTOM_CODE', '<div class=\"content_slider cf\">
   <div class=\"slider_home\">  
@@ -271,9 +286,12 @@ class mits_imageslider {
       $this->name . '_LOADJAVASCRIPT',
       $this->name . '_LOADCSS',
       $this->name . '_LAZYLOAD',
+      $this->name . '_MOBILEWIDTH',
+      $this->name . '_TABLETWIDTH',
       $this->name . '_MAX_DISPLAY_RESULTS'
     );
 
     return $key;
   }
+
 }

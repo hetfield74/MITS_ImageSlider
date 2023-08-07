@@ -29,10 +29,6 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/bxslider/mits_imageslider.js', '', $request_type, false) . '" type="text/javascript"></script>';
         break;
 
-      case 'bxSlider tpl_modified':
-
-        break;
-
       case 'Slick':
         if (MODULE_MITS_IMAGESLIDER_LOADCSS == 'true') {
           echo '<link rel="stylesheet" href="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/slick/slick/slick.css', '', $request_type, false) . '" type="text/css" media="screen" />';
@@ -44,10 +40,16 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         }
         break;
 
-      case 'Slick tpl_modified':
-
+      case 'Splide':
+        if (MODULE_MITS_IMAGESLIDER_LOADCSS == 'true') {
+          echo '<link rel="stylesheet" href="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/splide/dist/css/splide.min.css', '', $request_type, false) . '" type="text/css" media="screen" />';
+        }
+        if (MODULE_MITS_IMAGESLIDER_LOADJAVASCRIPT == 'true') {
+          echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/splide/dist/js/splide.min.js', '', $request_type, false) . '" type="text/javascript"></script>';
+          echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/splide/mits_imageslider.js', '', $request_type, false) . '" type="text/javascript"></script>';
+        }
         break;
-        
+
       case 'NivoSlider':
         if (MODULE_MITS_IMAGESLIDER_LOADCSS == 'true') {
           echo '<link rel="stylesheet" href="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/nivoslider/themes/default/default.css', '', $request_type, false) . '" type="text/css" media="screen" />
@@ -81,7 +83,10 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         }
         echo '<script src="' . xtc_href_link(DIR_WS_EXTERNAL . 'mits_imageslider/plugins/jqueryinnerfade/mits_imageslider.js', '', $request_type, false) . '" type="text/javascript"></script>';
         break;
-				
+
+      case 'bxSlider tpl_modified':
+      case 'Slick tpl_modified':
+      case 'Splide tpl_modified_nova':
 			case 'custom':
 
         break;	
