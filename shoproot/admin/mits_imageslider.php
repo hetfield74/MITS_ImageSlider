@@ -18,7 +18,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
   // include needed function
   require_once(DIR_FS_INC . 'xtc_wysiwyg.inc.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = ($_GET['action'] ?? '');
   $page = (isset($_GET['page']) ? (int)$_GET['page'] : 1);
 
   // languages
@@ -34,11 +34,11 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
     case 'insert':
     case 'save':
       $imagesliders_id = (isset($_GET['iID'])) ? (int)$_GET['iID'] : null;
-      $imagesliders_name = xtc_db_prepare_input($_POST['imagesliders_name']);
-      $imagesliders_status = xtc_db_prepare_input($_POST['imagesliders_status']);
-      $imagesliders_sorting = xtc_db_prepare_input($_POST['imagesliders_sorting']);
-      $new_imagesliders_group = xtc_db_prepare_input(strtolower($_POST['new_imagesliders_group']));
-      $imagesliders_group = ((empty($new_imagesliders_group)) ? xtc_db_prepare_input($_POST['imagesliders_group']) : $new_imagesliders_group);
+      $imagesliders_name = (isset($_POST['imagesliders_name']) ? xtc_db_prepare_input($_POST['imagesliders_name']) : '');
+      $imagesliders_status = (isset($_POST['imagesliders_status']) ? xtc_db_prepare_input($_POST['imagesliders_status']) : '');
+      $imagesliders_sorting = (isset($_POST['imagesliders_sorting']) ? xtc_db_prepare_input($_POST['imagesliders_sorting']) : '');
+      $new_imagesliders_group = (isset($_POST['new_imagesliders_group']) ? xtc_db_prepare_input(strtolower($_POST['new_imagesliders_group'])) : '');
+      $imagesliders_group = ((empty($new_imagesliders_group)) ? (isset($_POST['imagesliders_group']) ? xtc_db_prepare_input($_POST['imagesliders_group']) : 'mits_imageslider') : $new_imagesliders_group);
 
       $imageslider_error = false;
       if (empty($imagesliders_name)) {
@@ -51,12 +51,12 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       }
 
       $sql_data_array = array(
-            'imagesliders_name'  => $imagesliders_name,
-            'status'             => $imagesliders_status,
-            'sorting'            => $imagesliders_sorting,
-            'imagesliders_group' => $imagesliders_group,
-            'expires_date'       => 'null',
-            'date_scheduled'     => 'null'
+        'imagesliders_name'  => $imagesliders_name,
+        'status'             => $imagesliders_status,
+        'sorting'            => $imagesliders_sorting,
+        'imagesliders_group' => $imagesliders_group,
+        'expires_date'       => 'null',
+        'date_scheduled'     => 'null'
       );
       if ($imageslider_error !== true) {
         if ($action == 'insert') {
@@ -67,13 +67,13 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         } elseif ($action == 'save') {
           $update_sql_data = array('last_modified' => 'now()');
           $sql_data_array = array_merge($sql_data_array, $update_sql_data);
-          xtc_db_perform(TABLE_MITS_IMAGESLIDER, $sql_data_array, 'update', "imagesliders_id = " . xtc_db_input($imagesliders_id));
+          xtc_db_perform(TABLE_MITS_IMAGESLIDER, $sql_data_array, 'update', "imagesliders_id = " . (int)$imagesliders_id);
         }
       }
 
       $languages = xtc_get_languages();
-      $accepted_imagesliders_image_files_extensions = array("jpg", "jpeg", "jpe", "gif", "png", "webp", "bmp", "tiff", "tif", "bmp", "svg");
-      $accepted_imagesliders_image_files_mime_types = array("image/jpeg", "image/gif", "image/png", "image/webp", "image/bmp", "image/svg+xml");
+      $accepted_imagesliders_image_files_extensions = array("jpg", "jpeg", "jpe", "gif", "png", "webp", "avif", "bmp", "tiff", "tif", "bmp", "svg");
+      $accepted_imagesliders_image_files_mime_types = array("image/jpeg", "image/gif", "image/png", "image/webp", "image/avif", "image/bmp", "image/svg+xml");
       for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
         if (isset($_POST['imagesliders_image_delete' . $i]) && $_POST['imagesliders_image_delete' . $i] == 'imagesliders_image_delete' . $i) {
           $image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);
@@ -118,28 +118,49 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
           }
         }
 
+        $image_width = $image_height = $tablet_image_width = $tablet_image_height = $mobile_image_width = $mobile_image_height = 0;
+        if ($imagepfad != '' && file_exists(DIR_FS_CATALOG_IMAGES . $imagepfad)) {
+          list($image_width, $image_height, $image_type, $image_attr) = getimagesize(DIR_FS_CATALOG_IMAGES . $imagepfad);
+        }
+        if ($tablet_imagepfad != '' && file_exists(DIR_FS_CATALOG_IMAGES . $tablet_imagepfad)) {
+          list($tablet_image_width, $tablet_image_height, $tablet_image_type, $tablet_image_attr) = getimagesize(DIR_FS_CATALOG_IMAGES . $tablet_imagepfad);
+        }
+        if ($mobile_imagepfad != '' && file_exists(DIR_FS_CATALOG_IMAGES . $mobile_imagepfad)) {
+          list($mobile_image_width, $mobile_image_height, $mobile_image_type, $mobile_image_attr) = getimagesize(DIR_FS_CATALOG_IMAGES . $mobile_imagepfad);
+        }
+
         if ($imageslider_error === false) {
           $imagesliders_url_array = (isset($_POST['imagesliders_url'])) ? $_POST['imagesliders_url'] : '';
           $imagesliders_url_target_array = (isset($_POST['imagesliders_url_target'])) ? $_POST['imagesliders_url_target'] : 0;
           $imagesliders_url_typ_array = (isset($_POST['imagesliders_url_typ'])) ? $_POST['imagesliders_url_typ'] : 1;
+          $imagesliders_alt_array = (isset($_POST['imagesliders_alt'])) ? $_POST['imagesliders_alt'] : '';
           $imagesliders_title_array = (isset($_POST['imagesliders_title'])) ? $_POST['imagesliders_title'] : '';
+          $imagesliders_linktitle_array = (isset($_POST['imagesliders_linktitle'])) ? $_POST['imagesliders_linktitle'] : '';
           $imagesliders_description_array = (isset($_POST['imagesliders_description'])) ? $_POST['imagesliders_description'] : '';
           $language_id = (int)$languages[$i]['id'];
           $lang_data_array = array(
-                'imagesliders_url'          => xtc_db_prepare_input($imagesliders_url_array[$language_id]),
-                'imagesliders_url_target'   => xtc_db_prepare_input($imagesliders_url_target_array[$language_id]),
-                'imagesliders_url_typ'      => xtc_db_prepare_input($imagesliders_url_typ_array[$language_id]),
-                'imagesliders_image'        => $imagepfad,
-                'imagesliders_tablet_image' => $tablet_imagepfad,
-                'imagesliders_mobile_image' => $mobile_imagepfad,
-                'imagesliders_title'        => xtc_db_prepare_input($imagesliders_title_array[$language_id]),
-                'imagesliders_description'  => xtc_db_prepare_input($imagesliders_description_array[$language_id])
+            'imagesliders_url'                 => xtc_db_prepare_input($imagesliders_url_array[$language_id]),
+            'imagesliders_url_target'          => xtc_db_prepare_input($imagesliders_url_target_array[$language_id]),
+            'imagesliders_url_typ'             => xtc_db_prepare_input($imagesliders_url_typ_array[$language_id]),
+            'imagesliders_image'               => $imagepfad,
+            'imagesliders_tablet_image'        => $tablet_imagepfad,
+            'imagesliders_mobile_image'        => $mobile_imagepfad,
+            'imagesliders_image_width'         => (float)$image_width,
+            'imagesliders_image_height'        => (float)$image_height,
+            'imagesliders_tablet_image_width'  => (float)$tablet_image_width,
+            'imagesliders_tablet_image_height' => (float)$tablet_image_height,
+            'imagesliders_mobile_image_width'  => (float)$mobile_image_width,
+            'imagesliders_mobile_image_height' => (float)$mobile_image_height,
+            'imagesliders_alt'                 => xtc_db_prepare_input($imagesliders_alt_array[$language_id]),
+            'imagesliders_title'               => xtc_db_prepare_input($imagesliders_title_array[$language_id]),
+            'imagesliders_linktitle'           => xtc_db_prepare_input($imagesliders_linktitle_array[$language_id]),
+            'imagesliders_description'         => xtc_db_prepare_input($imagesliders_description_array[$language_id])
           );
 
-          if ($_GET['action'] == 'insert') {
+          if ($action == 'insert') {
             $insert_lang_data = array(
-                  'imagesliders_id' => $imagesliders_id,
-                  'languages_id'    => $language_id
+              'imagesliders_id' => $imagesliders_id,
+              'languages_id'    => $language_id
             );
             $lang_data_array = array_merge($lang_data_array, $insert_lang_data);
             xtc_db_perform(TABLE_MITS_IMAGESLIDER_INFO, $lang_data_array);
@@ -148,18 +169,18 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                                                    FROM " . TABLE_MITS_IMAGESLIDER_INFO . " 
                                                   WHERE languages_id = " . $language_id . " 
                                                     AND imagesliders_id = " . $imagesliders_id);
-            if (xtc_db_num_rows($imagesliders_query) == 0) {
+            if (!xtc_db_num_rows($imagesliders_query)) {
               xtc_db_perform(TABLE_MITS_IMAGESLIDER_INFO, array('imagesliders_id' => $imagesliders_id, 'languages_id' => $language_id));
             }
             xtc_db_perform(TABLE_MITS_IMAGESLIDER_INFO, $lang_data_array, 'update', "imagesliders_id = '" . $imagesliders_id . "' AND languages_id = " . $language_id);
           }
 
-          if ($_POST['expires_date'] != '' && $_POST['expires_date'] != '0000-00-00 00:00:00') {
+          if (isset($_POST['expires_date']) && $_POST['expires_date'] != '' && $_POST['expires_date'] != '0000-00-00 00:00:00') {
             $expires_date = date('Y-m-d 23:59:59', strtotime($_POST['expires_date']));
             xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET expires_date = '" . xtc_db_input($expires_date) . "' WHERE imagesliders_id = " . $imagesliders_id);
           }
 
-          if ($_POST['date_scheduled'] != '' && $_POST['date_scheduled'] != '0000-00-00 00:00:00') {
+          if (isset($_POST['date_scheduled']) && $_POST['date_scheduled'] != '' && $_POST['date_scheduled'] != '0000-00-00 00:00:00') {
             $date_scheduled = date('Y-m-d 00:00:00', strtotime($_POST['date_scheduled']));
             xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET date_scheduled = '" . xtc_db_input($date_scheduled) . "' WHERE imagesliders_id = " . $imagesliders_id);
           }
@@ -218,7 +239,8 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
   }
 
   $slidergroups_array = array(
-        array('id' => 'mits_imageslider', 'text' => 'MITS_IMAGESLIDER'),
+    array('id' => 'mits_imageslider', 'text' => 'MITS_IMAGESLIDER'),
+    array('id' => 'mits_imageslider_top', 'text' => 'MITS_IMAGESLIDER_TOP'),
   );
   $slidergroups_query = xtc_db_query("SELECT DISTINCT imagesliders_group FROM " . TABLE_MITS_IMAGESLIDER . " WHERE imagesliders_group != 'mits_imageslider' ORDER BY imagesliders_group");
   while ($slidergroups = xtc_db_fetch_array($slidergroups_query)) {
@@ -257,7 +279,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         if (($action != 'new') && ($action != 'edit')) {
           echo xtc_draw_form('status', FILENAME_MITS_IMAGESLIDER, '', 'get');
           $select_data = array(
-                array('id' => '', 'text' => ((!isset($_GET['groupfilter']) || $_GET['groupfilter'] == '') ? TEXT_SELECT : CFG_TXT_ALL)),
+            array('id' => '', 'text' => ((!isset($_GET['groupfilter']) || $_GET['groupfilter'] == '') ? TEXT_SELECT : CFG_TXT_ALL)),
           );
           ?>
           <div class="main mrg5" style="float:right"><?php echo TABLE_HEADING_SLIDERGROUP . ': ' . xtc_draw_pull_down_menu('groupfilter', array_merge($select_data, $slidergroups_array), isset($_GET['groupfilter']) ? $_GET['groupfilter'] : '', 'onChange="this.form.submit();"'); ?></div></form>
@@ -396,13 +418,13 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
 
                 <?php
                 $imageslider_url_string = TEXT_TYP . '<br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '0', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 0) . TYP_EXTERN . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '1', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 1) . TYP_INTERN . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '2', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 2) . TYP_PRODUCT . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '3', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 3) . TYP_CATEGORIE . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '4', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 4) . TYP_CONTENT . '</label><br />' .
-                      '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '5', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 5) . TYP_MANUFACTURER . '</label><br /><br />' .
-                      TEXT_URL . xtc_draw_input_field('imagesliders_url[' . $languages[$i]['id'] . ']', xtc_get_imageslider_url($imageslider['imagesliders_id'], $languages[$i]['id']), 'style="width:50%;"') . '&nbsp;' . TEXT_TARGET . '&nbsp;' . xtc_draw_pull_down_menu('imagesliders_url_target[' . $languages[$i]['id'] . ']', $url_target_array, xtc_get_imageslider_url_target($imageslider['imagesliders_id'], $languages[$i]['id'])) . '<br /><br />';
+                  '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '0', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 0) . TYP_EXTERN . '</label><br />' .
+                  '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '1', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 1) . TYP_INTERN . '</label><br />' .
+                  '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '2', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 2) . TYP_PRODUCT . '</label><br />' .
+                  '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '3', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 3) . TYP_CATEGORIE . '</label><br />' .
+                  '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '4', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 4) . TYP_CONTENT . '</label><br />' .
+                  '<label>' . xtc_draw_selection_field('imagesliders_url_typ[' . $languages[$i]['id'] . ']', 'radio', '5', xtc_get_imageslider_url_typ($imageslider['imagesliders_id'], $languages[$i]['id']) == 5) . TYP_MANUFACTURER . '</label><br /><br />' .
+                  TEXT_URL . xtc_draw_input_field('imagesliders_url[' . $languages[$i]['id'] . ']', xtc_get_imageslider_url($imageslider['imagesliders_id'], $languages[$i]['id']), 'style="width:50%;"') . '&nbsp;' . TEXT_TARGET . '&nbsp;' . xtc_draw_pull_down_menu('imagesliders_url_target[' . $languages[$i]['id'] . ']', $url_target_array, xtc_get_imageslider_url_target($imageslider['imagesliders_id'], $languages[$i]['id'])) . '<br /><br />';
                 ?>
                 <table class="tableInput border0">
                   <tr>
@@ -412,9 +434,23 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                   <tr>
                     <td class="dataTableConfig"><?php echo $imageslider_url_string; ?></td>
                   </tr>
+                  <tr>
+                    <td class="dataTableConfig" width="100%" valign="top">
+                      <strong><?php echo TEXT_IMAGESLIDERS_LINKTITLE; ?></strong></td>
+                  </tr>
+                  <tr>
+                    <td class="dataTableConfig"><?php echo xtc_draw_input_field('imagesliders_linktitle[' . $languages[$i]['id'] . ']', xtc_get_imageslider_linktitle($imageslider['imagesliders_id'], $languages[$i]['id']), 'style="width:99%;"'); ?></td>
+                  </tr>
                 </table>
 
                 <table class="tableInput border0">
+                  <tr>
+                    <td class="dataTableConfig" width="100%" valign="top">
+                      <strong><?php echo TEXT_IMAGESLIDERS_ALT; ?></strong></td>
+                  </tr>
+                  <tr>
+                    <td class="dataTableConfig"><?php echo xtc_draw_input_field('imagesliders_alt[' . $languages[$i]['id'] . ']', xtc_get_imageslider_alt($imageslider['imagesliders_id'], $languages[$i]['id']), 'style="width:99%;"'); ?></td>
+                  </tr>
                   <tr>
                     <td class="dataTableConfig" width="100%" valign="top">
                       <strong><?php echo TEXT_IMAGESLIDERS_TITLE; ?></strong></td>
@@ -472,113 +508,114 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                 $imagesliders_split = new splitPageResults($page, $page_max_display_results, $imagesliders_query_raw, $imagesliders_query_numrows);
                 $imagesliders_query = xtc_db_query($imagesliders_query_raw);
                 while ($imagesliders = xtc_db_fetch_array($imagesliders_query)) {
-                  if ((!isset($_GET['iID']) || $_GET['iID'] == $imagesliders['imagesliders_id']) && !isset($iInfo) && substr($action, 0, 3) != 'new') {
-                    $iInfo = new objectInfo($imagesliders);
-                  }
-                  if (($action != 'new') && ($action != 'edit')) {
-                    if (isset($iInfo) && is_object($iInfo) && ($imagesliders['imagesliders_id'] == $iInfo->imagesliders_id)) {
-                      echo '              <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id'] . '&action=edit') . '\'">' . "\n";
-                    } else {
-                      echo '              <tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id']) . '\'">' . "\n";
-                    }
-                    ?>
-                    <td class="dataTableContent" align="left" width="20%">
-                      <?php
-                      for ($i = 0; $i < sizeof($languages); $i++) {
-                        echo '<div>' . xtc_image(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/admin/images/' . $languages[$i]['image'], $languages[$i]['name']) . xtc_info_image(xtc_get_imageslider_image($imagesliders['imagesliders_id'], $languages[$i]['id']), $imagesliders['imagesliders_name'], '', '', 'style="max-width:100%;max-height:50px;padding-right:6px;"') . '</div>';
-                      }
-                      ?>
-                    </td>
-                    <td class="dataTableContent" align="left"><?php echo $imagesliders['imagesliders_name']; ?></td>
-                    <td class="dataTableContent" align="center"><?php echo strtoupper($imagesliders['imagesliders_group']); ?></td>
-                    <td class="dataTableContent" align="center"><?php echo $imagesliders['sorting']; ?></td>
-                    <td class="dataTableContent" align="center">
-                      <?php
-                      if ($imagesliders['status'] == '0') {
-                        echo xtc_image(DIR_WS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'flag')) . 'action=setflag&flag=1&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
-                      } else {
-                        echo '<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'flag')) . 'action=setflag&flag=0&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . xtc_image(DIR_WS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
-                      }
-                      ?>
-                    </td>
-                    <td class="dataTableContent" align="right">
-                      <?php
-                      if (isset($iInfo) && is_object($iInfo) && ($imagesliders['imagesliders_id'] == $iInfo->imagesliders_id)) {
-                        echo xtc_image(DIR_WS_IMAGES . 'icon_arrow_right.gif');
-                      } else {
-                        echo '<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>';
-                      }
-                      ?>&nbsp;
-                    </td></tr>
-                    <?php
-                  }
+                if ((!isset($_GET['iID']) || $_GET['iID'] == $imagesliders['imagesliders_id']) && !isset($iInfo) && substr($action, 0, 3) != 'new') {
+                  $iInfo = new objectInfo($imagesliders);
                 }
                 if (($action != 'new') && ($action != 'edit')) {
+                if (isset($iInfo) && is_object($iInfo) && ($imagesliders['imagesliders_id'] == $iInfo->imagesliders_id)) {
+                  echo '              <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id'] . '&action=edit') . '\'">' . "\n";
+                } else {
+                  echo '              <tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id']) . '\'">' . "\n";
+                }
                 ?>
-              </table>
-              <div class="smallText pdg2 flt-l"><?php echo $imagesliders_split->display_count($imagesliders_query_numrows, $page_max_display_results, $page, TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS); ?></div>
-              <div class="smallText pdg2 flt-r"><?php echo $imagesliders_split->display_links($imagesliders_query_numrows, $page_max_display_results, MAX_DISPLAY_PAGE_LINKS, $page); ?></div>
-              <?php echo draw_input_per_page($PHP_SELF, $cfg_max_display_results_key, $page_max_display_results); ?>
-              <?php
-              if ($action != 'new') {
-                ?>
-                <div class="smallText pdg2 flt-r"><?php echo xtc_button_link(BUTTON_INSERT, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('page', 'action')) . 'page=' . $page . '&action=new')); ?></div>
-                <?php
-              }
-              ?>
-            </td>
+                <td class="dataTableContent" align="left" width="20%">
+                  <?php
+                  for ($i = 0; $i < sizeof($languages); $i++) {
+                    echo '<div>' . xtc_image(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/admin/images/' . $languages[$i]['image'], $languages[$i]['name']) . xtc_info_image(xtc_get_imageslider_image($imagesliders['imagesliders_id'], $languages[$i]['id']), $imagesliders['imagesliders_name'], '', '', 'style="max-width:100%;max-height:50px;padding-right:6px;"') . '</div>';
+                  }
+                  ?>
+                </td>
+                <td class="dataTableContent" align="left"><?php echo $imagesliders['imagesliders_name']; ?></td>
+                <td class="dataTableContent" align="center"><?php echo strtoupper($imagesliders['imagesliders_group']); ?></td>
+                <td class="dataTableContent" align="center"><?php echo $imagesliders['sorting']; ?></td>
+                <td class="dataTableContent" align="center">
+                  <?php
+                  if ($imagesliders['status'] == '0') {
+                    echo xtc_image(DIR_WS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'flag')) . 'action=setflag&flag=1&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
+                  } else {
+                    echo '<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'flag')) . 'action=setflag&flag=0&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . xtc_image(DIR_WS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
+                  }
+                  ?>
+                </td>
+                <td class="dataTableContent" align="right">
+                  <?php
+                  if (isset($iInfo) && is_object($iInfo) && ($imagesliders['imagesliders_id'] == $iInfo->imagesliders_id)) {
+                    echo xtc_image(DIR_WS_IMAGES . 'icon_arrow_right.gif');
+                  } else {
+                    echo '<a href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page')) . 'page=' . $page . '&iID=' . $imagesliders['imagesliders_id']) . '">' . xtc_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>';
+                  }
+                  ?>&nbsp;
+                </td>
+          </tr>
           <?php
           }
           }
-          $heading = array();
-          $contents = array();
           if (($action != 'new') && ($action != 'edit')) {
-            switch ($action) {
-              case 'delete':
-                $heading[] = array('text' => '<b>' . TEXT_HEADING_DELETE_IMAGESLIDER . '</b>');
-                $contents = array('form' => xtc_draw_form('imagesliders', FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id . '&action=deleteconfirm'));
-                $contents[] = array('text' => TEXT_DELETE_INTRO);
-                $contents[] = array('text' => '<br /><b>' . $iInfo->imagesliders_name . '</b>');
-                $contents[] = array('text' => '<br />' . xtc_draw_checkbox_field('delete_image', '', true) . ' ' . TEXT_DELETE_IMAGE);
-                $contents[] = array('align' => 'left', 'text' => '<br />' . xtc_button(BUTTON_DELETE) . '&nbsp;' . xtc_button_link(BUTTON_CANCEL, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id)));
-                break;
-
-              default:
-                if (is_object($iInfo)) {
-                  $heading[] = array('text' => '<b>' . $iInfo->imagesliders_name . '</b>');
-                  $languages = xtc_get_languages();
-                  $imageslider_image_string = '';
-                  $image = '';
-                  $contents[] = array('align' => 'center', 'text' => xtc_button_link(BUTTON_EDIT, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page', 'action')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id . '&action=edit')) . '&nbsp;' . xtc_button_link(BUTTON_DELETE, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id . '&action=delete')));
-
-                  for ($i = 0; $i < sizeof($languages); $i++) {
-                    $imageslider_image_string .= '<tr><td class="dataTableConfig" width="1%" valign="top">' . xtc_image(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/admin/images/' . $languages[$i]['image'], $languages[$i]['name']) . '</td><td class="dataTableConfig">' . xtc_info_image(xtc_get_imageslider_image($iInfo->imagesliders_id, $languages[$i]['id']), $iInfo->imagesliders_name, '', '', 'style="max-width:100%;height:auto;max-height:200px;"') . '</td></tr>';
-                  }
-                  $contents[] = array('text' => '<table width="100%"><tr><td class="dataTableConfig" width="100%" valign="top">' . TEXT_IMAGESLIDERS_IMAGE . '</td></tr></table><table width="100%">' . $imageslider_image_string . '</table>');
-
-                  $contents[] = array('text' => '<br />' . TABLE_HEADING_SLIDERGROUP . ': ' . strtoupper($iInfo->imagesliders_group));
-
-                  $contents[] = array('text' => '<br />' . TEXT_IMAGESLIDERS_SCHEDULED_AT . ' ' . xtc_date_short($iInfo->date_scheduled));
-                  $contents[] = array('text' => '' . TEXT_IMAGESLIDERS_EXPIRES_ON . ' ' . xtc_date_short($iInfo->expires_date));
-
-                  $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . xtc_date_short($iInfo->date_added));
-                  if (xtc_not_null($iInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . xtc_date_short($iInfo->last_modified));
-                }
-                break;
-            }
-          }
-
-          if ((xtc_not_null($heading)) && (xtc_not_null($contents))) {
-            echo '           <td class="boxRight" valign="top">' . "\n";
-            $box = new box;
-            echo $box->infoBox($heading, $contents);
-            echo '            </td>' . "\n";
-          }
           ?>
-          </tr>
         </table>
+        <div class="smallText pdg2 flt-l"><?php echo $imagesliders_split->display_count($imagesliders_query_numrows, $page_max_display_results, $page, TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS); ?></div>
+        <div class="smallText pdg2 flt-r"><?php echo $imagesliders_split->display_links($imagesliders_query_numrows, $page_max_display_results, MAX_DISPLAY_PAGE_LINKS, $page); ?></div>
+        <?php echo draw_input_per_page($PHP_SELF, $cfg_max_display_results_key, $page_max_display_results); ?>
+        <?php
+        if ($action != 'new') {
+          ?>
+          <div class="smallText pdg2 flt-r"><?php echo xtc_button_link(BUTTON_INSERT, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('page', 'action')) . 'page=' . $page . '&action=new')); ?></div>
+          <?php
+        }
+        ?>
       </td>
+      <?php
+      }
+      }
+      $heading = array();
+      $contents = array();
+      if (($action != 'new') && ($action != 'edit')) {
+        switch ($action) {
+          case 'delete':
+            $heading[] = array('text' => '<b>' . TEXT_HEADING_DELETE_IMAGESLIDER . '</b>');
+            $contents = array('form' => xtc_draw_form('imagesliders', FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id . '&action=deleteconfirm'));
+            $contents[] = array('text' => TEXT_DELETE_INTRO);
+            $contents[] = array('text' => '<br /><b>' . $iInfo->imagesliders_name . '</b>');
+            $contents[] = array('text' => '<br />' . xtc_draw_checkbox_field('delete_image', '', true) . ' ' . TEXT_DELETE_IMAGE);
+            $contents[] = array('align' => 'left', 'text' => '<br />' . xtc_button(BUTTON_DELETE) . '&nbsp;' . xtc_button_link(BUTTON_CANCEL, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id)));
+            break;
+
+          default:
+            if (is_object($iInfo)) {
+              $heading[] = array('text' => '<b>' . $iInfo->imagesliders_name . '</b>');
+              $languages = xtc_get_languages();
+              $imageslider_image_string = '';
+              $image = '';
+              $contents[] = array('align' => 'center', 'text' => xtc_button_link(BUTTON_EDIT, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'page', 'action')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id . '&action=edit')) . '&nbsp;' . xtc_button_link(BUTTON_DELETE, xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . 'page=' . $page . '&iID=' . $iInfo->imagesliders_id . '&action=delete')));
+
+              for ($i = 0; $i < sizeof($languages); $i++) {
+                $imageslider_image_string .= '<tr><td class="dataTableConfig" width="1%" valign="top">' . xtc_image(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/admin/images/' . $languages[$i]['image'], $languages[$i]['name']) . '</td><td class="dataTableConfig">' . xtc_info_image(xtc_get_imageslider_image($iInfo->imagesliders_id, $languages[$i]['id']), $iInfo->imagesliders_name, '', '', 'style="max-width:100%;height:auto;max-height:200px;"') . '</td></tr>';
+              }
+              $contents[] = array('text' => '<table width="100%"><tr><td class="dataTableConfig" width="100%" valign="top">' . TEXT_IMAGESLIDERS_IMAGE . '</td></tr></table><table width="100%">' . $imageslider_image_string . '</table>');
+
+              $contents[] = array('text' => '<br />' . TABLE_HEADING_SLIDERGROUP . ': ' . strtoupper($iInfo->imagesliders_group));
+
+              $contents[] = array('text' => '<br />' . TEXT_IMAGESLIDERS_SCHEDULED_AT . ' ' . xtc_date_short($iInfo->date_scheduled));
+              $contents[] = array('text' => '' . TEXT_IMAGESLIDERS_EXPIRES_ON . ' ' . xtc_date_short($iInfo->expires_date));
+
+              $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . xtc_date_short($iInfo->date_added));
+              if (xtc_not_null($iInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . xtc_date_short($iInfo->last_modified));
+            }
+            break;
+        }
+      }
+
+      if ((xtc_not_null($heading)) && (xtc_not_null($contents))) {
+        echo '           <td class="boxRight" valign="top">' . "\n";
+        $box = new box;
+        echo $box->infoBox($heading, $contents);
+        echo '            </td>' . "\n";
+      }
+      ?>
     </tr>
+  </table>
+  </td>
+  </tr>
   </table>
   <?php
   }

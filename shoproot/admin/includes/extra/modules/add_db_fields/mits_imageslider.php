@@ -12,6 +12,8 @@
  * --------------------------------------------------------------
  */
 
+defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
+
 if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
   // Products
   $check_proslidergroup_field = false;

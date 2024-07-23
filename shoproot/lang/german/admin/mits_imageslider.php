@@ -30,12 +30,14 @@ defined('TEXT_LAST_MODIFIED') or define('TEXT_LAST_MODIFIED', 'letzte &Auml;nder
 defined('TEXT_IMAGE_NONEXISTENT') or define('TEXT_IMAGE_NONEXISTENT', 'BILD NICHT VORHANDEN');
 defined('TEXT_NEW_INTRO') or define('TEXT_NEW_INTRO', 'Bitte legen Sie das neue Bild mit allen relevanten Daten ein.');
 defined('TEXT_EDIT_INTRO') or define('TEXT_EDIT_INTRO', 'Bitte f&uuml;hren Sie alle notwendigen &Auml;nderungen durch');
-defined('TEXT_IMAGESLIDERS_TITLE') or define('TEXT_IMAGESLIDERS_TITLE', 'Title f&uuml;r Bild:');
+defined('TEXT_IMAGESLIDERS_TITLE') or define('TEXT_IMAGESLIDERS_TITLE', 'Title f&uuml;r Bild: <small style="font-weight:normal">(&lt;img <b>title=""</b>&gt;)</small>');
+defined('TEXT_IMAGESLIDERS_ALT') or define('TEXT_IMAGESLIDERS_ALT', 'Alt-Text f&uuml;r Bild: <small style="font-weight:normal">(&lt;img <b>alt=""</b>&gt;)</small>');
 defined('TEXT_IMAGESLIDERS_NAME') or define('TEXT_IMAGESLIDERS_NAME', 'Name f&uuml;r Bildeintrag:');
 defined('TEXT_IMAGESLIDERS_IMAGE') or define('TEXT_IMAGESLIDERS_IMAGE', 'Bild:');
 defined('TEXT_IMAGESLIDERS_TABLET_IMAGE') or define('TEXT_IMAGESLIDERS_TABLET_IMAGE', 'Bild f&uuml;r Tablets (600px bis 1023px):');
 defined('TEXT_IMAGESLIDERS_MOBILE_IMAGE') or define('TEXT_IMAGESLIDERS_MOBILE_IMAGE', 'Bild f&uuml;r Mobile Ansicht (bis 600px):');
 defined('TEXT_IMAGESLIDERS_URL') or define('TEXT_IMAGESLIDERS_URL', 'Bild verlinken: ');
+defined('TEXT_IMAGESLIDERS_LINKTITLE') or define('TEXT_IMAGESLIDERS_LINKTITLE', 'Title f&uuml;r Verlinkung: <small style="font-weight:normal">(&lt;a <b>title=""</b>&gt;)</small>');
 defined('TEXT_TARGET') or define('TEXT_TARGET', 'Zielfenster:');
 defined('TEXT_TYP') or define('TEXT_TYP', 'Linkart:');
 defined('TEXT_URL') or define('TEXT_URL', 'Linkadresse:');

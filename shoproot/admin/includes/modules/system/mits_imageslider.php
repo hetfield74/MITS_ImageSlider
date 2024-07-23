@@ -15,12 +15,20 @@
 defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
 
 class mits_imageslider {
-  var $code, $name, $version, $sort_order, $title, $description, $enabled, $do_update, $_check;
+  var $code;
+  var $name;
+  var $version;
+  var $sort_order;
+  var $title;
+  var $description;
+  var $enabled;
+  var $do_update;
+  var $_check;
 
   function __construct() {
     $this->code = 'mits_imageslider';
     $this->name = 'MODULE_' . strtoupper($this->code);
-    $this->version = '2.15';
+    $this->version = '2.17';
     $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
     $this->enabled = (defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true') ? true : false);
     $version_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_VERSION'");
@@ -37,7 +45,7 @@ class mits_imageslider {
   }
 
   function process($file) {
-    if (isset($_POST['imageslider_update']) && $_POST['imageslider_update'] == true) {
+    if (isset($_POST['imageslider_update']) && $_POST['imageslider_update']) {
 
       @unlink(DIR_FS_EXTERNAL . 'mits_imageslider/functions/mits_get_categories_name.inc.php');
       @unlink(DIR_FS_DOCUMENT_ROOT . (defined('DIR_ADMIN') ? DIR_ADMIN : 'admin/') . 'includes/extra/application_bottom/mits_imageslider.php');
@@ -46,7 +54,7 @@ class mits_imageslider {
 
       $version_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_VERSION'");
       if (xtc_db_num_rows($version_query)) {
-        xtc_db_query("UPDATE ".TABLE_CONFIGURATION." SET configuration_value = '" . $this->version . "' WHERE configuration_key = '" . $this->name . "_VERSION'");
+        xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '" . $this->version . "' WHERE configuration_key = '" . $this->name . "_VERSION'");
       } else {
         xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_VERSION', '" . $this->version . "', 6, 99, NULL, now())");
       }
@@ -58,7 +66,7 @@ class mits_imageslider {
 
       $max_result_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = 'MODULE_MITS_IMAGESLIDER_RESULTS'");
       if (xtc_db_num_rows($max_result_query)) {
-        xtc_db_query("DELETE FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = 'MAX_DISPLAY_IMAGESLIDERS_RESULTS'");
+        xtc_db_query("DELETE FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = 'MODULE_MITS_IMAGESLIDER_RESULTS'");
       }
 
       $max_result_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_MAX_DISPLAY_RESULTS'");
@@ -97,7 +105,7 @@ class mits_imageslider {
         xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_MAX_DISPLAY_RESULTS', '" . $max_display_results . "', 6, 20, NULL, now())");
       }
 
-      xtc_db_query("UPDATE ".TABLE_CONFIGURATION."
+      xtc_db_query("UPDATE " . TABLE_CONFIGURATION . "
                        SET set_function = 'xtc_cfg_select_option(array(\'Splide tpl_modified_nova\', \'Splide\', \'Slick tpl_modified\', \'Slick\', \'bxSlider tpl_modified\', \'bxSlider\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), '
                      WHERE configuration_key = '" . $this->name . "_TYPE'");
 
@@ -115,6 +123,24 @@ class mits_imageslider {
       if ($check_mobilimg_field === false) {
         xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_mobile_image` VARCHAR(255) NULL AFTER `imagesliders_image`");
         xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_tablet_image` VARCHAR(255) NULL AFTER `imagesliders_image`");
+      }
+
+      $check_imgsize_field = false;
+      $check_imgsize_field_rows = xtc_db_query('DESCRIBE ' . TABLE_MITS_IMAGESLIDER_INFO);
+      while ($check_imgsize_field_row = xtc_db_fetch_array($check_imgsize_field_rows)) {
+        if ($check_imgsize_field_row['Field'] == 'imagesliders_image_width') {
+          $check_imgsize_field = true;
+        }
+      }
+      if ($check_imgsize_field === false) {
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_image_height` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_image`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_image_width` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_image`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_tablet_image_height` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_tablet_image`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_tablet_image_width` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_tablet_image`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_mobile_image_height` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_mobile_image`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_mobile_image_width` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_mobile_image`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_linktitle` VARCHAR(255) NULL AFTER `imagesliders_title`");
+        xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_alt` VARCHAR(255) NULL AFTER `imagesliders_title`");
       }
 
       $check_proslidergroup_field = false;
@@ -156,8 +182,8 @@ class mits_imageslider {
         }
       }
       if ($check_sliderexpiredate_field === false) {
-        xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN date_scheduled datetime default NULL');
-        xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN expires_date datetime default NULL');
+        xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN date_scheduled DATETIME DEFAULT NULL');
+        xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN expires_date DATETIME DEFAULT NULL');
       }
     }
   }
@@ -167,8 +193,8 @@ class mits_imageslider {
     return array(
       'text' => '<br /><b>' . MODULE_MITS_IMAGESLIDER_UPDATE_TITLE . '</b><br />
         ' . $do_update . '
-         <label>' . xtc_draw_checkbox_field('imageslider_update', false) . ' ' . MODULE_MITS_IMAGESLIDER_DO_UPDATE . '</label><br/>' .
-        '<br /><div align="center">' . xtc_button(BUTTON_SAVE) .
+         <label>' . xtc_draw_checkbox_field('imageslider_update', false) . ' ' . MODULE_MITS_IMAGESLIDER_DO_UPDATE . '</label><br>' .
+        '<br><div style="text-align: center">' . xtc_button(BUTTON_SAVE) .
         xtc_button_link(BUTTON_CANCEL, xtc_href_link(FILENAME_MODULE_EXPORT, 'set=' . $_GET['set'] . '&module=' . $this->code)) . "</div>"
     );
   }
@@ -194,8 +220,16 @@ class mits_imageslider {
       xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " CHANGE `imagesliders_image` `imagesliders_image` VARCHAR(255) NOT NULL");
       xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_mobile_image` VARCHAR(255) NULL AFTER `imagesliders_image`");
       xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_tablet_image` VARCHAR(255) NULL AFTER `imagesliders_image`");
-      xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN date_scheduled datetime default NULL');
-      xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN expires_date datetime default NULL');
+      xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN date_scheduled DATETIME DEFAULT NULL');
+      xtc_db_query('ALTER TABLE ' . TABLE_MITS_IMAGESLIDER . ' ADD COLUMN expires_date DATETIME DEFAULT NULL');
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_image_height` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_image`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_image_width` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_image`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_tablet_image_height` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_tablet_image`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_tablet_image_width` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_tablet_image`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_mobile_image_height` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_mobile_image`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_mobile_image_width` FLOAT NOT NULL DEFAULT '0' AFTER `imagesliders_mobile_image`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_linktitle` VARCHAR(255) NULL AFTER `imagesliders_title`");
+      xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD COLUMN `imagesliders_alt` VARCHAR(255) NULL AFTER `imagesliders_title`");
       @unlink(DIR_FS_DOCUMENT_ROOT . (defined('DIR_ADMIN') ? DIR_ADMIN : 'admin/') . 'imagesliders.php');
       @unlink(DIR_FS_DOCUMENT_ROOT . (defined('DIR_ADMIN') ? DIR_ADMIN : 'admin/') . 'includes/application_top.php.txt');
       @unlink(DIR_FS_DOCUMENT_ROOT . (defined('DIR_ADMIN') ? DIR_ADMIN : 'admin/') . 'includes/column_left.php.txt');
@@ -218,18 +252,26 @@ class mits_imageslider {
 					  PRIMARY KEY  (`imagesliders_id`)
 					)");
       xtc_db_query("CREATE TABLE IF NOT EXISTS " . TABLE_MITS_IMAGESLIDER_INFO . " (
-					  `imagesliders_id` int(11) NOT NULL,
-					  `languages_id` int(11) NOT NULL,
-					  `imagesliders_title` varchar(255) NOT NULL,
-					  `imagesliders_url` varchar(255) NOT NULL,
-					  `imagesliders_url_target` tinyint(1) NOT NULL default '0',
-					  `imagesliders_url_typ` tinyint(1) NOT NULL default '0',
-					  `imagesliders_description` text,
-					  `imagesliders_image` varchar(255) default NULL,
-					  `imagesliders_tablet_image` varchar(255) default NULL,
-					  `imagesliders_mobile_image` varchar(255) default NULL,
-					  `url_clicked` int(5) NOT NULL default '0',
-					  `date_last_click` datetime default NULL,
+					  `imagesliders_id` INT(11) NOT NULL,
+					  `languages_id` INT(11) NOT NULL,
+					  `imagesliders_title` VARCHAR(255) NOT NULL,
+					  `imagesliders_alt` VARCHAR(255) NULL
+					  `imagesliders_linktitle` VARCHAR(255) NULL,
+					  `imagesliders_url` VARCHAR(255) NOT NULL,
+					  `imagesliders_url_target` TINYINT(1) NOT NULL DEFAULT '0',
+					  `imagesliders_url_typ` TINYINT(1) NOT NULL DEFAULT '0',
+					  `imagesliders_description` TEXT,
+					  `imagesliders_image` VARCHAR(255) DEFAULT NULL,
+					  `imagesliders_image_width` FLOAT NOT NULL DEFAULT '0',
+					  `imagesliders_image_height` FLOAT NOT NULL DEFAULT '0'
+					  `imagesliders_tablet_image` VARCHAR(255) DEFAULT NULL,
+					  `imagesliders_tablet_image_width` FLOAT NOT NULL DEFAULT '0',
+					  `imagesliders_tablet_image_height` FLOAT NOT NULL DEFAULT '0',
+					  `imagesliders_mobile_image` VARCHAR(255) DEFAULT NULL,
+					  `imagesliders_mobile_image_height` FLOAT NOT NULL DEFAULT '0',
+					  `imagesliders_mobile_image_width` FLOAT NOT NULL DEFAULT '0'
+					  `url_clicked` int(5) NOT NULL DEFAULT '0',
+					  `date_last_click` datetime DEFAULT NULL,
 					  PRIMARY KEY  (`imagesliders_id`,`languages_id`)
 					)");
       xtc_db_query("ALTER TABLE " . TABLE_ADMIN_ACCESS . " ADD `" . $this->code . "` INT(1) NOT NULL DEFAULT '0'");

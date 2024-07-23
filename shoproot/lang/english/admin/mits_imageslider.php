@@ -31,11 +31,13 @@ defined('TEXT_IMAGE_NONEXISTENT') or define('TEXT_IMAGE_NONEXISTENT', 'Image doe
 defined('TEXT_NEW_INTRO') or define('TEXT_NEW_INTRO', 'Insert a new image with all datas.');
 defined('TEXT_EDIT_INTRO') or define('TEXT_EDIT_INTRO', 'Please make any necessary changes');
 defined('TEXT_IMAGESLIDERS_TITLE') or define('TEXT_IMAGESLIDERS_TITLE', 'Title for image:');
+defined('TEXT_IMAGESLIDERS_ALT') or define('TEXT_IMAGESLIDERS_ALT', 'Alt-Text for image: <small style="font-weight:normal">(&lt;img <b>alt=""</b>&gt;)</small>');
 defined('TEXT_IMAGESLIDERS_NAME') or define('TEXT_IMAGESLIDERS_NAME', 'Name for image entry:');
 defined('TEXT_IMAGESLIDERS_IMAGE') or define('TEXT_IMAGESLIDERS_IMAGE', 'Image:');
 defined('TEXT_IMAGESLIDERS_TABLET_IMAGE') or define('TEXT_IMAGESLIDERS_TABLET_IMAGE', 'Image for Tablets (600px - 1023px):');
 defined('TEXT_IMAGESLIDERS_MOBILE_IMAGE') or define('TEXT_IMAGESLIDERS_MOBILE_IMAGE', 'Image for Mobile View (- 600px):');
 defined('TEXT_IMAGESLIDERS_URL') or define('TEXT_IMAGESLIDERS_URL', 'Image links to the following url:');
+defined('TEXT_IMAGESLIDERS_LINKTITLE') or define('TEXT_IMAGESLIDERS_LINKTITLE', 'Title for link: <small style="font-weight:normal">(&lt;a <b>title=""</b>&gt;)</small>');
 defined('TEXT_TARGET') or define('TEXT_TARGET', 'Window target:');
 defined('TEXT_TYP') or define('TEXT_TYP', 'Linktype:');
 defined('TEXT_URL') or define('TEXT_URL', 'Link-URL:');

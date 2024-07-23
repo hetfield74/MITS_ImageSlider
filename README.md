@@ -36,7 +36,7 @@ Vor der Installation des Moduls sichern sie bitte komplett ihre aktuelle Shopins
 Für eventuelle Schäden übernehmen wir keine Haftung!
 Die Installation und Nutzung des Moduls MITS ImageSlider erfolgt auf eigene Gefahr!
 
-Die Installation des Modul MITS ImageSlider ist in der aktuellen Shopversion 2.x ziemlich einfach.
+Die Installation des Modul MITS ImageSlider ist in der aktuellen Shopversion 2.x/3.x ziemlich einfach.
 
     1. Wenn ihr Template bereits Anpassung für den Imageslider v1.5 enthalten hat, so entfernen Sie 
        bitte diese Anpassungen vor der Installation! Dazu müssen Sie nur die Anweisungen für die 
@@ -47,7 +47,7 @@ Die Installation des Modul MITS ImageSlider ist in der aktuellen Shopversion 2.x
 
     3. Kopieren Sie anschließend einfach alle Dateien in dem Verzeichnis shoproot aus dem Modulpaket 
        MITS_ImageSlider in das Hauptverzeichnis ihrer bestehenden 
-       modified eCommerce Shopsoftware 2.x Installation. Es werden dabei keine Dateien überschrieben!
+       modified eCommerce Shopsoftware 2.x/3.x Installation. Es werden dabei keine Dateien überschrieben!
 
     4. Nachdem sie alle Dateien in den Shop übertragen haben melden sie sich bitte im Shop mit einem 
        gültigen Adminzugang an, der die Berechtigung besitzt auch Systemmodule zu installieren.
@@ -64,7 +64,7 @@ Die Installation des Modul MITS ImageSlider ist in der aktuellen Shopversion 2.x
 
     7. Konfigurieren sie nun das Modul nach ihren Wünschen. Die verschiedenen Einstellmöglichkeiten sind im Modul erklärt.
 
-    8. Rufen sie den Menüpunkt Hilfsprogramme -> MITS ImageSlider v2.06 auf. 
+    8. Rufen sie den Menüpunkt Hilfsprogramme -> MITS ImageSlider auf. 
        Dort können sie Einträge anlegen, bearbeiten oder löschen.
 
 
@@ -197,7 +197,7 @@ Für die Anpassung zur Slideranzeige bei Content-Seiten müssen Sie in die Templ
 
 <hr />
 
-Wir hoffen, der neue MITS ImageSlider für die modified eCommerce Shopsoftware 2.x gefällt ihnen!
+Wir hoffen, der neue MITS ImageSlider für die modified eCommerce Shopsoftware 2.x/3.x gefällt ihnen!
 Benötigen sie Unterstützung bei der individuellen Anpassung des Moduls oder haben sie eventuell doch Probleme beim Einbau?
 Gerne können sie unseren kostenpflichtigen Support in Anspruch nehmen.
 Kontaktieren sie uns einfach unter <a href="https://www.merz-it-service.de/Kontakt.html">info(at)merz-it-service.de</a>
