@@ -15,17 +15,17 @@
 defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
 
 class mits_imageslider {
-  var $code;
-  var $name;
-  var $version;
-  var $sort_order;
-  var $title;
-  var $description;
-  var $enabled;
-  var $do_update;
-  var $_check;
+  public $code;
+  public $name;
+  public $version;
+  public $sort_order;
+  public $title;
+  public $description;
+  public $enabled = false;
+  private $_check = null;
+  public $do_update;
 
-  function __construct() {
+  public function __construct() {
     $this->code = 'mits_imageslider';
     $this->name = 'MODULE_' . strtoupper($this->code);
     $this->version = '2.17';
