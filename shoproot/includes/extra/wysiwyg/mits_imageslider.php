@@ -12,11 +12,14 @@
  * --------------------------------------------------------------
  */
 
-if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
-  switch ($type) {
-    case 'imagesliders_description':
-      $editorName = 'imagesliders_description[' . $langID . ']';
-      $default_editor_height = 400;
-      break;
-  }
+if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && isset($type)) {
+    $language_id = (isset($langID) && !isset($language_id)) ? $langID : ($language_id ?? '');
+    if (!empty($language_id)) {
+        switch ($type) {
+            case 'imagesliders_description':
+                $editorName = 'imagesliders_description[' . $language_id . ']';
+                $default_editor_height = 200;
+                break;
+        }
+    }
 }

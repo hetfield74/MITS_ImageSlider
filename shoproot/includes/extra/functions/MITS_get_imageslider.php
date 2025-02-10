@@ -216,7 +216,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
               if ($sliderdata[$i]['mobile_image'] != '') $img .= '<source media="(max-width:' . $mobile_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_image'] . '" width="' . $sliderdata[$i]['mobile_width'] . '" height="' . $sliderdata[$i]['mobile_height'] . '">';
               if ($sliderdata[$i]['tablet_image'] != '') $img .= '<source media="(max-width:' . $tablet_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['tablet_image'] . '" width="' . $sliderdata[$i]['tablet_width'] . '" height="' . $sliderdata[$i]['tablet_height'] . '">';
               $img .= '<source ' . $datasrc . 'srcset="' . $sliderdata[$i]['main_image'] . '" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '">';
-              $img .= '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
+              $img .= '<img ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
               $img .= '</picture>';
             } else {
               $img = '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['main_image'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
@@ -253,7 +253,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
               if ($sliderdata[$i]['mobile_image'] != '') $img .= '<source media="(max-width:' . $mobile_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_image'] . '" width="' . $sliderdata[$i]['mobile_width'] . '" height="' . $sliderdata[$i]['mobile_height'] . '">';
               if ($sliderdata[$i]['tablet_image'] != '') $img .= '<source media="(max-width:' . $tablet_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['tablet_image'] . '" width="' . $sliderdata[$i]['tablet_width'] . '" height="' . $sliderdata[$i]['tablet_height'] . '">';
               $img .= '<source ' . $datasrc . 'srcset="' . $sliderdata[$i]['main_image'] . '" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '">';
-              $img .= '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
+              $img .= '<img ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
               $img .= '</picture>';
             } else {
               $img = '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['main_image'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
@@ -286,7 +286,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
               if ($sliderdata[$i]['mobile_image'] != '') $img .= '<source media="(max-width:' . $mobile_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_image'] . '" width="' . $sliderdata[$i]['mobile_width'] . '" height="' . $sliderdata[$i]['mobile_height'] . '">';
               if ($sliderdata[$i]['tablet_image'] != '') $img .= '<source media="(max-width:' . $tablet_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['tablet_image'] . '" width="' . $sliderdata[$i]['tablet_width'] . '" height="' . $sliderdata[$i]['tablet_height'] . '">';
               $img .= '<source ' . $datasrc . 'srcset="' . $sliderdata[$i]['main_image'] . '" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '">';
-              $img .= '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
+              $img .= '<img ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
               $img .= '</picture>';
             } else {
               $img = '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['main_image'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
@@ -319,7 +319,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
               if ($sliderdata[$i]['mobile_image'] != '') $img .= '<source media="(max-width:' . $mobile_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_image'] . '" width="' . $sliderdata[$i]['mobile_width'] . '" height="' . $sliderdata[$i]['mobile_height'] . '">';
               if ($sliderdata[$i]['tablet_image'] != '') $img .= '<source media="(max-width:' . $tablet_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['tablet_image'] . '" width="' . $sliderdata[$i]['tablet_width'] . '" height="' . $sliderdata[$i]['tablet_height'] . '">';
               $img .= '<source ' . $datasrc . 'srcset="' . $sliderdata[$i]['main_image'] . '" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '">';
-              $img .= '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
+              $img .= '<img ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
               $img .= '</picture>';
             } else {
               $img = '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['main_image'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
@@ -355,7 +355,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
               if ($sliderdata[$i]['mobile_image'] != '') $img .= '<source media="(max-width:' . $mobile_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['mobile_image'] . '" width="' . $sliderdata[$i]['mobile_width'] . '" height="' . $sliderdata[$i]['mobile_height'] . '">';
               if ($sliderdata[$i]['tablet_image'] != '') $img .= '<source media="(max-width:' . $tablet_width_breakpoint . 'px)" ' . $datasrc . 'srcset="' . $sliderdata[$i]['tablet_image'] . '" width="' . $sliderdata[$i]['tablet_width'] . '" height="' . $sliderdata[$i]['tablet_height'] . '">';
               $img .= '<source ' . $datasrc . 'srcset="' . $sliderdata[$i]['main_image'] . '" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '">';
-              $img .= '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
+              $img .= '<img ' . $lazyloadclass . $datasrc . 'src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
               $img .= '</picture>';
             } else {
               $img = '<img width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" ' . $lazyloadclass . $datasrc . 'src="' . $sliderdata[$i]['main_image'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
@@ -390,7 +390,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
               if ($sliderdata[$i]['mobile_image'] != '') $img .= '<source media="(max-width:' . $mobile_width_breakpoint . 'px)" data-srcset="' . $sliderdata[$i]['mobile_image'] . '" width="' . $sliderdata[$i]['mobile_width'] . '" height="' . $sliderdata[$i]['mobile_height'] . '">';
               if ($sliderdata[$i]['tablet_image'] != '') $img .= '<source media="(max-width:' . $tablet_width_breakpoint . 'px)" data-srcset="' . $sliderdata[$i]['tablet_image'] . '" width="' . $sliderdata[$i]['tablet_width'] . '" height="' . $sliderdata[$i]['tablet_height'] . '">';
               $img .= '<source data-srcset="' . $sliderdata[$i]['main_image'] . '" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '">';
-              $img .= '<img class="unveil" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" data-src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
+              $img .= '<img class="unveil" data-src="' . ($count_slides == 1 ? $sliderdata[$i]['mobile_image'] : $sliderdata[$i]['main_image']) . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';
               $img .= '</picture>';
             } else {
               $img = '<img class="unveil" width="' . $sliderdata[$i]['main_width'] . '" height="' . $sliderdata[$i]['main_height'] . '" data-src="' . $sliderdata[$i]['main_image'] . '" alt="' . $sliderdata[$i]['alt'] . '" title="' . $sliderdata[$i]['title'] . '" />';

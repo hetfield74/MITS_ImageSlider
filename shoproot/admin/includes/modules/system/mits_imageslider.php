@@ -22,13 +22,13 @@ class mits_imageslider {
   public $title;
   public $description;
   public $enabled = false;
-  private $_check = null;
   public $do_update;
+  private $_check = null;
 
   public function __construct() {
     $this->code = 'mits_imageslider';
     $this->name = 'MODULE_' . strtoupper($this->code);
-    $this->version = '2.17';
+    $this->version = '2.18';
     $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
     $this->enabled = (defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true') ? true : false);
     $version_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_VERSION'");
@@ -255,7 +255,7 @@ class mits_imageslider {
 					  `imagesliders_id` INT(11) NOT NULL,
 					  `languages_id` INT(11) NOT NULL,
 					  `imagesliders_title` VARCHAR(255) NOT NULL,
-					  `imagesliders_alt` VARCHAR(255) NULL
+					  `imagesliders_alt` VARCHAR(255) NULL,
 					  `imagesliders_linktitle` VARCHAR(255) NULL,
 					  `imagesliders_url` VARCHAR(255) NOT NULL,
 					  `imagesliders_url_target` TINYINT(1) NOT NULL DEFAULT '0',
@@ -263,13 +263,13 @@ class mits_imageslider {
 					  `imagesliders_description` TEXT,
 					  `imagesliders_image` VARCHAR(255) DEFAULT NULL,
 					  `imagesliders_image_width` FLOAT NOT NULL DEFAULT '0',
-					  `imagesliders_image_height` FLOAT NOT NULL DEFAULT '0'
+					  `imagesliders_image_height` FLOAT NOT NULL DEFAULT '0',
 					  `imagesliders_tablet_image` VARCHAR(255) DEFAULT NULL,
 					  `imagesliders_tablet_image_width` FLOAT NOT NULL DEFAULT '0',
 					  `imagesliders_tablet_image_height` FLOAT NOT NULL DEFAULT '0',
 					  `imagesliders_mobile_image` VARCHAR(255) DEFAULT NULL,
 					  `imagesliders_mobile_image_height` FLOAT NOT NULL DEFAULT '0',
-					  `imagesliders_mobile_image_width` FLOAT NOT NULL DEFAULT '0'
+					  `imagesliders_mobile_image_width` FLOAT NOT NULL DEFAULT '0',
 					  `url_clicked` int(5) NOT NULL DEFAULT '0',
 					  `date_last_click` datetime DEFAULT NULL,
 					  PRIMARY KEY  (`imagesliders_id`,`languages_id`)
@@ -279,7 +279,7 @@ class mits_imageslider {
     }
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_STATUS', 'true', 6, 1, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_SHOW', 'general', 6, 2, 'xtc_cfg_select_option(array(\'start\', \'general\'), ', now())");
-    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TYPE', 'Slick tpl_modified', 6, 4, 'xtc_cfg_select_option(array(\'Splide tpl_modified_nova\', \'Splide\', \'Slick tpl_modified\', \'Slick\', \'bxSlider tpl_modified\', \'bxSlider\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
+    xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_TYPE', 'Splide tpl_modified_nova', 6, 4, 'xtc_cfg_select_option(array(\'Splide tpl_modified_nova\', \'Splide\', \'Slick tpl_modified\', \'Slick\', \'bxSlider tpl_modified\', \'bxSlider\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LOADJAVASCRIPT', 'false', 6, 6, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LOADCSS', 'false', 6, 7, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
     xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('" . $this->name . "_LAZYLOAD', 'false', 6, 8, 'xtc_cfg_select_option(array(\'true\', \'false\'), ', now())");
