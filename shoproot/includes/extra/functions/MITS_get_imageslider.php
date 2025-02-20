@@ -202,7 +202,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
           $mits_imagesliders_string = '';
           if ($no_banner) {
             $item_content_class = 'slider_item_content';
-            $mits_imagesliders_string .= '<div class="slider_row">
+            $mits_imagesliders_string .= '<div class="mits_imageslider_container"><div class="slider_row">
             <div class="splide ' . ($count_slides == 1 ? 'splide_slider_single' : 'splide_slider') . '" aria-label="Slider">
               <div class="splide__track">
         		    <div class="splide__list">';
@@ -235,8 +235,8 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
             }
           }
           if ($no_banner) {
-            $mits_imagesliders_string .= '</div></div></div></div>';
-            //$mits_imagesliders_string .= ($count_slides == 1) ? '' : '<style>.slider_row .splide img {height:auto !important;object-fit:unset !important}.slider_row::before{padding-bottom:' . $mobile_style . '%} @media (min-width: ' . ($mobile_width_breakpoint + 1) . 'px) {.slider_row::before{padding-bottom:' . $tablet_style . '%}} @media (min-width: ' . ($tablet_width_breakpoint + 1) . 'px) {.slider_row::before{padding-bottom:' . $desktop_style . '%}}</style>';
+            $mits_imagesliders_string .= '</div></div></div></div></div>';
+            //$mits_imagesliders_string .= ($count_slides == 1) ? '' : '<style>.mits_imageslider_container .slider_row::before{padding-bottom:' . $mobile_style . '%} @media (min-width: ' . ($mobile_width_breakpoint + 1) . 'px) {.mits_imageslider_container .slider_row::before{padding-bottom:' . $tablet_style . '%}} @media (min-width: ' . ($tablet_width_breakpoint + 1) . 'px) {.mits_imageslider_container .slider_row::before{padding-bottom:' . $desktop_style . '%}}</style>';
           }
         }
       }

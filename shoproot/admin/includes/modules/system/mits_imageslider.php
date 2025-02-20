@@ -28,7 +28,7 @@ class mits_imageslider {
   public function __construct() {
     $this->code = 'mits_imageslider';
     $this->name = 'MODULE_' . strtoupper($this->code);
-    $this->version = '2.18';
+    $this->version = '2.19';
     $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
     $this->enabled = (defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true') ? true : false);
     $version_query = xtc_db_query("SELECT configuration_value FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = '" . $this->name . "_VERSION'");
