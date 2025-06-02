@@ -12,6 +12,4 @@
  * --------------------------------------------------------------
  */
 
-defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
-
 defined('FILENAME_MITS_IMAGESLIDER') or define('FILENAME_MITS_IMAGESLIDER', 'mits_imageslider.php');
