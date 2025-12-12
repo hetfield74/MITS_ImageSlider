@@ -41,7 +41,7 @@ $lang_array = array(
     </a><br />
     <p>Mit dem MITS ImageSlider-Modul k&ouml;nnen Sie eine Bilderslideshow auf der Startseite Ihres Shops erstellen. Sie k&ouml;nnen dort wechselnde Bilder mit Kategorien, Produkten, Content oder anderen Shopseiten ohne Sessionverlust verlinken oder zu einer externen Adresse verlinken.</p>
     <p>Das bereits mehrere tausendfach bew&auml;hrte MITS ImageSlider-Modul &copy by Hetfield erhalten Sie im Original nur vom Hersteller unter <a target="_blank" href="https://www.merz-it-service.de"><strong><u>MerZ IT-SerVice</u></strong></a> f&uuml;r Ihre modified eCommerce Shopsoftware.</p>
-    <div><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'Anleitung f&uuml;r das Modul MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>Anleitung f&uuml;r das Modul MITS ImageSlider</u></strong></a></div>
+    <div style="text-align:center;margin:20px 0;"><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'Anleitung f&uuml;r das Modul MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>Anleitung f&uuml;r das Modul MITS ImageSlider</u></strong></a></div>
     <div style="text-align:center;">
       <small>Nur auf Github gibt es immer die aktuellste Version des Moduls!</small><br />
       <a style="background:#6a9;color:#444" target="_blank" href="https://github.com/hetfield74/MITS_ImageSlider" class="button" onclick="this.blur();">MITS_ImageSlider on Github</a>
@@ -72,7 +72,13 @@ $lang_array = array(
   'MODULE_' . $modulname . '_LAZYLOAD_TITLE'            => 'Lazy Load',
   'MODULE_' . $modulname . '_LAZYLOAD_DESC'             => 'Soll der Support f&uuml;r lazyload aktiviert werden? (Nicht f&uuml;r alle Plugins m&ouml;glich!)',
   'MODULE_' . $modulname . '_UPDATE_AVAILABLE_TITLE'    => ' <span style="font-weight:bold;color:#900;background:#ff6;padding:2px;border:1px solid #900;">Bitte Modulaktualisierung durchf&uuml;hren!</span>',
-  'MODULE_' . $modulname . '_UPDATE_AVAILABLE_DESC'     => ''
+  'MODULE_' . $modulname . '_UPDATE_AVAILABLE_DESC'     => '',
+  'MODULE_' . $modulname . '_UPDATE_FINISHED'           => 'Das Modul MITS ImageSlider wurde aktualisiert.',
+  'MODULE_' . $modulname . '_UPDATE_ERROR'              => 'Fehler',
+  'MODULE_' . $modulname . '_UPDATE_MODUL'              => 'Modul aktualisieren',
+  'MODULE_' . $modulname . '_DELETE_MODUL'              => 'MITS ImageSlider komplett vom Server entfernen',
+  'MODULE_' . $modulname . '_CONFIRM_DELETE_MODUL'      => 'M&ouml;chten sie das Modul MITS ImageSlider mit allen Dateien wirklich vom Server l&ouml;schen?',
+  'MODULE_' . $modulname . '_DELETE_FINISHED'           => 'Das Modul MITS ImageSlider wurde vom Server gel&ouml;scht.',
 );
 
 foreach ($lang_array as $key => $val) {

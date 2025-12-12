@@ -230,7 +230,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
     $query = xtc_db_query("SELECT code FROM " . TABLE_LANGUAGES . " WHERE languages_id = " . (int)$_SESSION['languages_id']);
     $data = xtc_db_fetch_array($query);
     // generate editor
-    echo PHP_EOL . (!function_exists('editorJSLink') ? '<script type="text/javascript" src="includes/modules/fckeditor/fckeditor.js"></script>' : '') . PHP_EOL;
+      echo PHP_EOL . (!function_exists('editorJSLink') ? '<script type="text/javascript" src="includes/modules/ckeditor/ckeditor.js"></script>' : '') . PHP_EOL;
     if ($action == 'edit' || $action == 'new') {
       for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
         echo xtc_wysiwyg('imagesliders_description', $data['code'], $languages[$i]['id']);

@@ -62,9 +62,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         }
         xtc_db_query("DELETE FROM " . TABLE_CONFIGURATION . " WHERE configuration_key = 'MODULE_MITS_IMAGESLIDER_TYPE'");
         xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_TYPE', '" . $slidertype . "',  '6', '4', 'xtc_cfg_select_option(array(\'bxSlider\', \'bxSlider tpl_modified\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\'), ', now())");
-        xtc_db_query(
-          "INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_TYPE', '" . $slidertype . "',  '6', '4', 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())"
-        );
+        xtc_db_query("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_MITS_IMAGESLIDER_TYPE', '" . $slidertype . "',  '6', '4', 'xtc_cfg_select_option(array(\'bxSlider tpl_modified\', \'bxSlider\', \'Slick tpl_modified\', \'Slick\', \'NivoSlider\', \'FlexSlider\', \'jQuery.innerfade\', \'custom\'), ', now())");
         xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " CHANGE `imagesliders_name` `imagesliders_name` VARCHAR(255) NOT NULL DEFAULT ''");
         xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " CHANGE `imagesliders_title` `imagesliders_title ` VARCHAR(255) NOT NULL");
         xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " CHANGE `imagesliders_image` `imagesliders_image ` VARCHAR(255) NOT NULL");
