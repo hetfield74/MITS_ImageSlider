@@ -118,3 +118,6 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+.slick-desc {
+    display: none;
+}

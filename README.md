@@ -3,7 +3,7 @@
 (c) Copyright by Hetfield - MerZ IT-SerVice
 
 - Author: 	Hetfield - https://www.merz-it-service.de
-- Version: 	modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678
+- Version: 	modified eCommerce Shopsoftware ab der Version v2.0.2.0 rev 10591
 
 Original nur von hier:
 https://www.merz-it-service.de/Shop-Module/MITS-ImageSlider-fuer-modified-eCommerce-Shopsoftware-by-Hetfield.html
@@ -30,7 +30,8 @@ Sie finden die aktuellste Installationsanleitung unter https://imageslider.merz-
 
 ## 1. Installation
 
-Systemvoraussetzung: Funktionsfähige modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678
+Systemvoraussetzung: Funktionsfähige modified eCommerce Shopsoftware ab der Version v2.0.2.0 rev 10591, min. PHP7.1 
+WebP-/srcset-Varianten erfordern GD mit WebP-Unterstützung (imagewebp() muss verfügbar sein).
 
 Vor der Installation des Moduls sichern sie bitte komplett ihre aktuelle Shopinstallation (Dateien und Datenbank)!
 Für eventuelle Schäden übernehmen wir keine Haftung!

@@ -29,6 +29,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
   $page_max_display_results = xtc_cfg_save_max_display_results($cfg_max_display_results_key);
 
   require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php');
+  require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/images.php');
 
   switch ($action) {
     case 'insert':
@@ -76,12 +77,15 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       $accepted_imagesliders_image_files_mime_types = array("image/jpeg", "image/gif", "image/png", "image/webp", "image/avif", "image/bmp", "image/svg+xml");
       for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
         if (isset($_POST['imagesliders_image_delete' . $i]) && $_POST['imagesliders_image_delete' . $i] == 'imagesliders_image_delete' . $i) {
-          $image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);
-          if (file_exists($image_location)) @unlink($image_location);
+          $rel = xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);
+          if (!empty($rel)) {
+            mits_imageslider_delete_variants_from_relative($rel);
+          }
           $imagepfad = '';
         }
         if ($image = xtc_try_upload('imagesliders_image' . $i, DIR_FS_CATALOG_IMAGES . 'imagesliders/' . $languages[$i]['directory'] . '/', '644', $accepted_imagesliders_image_files_extensions, $accepted_imagesliders_image_files_mime_types)) {
           $imagepfad = 'imagesliders/' . $languages[$i]['directory'] . '/' . $image->filename;
+          $imagepfad = mits_imageslider_generate_variants_from_relative($imagepfad, 'desktop');
         } else {
           if (!isset($_POST['imagesliders_image_delete' . $i])) {
             $imagepfad = xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);
@@ -93,12 +97,15 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         }
 
         if (isset($_POST['imagesliders_tablet_image_delete' . $i]) && $_POST['imagesliders_tablet_image_delete' . $i] == 'imagesliders_tablet_image_delete' . $i) {
-          $tablet_image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_tablet_image($imagesliders_id, $languages[$i]['id']);
-          if (file_exists($tablet_image_location)) @unlink($tablet_image_location);
+          $rel = xtc_get_imageslider_tablet_image($imagesliders_id, $languages[$i]['id']);
+          if (!empty($rel)) {
+            mits_imageslider_delete_variants_from_relative($rel);
+          }
           $tablet_imagepfad = '';
         }
         if ($tablet_image = xtc_try_upload('imagesliders_tablet_image' . $i, DIR_FS_CATALOG_IMAGES . 'imagesliders/' . $languages[$i]['directory'] . '/tablet/', '644', $accepted_imagesliders_image_files_extensions, $accepted_imagesliders_image_files_mime_types)) {
           $tablet_imagepfad = 'imagesliders/' . $languages[$i]['directory'] . '/tablet/' . $tablet_image->filename;
+          $tablet_imagepfad = mits_imageslider_generate_variants_from_relative($tablet_imagepfad, 'tablet');
         } else {
           if (!isset($_POST['imagesliders_tablet_image_delete' . $i])) {
             $tablet_imagepfad = xtc_get_imageslider_tablet_image($imagesliders_id, $languages[$i]['id']);
@@ -106,12 +113,15 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
         }
 
         if (isset($_POST['imagesliders_mobile_image_delete' . $i]) && $_POST['imagesliders_mobile_image_delete' . $i] == 'imagesliders_mobile_image_delete' . $i) {
-          $mobile_image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_mobile_image($imagesliders_id, $languages[$i]['id']);
-          if (file_exists($mobile_image_location)) @unlink($mobile_image_location);
+          $rel = xtc_get_imageslider_mobile_image($imagesliders_id, $languages[$i]['id']);
+          if (!empty($rel)) {
+            mits_imageslider_delete_variants_from_relative($rel);
+          }
           $mobile_imagepfad = '';
         }
         if ($mobile_image = xtc_try_upload('imagesliders_mobile_image' . $i, DIR_FS_CATALOG_IMAGES . 'imagesliders/' . $languages[$i]['directory'] . '/mobile/', '644', $accepted_imagesliders_image_files_extensions, $accepted_imagesliders_image_files_mime_types)) {
           $mobile_imagepfad = 'imagesliders/' . $languages[$i]['directory'] . '/mobile/' . $mobile_image->filename;
+          $mobile_imagepfad = mits_imageslider_generate_variants_from_relative($mobile_imagepfad, 'mobile');
         } else {
           if (!isset($_POST['imagesliders_mobile_image_delete' . $i])) {
             $mobile_imagepfad = xtc_get_imageslider_mobile_image($imagesliders_id, $languages[$i]['id']);
@@ -194,12 +204,12 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       if ($_POST['delete_image'] == 'on') {
         $languages = xtc_get_languages();
         for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
-          $image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);
-          if (file_exists($image_location)) @unlink($image_location);
-          $tablet_image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_tablet_image($imagesliders_id, $languages[$i]['id']);
-          if (file_exists($tablet_image_location)) @unlink($tablet_image_location);
-          $mobile_image_location = DIR_FS_CATALOG_IMAGES . xtc_get_imageslider_mobile_image($imagesliders_id, $languages[$i]['id']);
-          if (file_exists($mobile_image_location)) @unlink($mobile_image_location);
+          $rel = xtc_get_imageslider_image($imagesliders_id, $languages[$i]['id']);
+          if (!empty($rel)) mits_imageslider_delete_variants_from_relative($rel);
+          $rel = xtc_get_imageslider_tablet_image($imagesliders_id, $languages[$i]['id']);
+          if (!empty($rel)) mits_imageslider_delete_variants_from_relative($rel);
+          $rel = xtc_get_imageslider_mobile_image($imagesliders_id, $languages[$i]['id']);
+          if (!empty($rel)) mits_imageslider_delete_variants_from_relative($rel);
         }
       }
       xtc_db_query("DELETE FROM " . TABLE_MITS_IMAGESLIDER . " WHERE imagesliders_id = " . $imagesliders_id);

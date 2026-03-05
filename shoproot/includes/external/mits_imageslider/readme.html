@@ -104,7 +104,7 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
       <p><strong>Modul-Download: <a href="https://github.com/hetfield74/MITS_ImageSlider/" target="_blank"><u>MITS_ImageSlider</u></a></strong></p>
 
       <h3>1. Installation</h3>
-      <p><strong>Systemvoraussetzung:</strong> Funktionsf&auml;hige modified eCommerce Shopsoftware ab der Version 2.0.0.0 rev 9678</p>
+      <p><strong>Systemvoraussetzung:</strong> Funktionsf&auml;hige modified eCommerce Shopsoftware ab der Version v2.0.2.0 rev 10591, min. PHP7.1, WebP-/srcset-Varianten erfordern GD mit WebP-Unterstützung (imagewebp() muss verfügbar sein)</p>
       <p class="hinweis"><strong>Vor der Installation des Moduls sichern sie bitte komplett ihre aktuelle Shopinstallation (Dateien und Datenbank)!<br/>F&uuml;r eventuelle Sch&auml;den &uuml;bernehmen wir keine Haftung!<br />Die Installation und Nutzung des Moduls MITS ImageSlider erfolgt auf eigene Gefahr!</strong></p>
       <p>Die Installation des Moduls MITS ImageSlider ist in der aktuellen Shopversion 2.x ziemlich einfach.</p>
 
@@ -124,14 +124,14 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
 
       <h4>Variante 1: Per Smarty-Variable in der index.html des verwendeten Templates</h4>
       <p>F&uuml;gen Sie f&uuml;r den Aufruf des Standard-ImageSlider-Gruppe <i>MITS_IMAGESLIDER</i> einfach folgende Smarty-Variable an die gew&uuml;nschte Stelle in ihrer index.html ein:</p>
-      <pre>
+      <pre><code>
         {if isset($MITS_IMAGESLIDER)}{$MITS_IMAGESLIDER}{/if}
-      </pre>
+      </code></pre>
 
       <p>M&ouml;chten sie z.B. eine andere ImageSlider-Gruppe anzeigen lassen, dann f&uuml;gen Sie f&uuml;r den Aufruf der anderen ImageSlider-Gruppe (in diesem Beispiel mit dem Gruppennamen <i>ANDRER_IMAGESLIDER</i>) einfach folgende Smarty-Variable an die gew&uuml;nschte Stelle in ihrer index.html ein:</p>
-        <pre>
+      <pre><code>
         {if isset($ANDERER_IMAGESLIDER)}{$ANDERER_IMAGESLIDER}{/if}
-      </pre>
+      </code></pre>
 
       <p>Verwenden Sie das Slider-Plugin &quot;NivoSlider&quot;, dann stehen ihnen insgesamt 4 verschieden Themes (Designs) zur Auswahl. Folgende 4 Themes stehen ihnen beim NivoSlider zur Verf&uuml;gung:</p>
         <ul>
@@ -142,21 +142,21 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
       </ul>
 
       <p>Diese k&ouml;nnen Sie durch Anpassung der Smarty-Variable per replace-Befehl wechseln. Im folgenden Beispiel wird das Theme von <i>theme-default</i> auf <i>theme-bar</i> gewechselt:</p>
-        <pre>
+      <pre><code>
         {if isset($MITS_IMAGESLIDER)}
           {$MITS_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-bar'}
         {/if}
-      </pre>
+      </code></pre>
 
       <p>Hier ein weiteres Beispielf&uuml;r den Nivo-Slider, diesmal wird das Theme von <i>theme-default</i> auf <i>theme-light</i> gewechselt:</p>
-      <pre>
+      <pre><code>
         {if isset($ANDERER_IMAGESLIDER)}
           {$ANDERER_IMAGESLIDER|replace:'slider-wrapper theme-default':'slider-wrapper theme-light'}
         {/if}
-      </pre>
+      </code></pre>
 
       <p>Sie k&ouml;nnen die Einstellung des ImagSlider-Moduls zur Anzeige <i>start</i> (nur auf der Startseite verf&uuml;gbar) auch anders l&ouml;sen. Stellen sie dazu die Anzeigedes Imagesliders auf <i>general</i> um. Anschlie&szlig;end k&ouml;nnen Sie dann zur Beschr&auml;nkung der Anzeige auf die Startseite auch folgenden Smarty-Code in der index.html verwenden:</p>
-        <pre>
+      <pre><code>
         {if strstr ($smarty.server.PHP_SELF, 'index')}
           {if !strstr ($smarty.server.PHP_SELF, 'checkout')}
             {if $smarty.get.cPath==null and $smarty.get.manufacturers_id==''}
@@ -166,41 +166,40 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
             {/if}
           {/if}
         {/if}
-      </pre>
+      </code></pre>
 
       <h4>Variante 2: Als Smarty-Plugin &uuml;berall im Template verwenden</h4>
       <p>Neu seit dem MITS ImageSlider v2.02 ist die Nutzung des ImageSliders als Smarty-Plugin. Damit k&ouml;nnen Sie den ImageSlider in jeder beliebigen HTML-Template-Datei aufrufen. Voraussetzung daf&uuml;r ist die Einstellung der Anzeigeart <i>general</i>. Der Standardaufruf mit der Gruppe <i>MITS_IMAGESLIDER</i> sieht wie folgt aus:</p>
-        <pre>
+      <pre><code>
         {getImageSlider slidergroup=mits_imageslider}
-      </pre>
+      </code></pre>
 
       <p>Der Aufruf mit einer anderen Gruppe (hier z.B. die ImageSlider-Gruppe <i>ANDERER_IMAGESLIDER</i>) sieht wie folgt aus:</p>
-      <pre>
+      <pre><code>
         {getImageSlider slidergroup=anderer_imageslider}
-      </pre>
+      </code></pre>
 
       <p>Der ImageSlider kann seit der Version 2.10 auch als Array in einer Smarty-Variablen zur&uuml;ckgegeben werden f&uuml;r individuelle Darstellungen, die dann per foreach im Template genutzt werden kann. Das sieht wie folgt aus: (hier gezeigt als Beispiel f&uuml;r die ImageSlider-Gruppe <i>ANDERER_IMAGESLIDER</i>)</p>
-      <pre>
+      <pre><code>
         {getImageSlider slidergroup=anderer_imageslider get_smarty_array=true}
         {if isset($anderer_imageslider)}
-        <div class="content_slider cf">
-          <div class="slider_home">
+        &lt;div class=&quot;content_slider cf&quot;&gt;
+          &lt;div class=&quot;slider_home&quot;&gt;
             {foreach item=slider_data from=$anderer_imageslider}
-            <div class="slider_item">
-              <a href="{$slider_data.link}" title="{$slider_data.title}" {$slider_data.target}>
-                <picture>
-                  {if $slider_data.mobile_image != ''}<source media="(max-width:600px)" data-srcset="{$slider_data.mobile_image}">{/if}
-                  {if $slider_data.tablet_image != ''}<source media="(max-width:1023px)" data-srcset="{$slider_data.tablet_image}">{/if}
-                  <source data-srcset="{$slider_data.main_image}">
-                  <img class="lazyload" data-src="{$slider_data.main_image}" alt="{$slider_data.alt}" title="{$slider_data.title}" />
-                </picture>
-              </a>
-            </div>
+            &lt;div class=&quot;slider_item&quot;&gt;
+              &lt;a href=&quot;{$slider_data.link}&quot; title=&quot;{$slider_data.title}&quot; {$slider_data.target}&gt;
+                &lt;picture&gt;
+                  {if $slider_data.mobile_image != ''}&lt;source media=&quot;(max-width:600px)&quot; data-srcset=&quot;{$slider_data.mobile_image}&quot;&gt;{/if}
+                  {if $slider_data.tablet_image != ''}&lt;source media=&quot;(max-width:1023px)&quot; data-srcset=&quot;{$slider_data.tablet_image}&quot;&gt;{/if}
+                  &lt;source data-srcset=&quot;{$slider_data.main_image}&quot;&gt;
+                  &lt;img class=&quot;lazyload&quot; data-src=&quot;{$slider_data.main_image}&quot; alt=&quot;{$slider_data.alt}&quot; title=&quot;{$slider_data.title}&quot; /&gt;
+                &lt;/picture&gt;
+              &lt;/a&gt;
+            &lt;/div&gt;
             {/foreach}
-          </div>
-        </div>
-        {/if}
-      </pre>
+          &lt;/div&gt;
+        &lt;/div&gt;
+        {/if}</code></pre>
 
       <p>Folgende Variablen sind f&uuml;r diesen Fall verf&uuml;gbar:</p>
       <ul>
@@ -216,34 +215,53 @@ a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-
       </ul>
 
       <p>Durch die Erweiterung des Aufrufs um den Parameter <i>nivotheme</i> k&ouml;nnen sie bei der Verwendung des Slider-Plugins &quot;NivoSlider&quot; das Theme wechseln. Im folgenden Beispiel wird das Theme von <i>theme-default</i> auf <i>theme-bar</i> gewechselt:</p>
-        <pre>
+      <pre><code>
         {getImageSlider slidergroup=mits_imageslider nivotheme=theme-bar}
-      </pre>
+      </code></pre>
 
       <p>Hier ein weiteres Beispiel f&uuml;r den Nivo-Slider, diesmal wird das Theme von <i>theme-default</i> auf <i>theme-dark</i> gewechselt:</p>
-      <pre>
+      <pre><code>
         {getImageSlider slidergroup=anderer_imageslider nivotheme=theme-dark}
-      </pre>
+      </code></pre>
 
       <p>Optional k&ouml;nnen Sie seit der Version 2.03 auch bei Produkten und Kategorien jeweils eine Slidergruppe zuweisen. Damit k&ouml;nnen Sie f&uuml;r Produkte und Kategorien einfach eigene Slider erstellen und pflegen ohne viel Aufwand. Zur Nutzung dieser Funktion m&uuml;ssen Sie allerdings einige Templateanpassungen vornehmen.</p>
 
       <p>F&uuml;r die Anpassung zur Slideranzeige bei Produkten m&uuml;ssen Sie in den gew&uuml;nschten Templatevorlagen f&uuml;r ihre Produkte(dazu geh&ouml;ren alle Template-Dateien im Ordner <i>module/product_info</i> ihres Templates, z.B. <i>shoproot/templates/tpl_modified_responsive/module/product_info/product_info_tabs_v1.html</i>) einfach an gew&uuml;nschter Stelle folgende Zeile einf&uuml;gen:</p>
-      <pre>
+      <pre><code>
         {if isset($MITS_PRODUCTS_IMAGESLIDER)}{$MITS_PRODUCTS_IMAGESLIDER}{/if}
-      </pre>
+      </code></pre>
 
       <p>F&uuml;r die Anpassung zur Slideranzeige bei Kategorien m&uuml;ssen Sie die Templatevorlagen f&uuml;r ihre Kategorien(dazu geh&ouml;ren alle Template-Dateien im Ordner <i>module/product_listing</i> und <i>module/categorie_listing</i> ihres Templates, z.B. <i>shoproot/templates/tpl_modified_responsive/module/product_listing/product_listing_v1.html</i> oder <i>shoproot/templates/tpl_modified_responsive/module/categorie_listing/categorie_listing.html</i>) anpassen. Dazu einfach in der jeweiligen Datei an gew&uuml;nschter Stelle folgende Zeile einf&uuml;gen:</p>
-      <pre>
+      <pre><code>
         {if isset($MITS_CATEGORIES_IMAGESLIDER)}{$MITS_CATEGORIES_IMAGESLIDER}{/if}
-      </pre>
+      </code></pre>
 
       <p>F&uuml;r die Anpassung zur Slideranzeige bei Content-Seiten m&uuml;ssen Sie in die Templatevorlage f&uuml;r die Content-Seiten <i>content.html</i> im Ordner <i>module</i> ihres Templates (z.B. <i>shoproot/templates/tpl_modified_responsive/module/content.html</i>) einfach an gew&uuml;nschter Stelle folgende Zeile einf&uuml;gen:</p>
-      <pre>
+      <pre><code>
         {if isset($MITS_CONTENT_IMAGESLIDER)}{$MITS_CONTENT_IMAGESLIDER}{/if}
-      </pre>
+      </code></pre>
 
       <h3>3. Fertig</h3>
       <p>Wir hoffen, der neue MITS ImageSlider f&uuml;r die modified eCommerce Shopsoftware 2.x gef&auml;llt ihnen! Ben&ouml;tigen sie Unterst&uuml;tzung bei der individuellen Anpassung des Moduls oder haben sie eventuell doch Probleme beim Einbau? Gerne k&ouml;nnen sie unseren kostenpflichtigen Support in Anspruch nehmen. Kontaktieren sie uns einfach unter <a href="https://www.merz-it-service.de/Kontakt:_:7.html" target="_blank">info@merz-it-service.de</a>
+
+      <hr>
+
+      <h3>Bildvarianten (WebP + srcset)</h3>
+      <p>Der Slider kann eine optimierte Bildauslieferung nutzen: Neben dem Fallback (JPG/PNG) k&ouml;nnen WebP-Dateien sowie mehrere Aufl&ouml;sungen f&uuml;r <code>srcset</code> erzeugt und im Frontend per <code>&lt;picture&gt;</code> ausgeliefert werden. Damit lassen sich in der Regel bessere Pagespeed-Ergebnisse erzielen.</p>
+  
+      <p><strong>Voraussetzungen / Wo wird das festgelegt?</strong></p>
+      <ul>
+        <li><strong>Bilddaten:</strong> Pro Slide k&ouml;nnen Desktop/Tablet/Mobile-Bilder gepflegt werden. Wenn z.B. Tablet/Mobile nicht hinterlegt sind, wird nur die Desktop-Quelle ausgegeben.</li>
+        <li><strong>Markup-Ausgabe:</strong> Das <code>&lt;picture&gt;</code>-Markup muss ausgegeben werden (entweder &uuml;ber den Standard-<em>Custom Code</em> des Moduls oder &uuml;ber ein eigenes Template bei Nutzung von <code>get_smarty_array=true</code>).</li>
+        <li><strong>Dateivarianten:</strong> F&uuml;r WebP/<code>srcset</code> m&uuml;ssen die Variant-Dateien existieren (werden beim Upload erzeugt oder nachtr&auml;glich &uuml;ber <code>mits_imageslider_regenerate_variants.php</code> generiert).</li>
+        <li><strong>Breakpoints:</strong> Die Umschaltpunkte werden &uuml;ber <code>MODULE_MITS_IMAGESLIDER_TABLETWIDTH</code> und <code>MODULE_MITS_IMAGESLIDER_MOBILEWIDTH</code> gesteuert.</li>
+      </ul>
+  
+      <p>Zum nachtr&auml;glichen Erzeugen f&uuml;r bestehende Bilder steht das Admin-Tool <code>mits_imageslider_regenerate_variants.php</code> zur Verf&uuml;gung (Batch-Verarbeitung).</p>
+
+      <h3>Hinweis zu GIF-Dateien (Animationen)</h3>
+      <p>Der ImageSlider unterst&uuml;tzt weiterhin <strong>animierte GIFs</strong>. Damit Animationen nicht verloren gehen, werden GIF-Dateien bei der Variantenerzeugung bewusst <strong>nicht</strong> konvertiert und <strong>nicht</strong> automatisch skaliert.<br/>
+      Falls Sie GIFs im Slider einsetzen, bleiben diese unver&auml;ndert (kein WebP/<code>srcset</code> f&uuml;r GIF).</p>
 
     </div>
   </main>

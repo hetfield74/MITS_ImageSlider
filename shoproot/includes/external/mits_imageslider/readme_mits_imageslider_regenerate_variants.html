@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Anleitung f&uuml;r das Tool Bilder-Varianten regenerieren (MITS ImageSlider)</title>
+<style type="text/css">
+<!--
+/* love-ya-like-a-sister-regular - latin */
+@font-face {
+    font-family: 'Love Ya Like A Sister';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/love-ya-like-a-sister-v8-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Love Ya Like A Sister Regular'), local('LoveYaLikeASister-Regular'),
+    url('fonts/love-ya-like-a-sister-v8-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/love-ya-like-a-sister-v8-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/love-ya-like-a-sister-v8-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('fonts/love-ya-like-a-sister-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('fonts/love-ya-like-a-sister-v8-latin-regular.svg#LoveYaLikeASister') format('svg'); /* Legacy iOS */
+}
+/* headland-one-regular - latin */
+@font-face {
+    font-family: 'Headland One';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/headland-one-v5-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Headland One'), local('HeadlandOne-Regular'),
+    url('fonts/headland-one-v5-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/headland-one-v5-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/headland-one-v5-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('fonts/headland-one-v5-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('fonts/headland-one-v5-latin-regular.svg#HeadlandOne') format('svg'); /* Legacy iOS */
+}
+/* patrick-hand-regular - latin */
+@font-face {
+    font-family: 'Patrick Hand';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/patrick-hand-v11-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Patrick Hand'), local('PatrickHand-Regular'),
+    url('fonts/patrick-hand-v11-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/patrick-hand-v11-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/patrick-hand-v11-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('fonts/patrick-hand-v11-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('fonts/patrick-hand-v11-latin-regular.svg#PatrickHand') format('svg'); /* Legacy iOS */
+}
+/* walter-turncoat-regular - latin */
+@font-face {
+    font-family: 'Walter Turncoat';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/walter-turncoat-v8-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Walter Turncoat Regular'), local('WalterTurncoat-Regular'),
+    url('fonts/walter-turncoat-v8-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/walter-turncoat-v8-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/walter-turncoat-v8-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('fonts/walter-turncoat-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('fonts/walter-turncoat-v8-latin-regular.svg#WalterTurncoat') format('svg'); /* Legacy iOS */
+}
+*{padding:0;margin:0}
+html,body{font-size:100%;font-family:'Headland One',sans-serif;margin:0;padding:0}
+body{position:relative;background:#ffe;font-size:95%}
+header,nav,footer,section,artice,aside,dialog,figure{display:block}
+h1{text-align:center}
+h2,h3,h4,h5,h6{color:#444;font-family:'Love Ya Like A Sister';font-weight:normal;}
+h2{font-size:2.05em;padding:0.3em 0.2em;margin-bottom:0.5em;border-bottom:0.1em dashed #ccc;text-shadow:0 0 0.2em #666}
+h3{font-size:1.8em;padding:0.25em 0.2em;margin-bottom:0.5em;border-bottom:0.1em dotted #eee;text-shadow:0 0 0.2em #666}
+h4{font-size:1.6em;padding:0.2em 0.2em;margin-bottom:0.4em;text-shadow:0 0 0.2em #666}
+h5{font-size:1.45em;padding:0.125em 0.125em;margin-bottom:0.4em}
+h6{font-size:1.25em;padding:0.1em 0.125em;margin-bottom:0.3em}
+p{padding:0.25em;margin-bottom:0.25em;text-align:justify}
+img{max-width:100%;height:auto;border:0}
+a:link{color:#444;text-decoration:none;-webkit-transition:0.5s;transition:0.5s}
+a:active{color:#444}
+a:visited{color:#444}
+a:hover{color:#6a9}
+a:focus{color:#6a9}
+pre{border:medium none;margin:0;color: #00C;padding:1.6em 0.6em 0.6em 0.6em;background:#fff;box-shadow:0 0 0.4em #666;margin-top:1em;margin-bottom:1em}
+.toplogo{text-align:center}
+footer{background:#333 linear-gradient(#555,#333);width:100%;float:left;border-top:0.3em solid #6a9;box-shadow:0 -0.4em 0.4em #ccc;color:#ccc}
+div.copyright{clear:both;display:block;text-align:center;font-size:0.75em;background:#333;paddin-top:1.2em}
+p.copyrightinfo{clear:left;padding:0.6em 0;font-size:0.8em;color:#666;margin:0.4em auto;text-align:center;width:100%}
+p.copyrightinfo a{text-decoration:none;color:#666}
+#main {padding:8px}
+#main ul {margin-top:10px;margin-bottom:10px}
+#main ul,#main ul li{margin-left:1em;list-style:disc}
+#main ol,#main ol li{margin-left:1em}
+#main ol.install li{margin-left:1em;margin-bottom:10px}
+.hinweis{border:1px solid #900;padding:8px;margin:10px auto;background:#FF9}
+a.imagebutton:link{box-shadow:0 0 0.4em #444;display:block;transition:0.5s;text-align:center;width:90%;margin:0.5em auto;-moz-border-radius:0.5em;-webkit-border-radius:0.5em;border-radius:0.5em;border:0;color:#fff;padding:0.25em 0.5em;background:linear-gradient(#6a9,#6a9);font-size:1.05em;font-family:'Patrick Hand'}
+a.imagebutton:active{color:#fff;background:#6a9 linear-gradient(#6a9,#6a9)}
+a.imagebutton:visited{color:#fff;background:#6a9 linear-gradient(#6a9,#6a9)}
+a.imagebutton:hover{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-gradient(#666,#333)}
+a.imagebutton:focus{box-shadow:0 0 0.4em #6a9;color:#fff;background:#6a9 linear-gradient(#666,#333)}
+-->
+</style></head>
+<body>
+  <header>
+    <h1><a href="https://www.merz-it-service.de" title="MerZ IT-SerVice" class="toplogo" name="top" id="top"><img src="https://www.merz-it-service.de/templates/merz-it-service_responsive/img/logo.png" alt="MerZ IT-SerVice" /></a></h1>
+  </header>
+  <main role="main">
+    <div id="main">
+
+      <h2>Anleitung: MITS ImageSlider &ndash; Bilder-Varianten regenerieren</h2>
+      <p><strong>Datei:</strong> <code>admin/mits_imageslider_regenerate_variants.php</code></p>
+      <p><strong>Modul-Download: <a href="https://github.com/hetfield74/MITS_ImageSlider/" target="_blank"><u>MITS_ImageSlider</u></a></strong></p>
+
+      <h3>1. Zweck</h3>
+      <p>Dieses Admin-Tool erzeugt f&uuml;r bereits vorhandene Sliderbilder zus&auml;tzliche Bildvarianten, um im Frontend per <code>&lt;picture&gt;</code> und <code>srcset</code> bessere Ladezeiten (Pagespeed) zu erreichen.</p>
+
+      <ul>
+        <li><strong>WebP</strong> erzeugen (sofern vom Server per GD unterst&uuml;tzt)</li>
+        <li><strong>Fallback</strong> (JPG/PNG) beibehalten bzw. konsistent bereitstellen</li>
+        <li><strong>Mehrere Aufl&ouml;sungen</strong> als Derivate f&uuml;r <code>srcset</code> generieren</li>
+        <li><strong>Optional:</strong> Datenbankfelder f&uuml;r Pfade sowie Breite/H&ouml;he aktualisieren</li>
+      </ul>
+
+      <p class="hinweis"><strong>Wichtiger Hinweis:</strong><br/>
+      Bitte sichern Sie vor dem Ausf&uuml;hren des Tools unbedingt Ihre Shopinstallation (Dateien und Datenbank)!<br/>
+      Die Nutzung erfolgt auf eigene Gefahr.</p>
+
+      <h3>2. Voraussetzungen</h3>
+      <p><strong>Systemvoraussetzung:</strong> Funktionsf&auml;hige modified eCommerce Shopsoftware sowie installiertes Modul <i>MITS ImageSlider</i>.</p>
+      <ul>
+        <li>Modul aktiv: <code>MODULE_MITS_IMAGESLIDER_STATUS = true</code></li>
+        <li>Helper vorhanden: <code>includes/external/mits_imageslider/functions/images.php</code></li>
+        <li>Bildverarbeitung &uuml;ber GD (JPG/PNG/GIF)</li>
+        <li>WebP-Unterst&uuml;tzung: <code>imagewebp()</code> (GD mit WebP)</li>
+      </ul>
+
+      <h3>3. Was wird verarbeitet?</h3>
+      <p>Pro Slider-Eintrag werden die Bildpfade aus der Datenbank gepr&uuml;ft und verarbeitet:</p>
+      <ul>
+        <li><strong>Desktop:</strong> <code>imagesliders_image</code></li>
+        <li><strong>Tablet:</strong> <code>imagesliders_tablet_image</code></li>
+        <li><strong>Mobile:</strong> <code>imagesliders_mobile_image</code></li>
+      </ul>
+
+      <p>Unterst&uuml;tzte Dateiendungen: <code>jpg</code>, <code>jpeg</code>, <code>jpe</code>, <code>png</code>, <code>gif</code>, <code>webp</code>.<br/>
+      Nicht unterst&uuml;tzte Formate (z.B. SVG/AVIF) werden automatisch &uuml;bersprungen.</p>
+
+      <h3>4. Welche Varianten werden erzeugt?</h3>
+      <p>Je Bild (desktop/tablet/mobile) wird anhand eines Profils eine Basisdatei (Fallback) und zus&auml;tzliche Varianten erzeugt.</p>
+
+      <h4>4.1 Profile (Standard)</h4>
+      <ul>
+        <li><strong>mobile</strong>: Basis max. Breite 750px, <code>srcset</code> Breiten: 320 / 480 / 640 / 750</li>
+        <li><strong>tablet</strong>: Basis max. Breite 1280px, <code>srcset</code> Breiten: 768 / 1024 / 1280</li>
+        <li><strong>desktop</strong>: Basis max. Breite 2560px, <code>srcset</code> Breiten: 1280 / 1600 / 1920 / 2560</li>
+      </ul>
+
+      <h4>4.2 Ablage der Dateien</h4>
+      <p>Die Basisdatei bleibt im bestehenden Ordner, daneben wird eine WebP-Datei abgelegt. Zus&auml;tzliche Derivate werden im Unterordner <code>srcset/</code> gespeichert.</p>
+
+      <pre>
+Beispiel (Mobile):
+imagesliders/de/mobile/banner.jpg        (Fallback Basis)
+imagesliders/de/mobile/banner.webp       (WebP Basis)
+imagesliders/de/mobile/srcset/banner-320.jpg
+imagesliders/de/mobile/srcset/banner-320.webp
+imagesliders/de/mobile/srcset/banner-480.jpg
+imagesliders/de/mobile/srcset/banner-480.webp
+...
+      </pre>
+
+      <p><strong>Upscaling:</strong> Es werden keine Bilder vergr&ouml;&szlig;ert. Zielbreiten werden nur erzeugt, wenn die Quelle gro&szlig; genug ist.</p>
+
+      <h4>4.3 Wichtiger Hinweis zu GIF (Animationen)</h4>
+      <p><strong>GIF-Dateien werden nicht konvertiert</strong> und es werden <strong>keine Varianten</strong> (kein WebP, kein <code>srcset</code>, kein Resize) erzeugt.<br/>
+      Hintergrund: Animierte GIFs w&uuml;rden bei einer GD-basierten Verarbeitung meist auf ein einzelnes Frame reduziert und damit ihre Animation verlieren. Das Tool bel&auml;sst GIFs daher unver&auml;ndert, damit Slider-Animationen erhalten bleiben.</p>
+
+
+      <h3>5. Installation / Dateiablage</h3>
+      <ol class="install">
+        <li>Legen Sie die Datei <code>mits_imageslider_regenerate_variants.php</code> in Ihr Admin-Verzeichnis (<code>/admin/</code>) ab.</li>
+        <li>Falls der Admin-Ordner des Shops umbenannt wurde, legen Sie die Datei in den entsprechend umbenannten Admin-Ordner.</li>
+        <li>Melden Sie sich im Shop mit einem Admin-Account an.</li>
+        <li>Rufen Sie das Tool im Browser auf (siehe Abschnitt 6).</li>
+      </ol>
+
+      <h3>6. Verwendung (Batch-Verarbeitung)</h3>
+      <p>Das Tool ist so aufgebaut, dass es in Batches arbeitet. Damit k&ouml;nnen auch gro&szlig;e Bildbest&auml;nde schrittweise verarbeitet werden.</p>
+
+      <h4>6.1 Aufruf im Browser</h4>
+      <pre>
+https://DEIN-SHOP/admin/mits_imageslider_regenerate_variants.php
+      </pre>
+
+      <h4>6.2 Empfohlener Ablauf</h4>
+      <ol>
+        <li>Erst <strong>Scan</strong> ausf&uuml;hren (nur pr&uuml;fen, keine &Auml;nderungen).</li>
+        <li>Backup erstellen (Dateien + Datenbank).</li>
+        <li><strong>Execute</strong> ausf&uuml;hren (Varianten erzeugen).</li>
+        <li>Mit &bdquo;N&auml;chsten Batch&ldquo; fortfahren, bis alle Datens&auml;tze abgearbeitet sind.</li>
+      </ol>
+
+      <h3>7. Modi</h3>
+
+      <h4>7.1 Scan (nur pr&uuml;fen)</h4>
+      <p>Im Scan-Modus werden keine Dateien erzeugt und keine Datenbank&auml;nderungen vorgenommen. Sie erhalten eine &Uuml;bersicht, welche Varianten fehlen.</p>
+      <pre>
+/admin/mits_imageslider_regenerate_variants.php?mode=scan&amp;limit=25&amp;offset=0
+      </pre>
+
+      <h4>7.2 Execute (Varianten erzeugen)</h4>
+      <p>Im Execute-Modus werden Varianten erzeugt bzw. aktualisiert (WebP + <code>srcset/</code> Derivate). Datenbank&auml;nderungen sind optional und m&uuml;ssen im Tool explizit best&auml;tigt werden.</p>
+      <pre>
+/admin/mits_imageslider_regenerate_variants.php?mode=execute&amp;limit=25&amp;offset=0
+      </pre>
+
+      <h4>7.3 Hinweis: Execute ohne DB-Best&auml;tigung (confirm=YES)</h4>
+      <p>Im Modus <code>execute</code> gilt:</p>
+      <ul>
+        <li><strong>ohne</strong> Best&auml;tigung (<code>confirm</code> nicht <code>YES</code>): Es werden nur &bdquo;sichere&ldquo; Basisformate <strong>JPG/PNG</strong> verarbeitet, damit sich keine Dateinamen/Dateitypen &auml;ndern, ohne dass die Datenbank nachgezogen wird.</li>
+        <li><strong>mit</strong> Best&auml;tigung (<code>confirm=YES</code>): Es k&ouml;nnen auch F&auml;lle verarbeitet werden, bei denen sich der Dateiname/Dateityp &auml;ndert (z.B. <code>jpeg/jpe &rarr; jpg</code>, <code>webp &rarr; jpg</code>), und die Datenbank wird entsprechend aktualisiert.</li>
+      </ul>
+      <p><strong>Empfehlung:</strong> Erst <code>scan</code> ausf&uuml;hren, Backup erstellen und danach <code>execute</code> <strong>mit</strong> Best&auml;tigung durchf&uuml;hren.</p>
+
+
+      <h3>8. Parameter</h3>
+      <ul>
+        <li><strong>mode</strong>: <code>scan</code> oder <code>execute</code></li>
+        <li><strong>limit</strong>: Anzahl Datens&auml;tze pro Batch (Standard: 25)</li>
+        <li><strong>offset</strong>: Startposition des aktuellen Batches</li>
+      </ul>
+
+      <p>Beispiel f&uuml;r einen gr&ouml;&szlig;eren Batch:</p>
+      <pre>
+/admin/mits_imageslider_regenerate_variants.php?mode=execute&amp;limit=50&amp;offset=100
+      </pre>
+
+      <h3>9. Datenbank-Updates (optional)</h3>
+      <p>Wenn Sie DB-Updates im Tool best&auml;tigen, kann das Tool:</p>
+      <ul>
+        <li>Bildpfade normalisieren (z.B. <code>.jpeg</code> / <code>.jpe</code> &rarr; <code>.jpg</code>)</li>
+        <li>Breite/H&ouml;he-Felder aktualisieren (verringert CLS, verbessert Stabilit&auml;t)</li>
+      </ul>
+
+      <p class="hinweis"><strong>Hinweis:</strong><br/>
+      Datenbank&auml;nderungen werden nur ausgef&uuml;hrt, wenn Sie diese im Tool explizit aktivieren/best&auml;tigen. Bitte erstellen Sie vorher ein Backup.</p>
+
+      <h3>10. Ausgabe / Fehlermeldungen</h3>
+      <p>Typische Log-Ausgaben:</p>
+      <ul>
+        <li><code>missing ...</code> &ndash; Datei nicht gefunden</li>
+        <li><code>skip (ext) ...</code> &ndash; Endung nicht unterst&uuml;tzt</li>
+        <li><code>generated variants ...</code> &ndash; Varianten wurden erzeugt</li>
+        <li><code>path updated ...</code> &ndash; DB-Pfad wurde angepasst</li>
+        <li><code>dims ... -&gt; ...</code> &ndash; Breite/H&ouml;he wurden aktualisiert</li>
+      </ul>
+
+      <h3>11. Best Practices / Tipps</h3>
+      <ul>
+        <li>Nach dem Lauf ggf. Template-/Cache leeren (falls aktiv), damit neue <code>&lt;picture&gt;</code>/<code>srcset</code>-Ausgaben sofort sichtbar werden.</li>
+        <li>Bei sehr vielen Bildern zuerst mit kleineren Batches starten (<code>limit=25</code>), dann erh&ouml;hen.</li>
+        <li>Wenn keine WebP-Dateien entstehen: pr&uuml;fen, ob <code>imagewebp()</code> verf&uuml;gbar ist.</li>
+      </ul>
+
+      <h3>12. Troubleshooting</h3>
+      <p><strong>Im Frontend wird nur Desktop geladen / kein <code>&lt;picture&gt;</code> sichtbar</strong></p>
+      <ul>
+        <li>HTML-Quelltext pr&uuml;fen: Enth&auml;lt er <code>&lt;picture&gt;</code> bzw. <code>type=&quot;image/webp&quot;</code>?</li>
+        <li>Pr&uuml;fen, ob mobile/tablet-Dateien existieren und die DB-Felder gef&uuml;llt sind.</li>
+        <li>Pr&uuml;fen, ob im Template/Smarty die Ausgabe nicht durch Caching &uuml;berlagert wird.</li>
+      </ul>
+
+      <p><a href="#top" class="imagebutton">Nach oben</a></p>
+
+</div>
+  </main>
+  <footer>
+    <a href="https://www.merz-it-service.de/Impressum:_:4.html" target="_blank" class="imagebutton">Impressum</a>
+      <p class="copyrightinfo">
+          Aufgef&uuml;hrte Warenzeichen und Markennamen sind Eigentum ihrer jeweiligen Inhaber.<br />Copyright &copy; <?php echo date('Y');?> <a href="https://www.merz-it-service.de" target="_blank">MerZ IT-SerVice - Internetsolutions for eCommerce and eBusiness</a>
+      </p>
+  </footer>
+</body>
+</html>

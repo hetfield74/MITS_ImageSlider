@@ -48,6 +48,8 @@ $lang_array = array(
     </div>
     <p>Bei Fragen, Problemen oder W&uuml;nschen zu diesem Modul oder auch zu anderen Anliegen rund um die modified eCommerce Shopsoftware nehmen Sie einfach Kontakt zu uns auf:</p> 
     <div style="text-align:center;"><a style="background:#6a9;color:#444" target="_blank" href="https://www.merz-it-service.de/Kontakt.html" class="button" onclick="this.blur();">Kontaktseite auf MerZ-IT-SerVice.de</strong></a></div>
+    
+    
 ',
   'MODULE_' . $modulname . '_STATUS_TITLE'              => 'MITS ImageSlider-Modul aktivieren?',
   'MODULE_' . $modulname . '_STATUS_DESC'               => 'Das Modul MITS ImageSlider aktivieren',
@@ -79,6 +81,7 @@ $lang_array = array(
   'MODULE_' . $modulname . '_DELETE_MODUL'              => 'MITS ImageSlider komplett vom Server entfernen',
   'MODULE_' . $modulname . '_CONFIRM_DELETE_MODUL'      => 'M&ouml;chten sie das Modul MITS ImageSlider mit allen Dateien wirklich vom Server l&ouml;schen?',
   'MODULE_' . $modulname . '_DELETE_FINISHED'           => 'Das Modul MITS ImageSlider wurde vom Server gel&ouml;scht.',
+  'MODULE_' . $modulname . '_GENERATE_VARIANTS'         => 'Fehlende Aufl&ouml;sungen und Fallbacks generieren.',
 );
 
 foreach ($lang_array as $key => $val) {

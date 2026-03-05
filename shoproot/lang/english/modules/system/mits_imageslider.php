@@ -71,7 +71,14 @@ $lang_array = array(
   'MODULE_' . $modulname . '_LAZYLOAD_TITLE'            => 'Lazy Load',
   'MODULE_' . $modulname . '_LAZYLOAD_DESC'             => 'Activate support for lazyload?',
   'MODULE_' . $modulname . '_UPDATE_AVAILABLE_TITLE'    => ' <span style="font-weight:bold;color:#900;background:#ff6;padding:2px;border:1px solid #900;">Please carry out module updates!</span>',
-  'MODULE_' . $modulname . '_UPDATE_AVAILABLE_DESC'     => ''
+  'MODULE_' . $modulname . '_UPDATE_AVAILABLE_DESC'     => '',
+  'MODULE_' . $modulname . '_UPDATE_FINISHED'           => 'Das Modul MITS ImageSlider wurde aktualisiert.',
+  'MODULE_' . $modulname . '_UPDATE_ERROR'              => 'Error',
+  'MODULE_' . $modulname . '_UPDATE_MODUL'              => 'Modul aktualisieren',
+  'MODULE_' . $modulname . '_DELETE_MODUL'              => 'MITS ImageSlider komplett vom Server entfernen',
+  'MODULE_' . $modulname . '_CONFIRM_DELETE_MODUL'      => 'M&ouml;chten sie das Modul MITS ImageSlider mit allen Dateien wirklich vom Server l&ouml;schen?',
+  'MODULE_' . $modulname . '_DELETE_FINISHED'           => 'Das Modul MITS ImageSlider wurde vom Server gel&ouml;scht.',
+  'MODULE_' . $modulname . '_GENERATE_VARIANTS'         => 'Fehlende Aufl&ouml;sungen und Fallbacks generieren.',
 );
 
 foreach ($lang_array as $key => $val) {
