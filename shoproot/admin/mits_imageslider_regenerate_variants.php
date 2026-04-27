@@ -376,7 +376,9 @@ require_once(DIR_WS_INCLUDES . 'header.php'); ?>
             <strong><?php
                 echo MITS_IMAGESLIDER_VARIANTS_EXECUTE_MODE; ?></strong>
               <?php
-              echo MITS_IMAGESLIDER_VARIANTS_PLEASE_CONFIRM; ?>
+              echo MITS_IMAGESLIDER_VARIANTS_PLEASE_CONFIRM; 
+							echo xtc_draw_form('imagesliders', basename(__FILE__), '', 'post');
+							?>
             <form method="post" style="margin-top:10px">
               <input type="hidden" name="confirm" value="YES">
               <button class="btn" type="submit"><?php

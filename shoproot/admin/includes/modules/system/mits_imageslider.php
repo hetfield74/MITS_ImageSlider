@@ -30,7 +30,7 @@ class mits_imageslider
     {
         $this->code = 'mits_imageslider';
         $this->name = 'MODULE_' . strtoupper($this->code);
-        $this->version = '2.24';
+        $this->version = '2.26';
         $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
         $this->enabled = defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true');
 
@@ -168,12 +168,7 @@ class mits_imageslider
     ###SLIDERITEM###    
     <div class=\"slider_item\">
       <a href=\"{LINK}\" title=\"{TITLE}\" {LINKTARGET}>
-        <picture>
-          <source media=\"(max-width:600px)\" data-srcset=\"{MOBILEIMAGE}\">
-          <source media=\"(max-width:1023px)\" data-srcset=\"{TABLETIMAGE}\">
-          <source data-srcset=\"{MAINIMAGE}\">
-          <img class=\"lazyload\" data-src=\"{MAINIMAGE}\" alt=\"{IMAGEALT}\" title=\"{TITLE}\" />
-        </picture>        
+        {PICTURESET} 
       </a>
     </div>
     ###SLIDERITEM###

@@ -25,7 +25,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
   $languages = xtc_get_languages();
 
   //display per page
-  $cfg_max_display_results_key = defined('MODULE_MITS_IMAGESLIDER_MAX_DISPLAY_RESULTS') ? MODULE_MITS_IMAGESLIDER_MAX_DISPLAY_RESULTS : 20;
+  $cfg_max_display_results_key = defined('MODULE_MITS_IMAGESLIDER_MAX_DISPLAY_RESULTS') ? 'MODULE_MITS_IMAGESLIDER_MAX_DISPLAY_RESULTS' : 20;
   $page_max_display_results = xtc_cfg_save_max_display_results($cfg_max_display_results_key);
 
   require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php');
