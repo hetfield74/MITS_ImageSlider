@@ -40,6 +40,31 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       $imagesliders_sorting = (isset($_POST['imagesliders_sorting']) ? xtc_db_prepare_input($_POST['imagesliders_sorting']) : '');
       $new_imagesliders_group = (isset($_POST['new_imagesliders_group']) ? xtc_db_prepare_input(strtolower($_POST['new_imagesliders_group'])) : '');
       $imagesliders_group = ((empty($new_imagesliders_group)) ? (isset($_POST['imagesliders_group']) ? xtc_db_prepare_input($_POST['imagesliders_group']) : 'mits_imageslider') : $new_imagesliders_group);
+      $imagesliders_recurring = (isset($_POST['imagesliders_recurring']) && $_POST['imagesliders_recurring'] == '1') ? 1 : 0;
+
+      $date_scheduled = 'null';
+      $expires_date = 'null';
+      $recurring_start_md = 'null';
+      $recurring_end_md = 'null';
+
+      if (isset($_POST['date_scheduled']) && $_POST['date_scheduled'] != '' && $_POST['date_scheduled'] != '0000-00-00 00:00:00') {
+        $date_scheduled_timestamp = strtotime($_POST['date_scheduled']);
+        if ($date_scheduled_timestamp !== false) {
+          $date_scheduled = date('Y-m-d 00:00:00', $date_scheduled_timestamp);
+          $recurring_start_md = date('m-d', $date_scheduled_timestamp);
+        }
+      }
+      if (isset($_POST['expires_date']) && $_POST['expires_date'] != '' && $_POST['expires_date'] != '0000-00-00 00:00:00') {
+        $expires_date_timestamp = strtotime($_POST['expires_date']);
+        if ($expires_date_timestamp !== false) {
+          $expires_date = date('Y-m-d 23:59:59', $expires_date_timestamp);
+          $recurring_end_md = date('m-d', $expires_date_timestamp);
+        }
+      }
+      if ($imagesliders_recurring != 1) {
+        $recurring_start_md = 'null';
+        $recurring_end_md = 'null';
+      }
 
       $imageslider_error = false;
       if (empty($imagesliders_name)) {
@@ -52,12 +77,15 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       }
 
       $sql_data_array = array(
-        'imagesliders_name'  => $imagesliders_name,
-        'status'             => $imagesliders_status,
-        'sorting'            => $imagesliders_sorting,
-        'imagesliders_group' => $imagesliders_group,
-        'expires_date'       => 'null',
-        'date_scheduled'     => 'null'
+        'imagesliders_name'    => $imagesliders_name,
+        'status'               => $imagesliders_status,
+        'sorting'              => $imagesliders_sorting,
+        'imagesliders_group'   => $imagesliders_group,
+        'date_scheduled'       => $date_scheduled,
+        'expires_date'         => $expires_date,
+        'recurring'            => $imagesliders_recurring,
+        'recurring_start_md'   => $recurring_start_md,
+        'recurring_end_md'     => $recurring_end_md
       );
       if ($imageslider_error !== true) {
         if ($action == 'insert') {
@@ -183,16 +211,6 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
               xtc_db_perform(TABLE_MITS_IMAGESLIDER_INFO, array('imagesliders_id' => $imagesliders_id, 'languages_id' => $language_id));
             }
             xtc_db_perform(TABLE_MITS_IMAGESLIDER_INFO, $lang_data_array, 'update', "imagesliders_id = '" . $imagesliders_id . "' AND languages_id = " . $language_id);
-          }
-
-          if (isset($_POST['expires_date']) && $_POST['expires_date'] != '' && $_POST['expires_date'] != '0000-00-00 00:00:00') {
-            $expires_date = date('Y-m-d 23:59:59', strtotime($_POST['expires_date']));
-            xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET expires_date = '" . xtc_db_input($expires_date) . "' WHERE imagesliders_id = " . $imagesliders_id);
-          }
-
-          if (isset($_POST['date_scheduled']) && $_POST['date_scheduled'] != '' && $_POST['date_scheduled'] != '0000-00-00 00:00:00') {
-            $date_scheduled = date('Y-m-d 00:00:00', strtotime($_POST['date_scheduled']));
-            xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET date_scheduled = '" . xtc_db_input($date_scheduled) . "' WHERE imagesliders_id = " . $imagesliders_id);
           }
 
         }
@@ -355,6 +373,14 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                 </td>
                 <td class="dataTableConfig col-right">
                   &nbsp;<?php echo draw_tooltip(TEXT_IMAGESLIDERS_EXPIRCY_NOTE); ?></td>
+              </tr>
+              <tr>
+                <td class="dataTableConfig col-left"><?php echo TEXT_IMAGESLIDERS_RECURRING; ?></td>
+                <td class="dataTableConfig col-middle">
+                  <label><?php echo xtc_draw_selection_field('imagesliders_recurring', 'checkbox', '1', ((isset($imageslider['recurring']) && $imageslider['recurring'] == 1) ? true : false)) . ' ' . TEXT_IMAGESLIDERS_RECURRING_YEARLY; ?></label>
+                </td>
+                <td class="dataTableConfig col-right">
+                  &nbsp;<?php echo draw_tooltip(TEXT_IMAGESLIDERS_RECURRING_NOTE); ?></td>
               </tr>
             </table>
             <div style="width:100%; height: 20px;"></div>
@@ -607,6 +633,9 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
 
               $contents[] = array('text' => '<br />' . TEXT_IMAGESLIDERS_SCHEDULED_AT . ' ' . xtc_date_short($iInfo->date_scheduled));
               $contents[] = array('text' => '' . TEXT_IMAGESLIDERS_EXPIRES_ON . ' ' . xtc_date_short($iInfo->expires_date));
+              if (isset($iInfo->recurring) && $iInfo->recurring == 1) {
+                $contents[] = array('text' => TEXT_IMAGESLIDERS_RECURRING . ' ' . TEXT_IMAGESLIDERS_RECURRING_YEARLY);
+              }
 
               $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . xtc_date_short($iInfo->date_added));
               if (xtc_not_null($iInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . xtc_date_short($iInfo->last_modified));

@@ -12,7 +12,6 @@
  * --------------------------------------------------------------
  */
 
-
 if (!function_exists('mits_imageslider_images_root')) {
     function mits_imageslider_images_root(): string
     {
@@ -200,13 +199,6 @@ if (!function_exists('mits_imageslider_save_image')) {
     }
 }
 
-/**
- * Generate WebP + fallback + srcset variants.
- *
- * @param string $relative_path Path relative to /images/ (e.g. imagesliders/de/mobile/foo.jpg)
- * @param string $profile One of: desktop|tablet|mobile
- * @return string Fallback relative path (jpg/png) to store in DB.
- */
 if (!function_exists('mits_imageslider_generate_variants_from_relative')) {
     function mits_imageslider_generate_variants_from_relative($relative_path, $profile = 'desktop')
     {
@@ -378,11 +370,6 @@ if (!function_exists('mits_imageslider_generate_variants_from_relative')) {
     }
 }
 
-/**
- * Delete fallback, WebP and srcset variants for a given relative path.
- *
- * @param string $relative_path Path relative to /images/
- */
 if (!function_exists('mits_imageslider_delete_variants_from_relative')) {
     function mits_imageslider_delete_variants_from_relative($relative_path): void
     {
@@ -428,15 +415,6 @@ if (!function_exists('mits_imageslider_delete_variants_from_relative')) {
     }
 }
 
-/**
- * Build a srcset string for a given fallback image.
- *
- * @param string $fallback_rel Relative fallback file (jpg/png)
- * @param string $profile mobile|tablet|desktop
- * @param string $format fallback|webp
- * @param int|null $base_width Width of base image (optional)
- * @return string srcset value
- */
 if (!function_exists('mits_imageslider_build_srcset')) {
     function mits_imageslider_build_srcset($fallback_rel, $profile = 'desktop', $format = 'fallback', $base_width = null): string
     {

@@ -15,6 +15,7 @@
 if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && defined('MODULE_MITS_IMAGESLIDER_VERSION')) {
     $lang_array = array(
       'MITS_BOX_IMAGESLIDER'    => 'MITS ImageSlider - v' . MODULE_MITS_IMAGESLIDER_VERSION,
+      'MITS_BOX_IMAGESLIDER_IMPORT_BANNERS' => 'MITS ImageSlider - Banner Import',
       'TEXT_IMAGESLIDERS_GROUP' => 'MITS ImageSlider-Group:
         <span class="tooltip"><img src="images/icons/tooltip_icon.png"  style="border:0;">
           <em>Here you can assign an existing MITS ImageSlider group, which is displayed in the frontend. The prerequisite is that the corresponding template files have been added.</em>
@@ -38,7 +39,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       'MITS_IMAGESLIDER_VARIANTS_BTN_SCAN'    => 'Scan (check only)',
       'MITS_IMAGESLIDER_VARIANTS_BTN_EXECUTE' => 'Execute (generate variants)',
       'MITS_IMAGESLIDER_VARIANTS_NOTE_LABEL'  => 'Note',
-      'MITS_IMAGESLIDER_VARIANTS_NOTE'        => 'In <code>execute</code> mode, files are generated/overwritten. DB updates happen only after confirmation.',
+      'MITS_IMAGESLIDER_VARIANTS_NOTE'        => 'Processing continues automatically in small batches until all slider images are done. Files are generated/overwritten and database paths plus width/height are updated when needed.',
 
       'MITS_IMAGESLIDER_VARIANTS_EXECUTE_MODE'           => 'Execute mode',
       'MITS_IMAGESLIDER_VARIANTS_PLEASE_CONFIRM'         => 'Please confirm to allow DB updates.',
@@ -57,6 +58,25 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
 
       'MITS_IMAGESLIDER_VARIANTS_YES' => '<span class="ok">yes</span>',
       'MITS_IMAGESLIDER_VARIANTS_NO'  => '<span class="warn">no</span>',
+
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_CREATED' => 'created',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_UPDATED' => 'exists/updated',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_MISSING' => 'missing',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_NOT_SUPPORTED' => 'not supported by server',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_NOT_NEEDED' => 'not needed / image smaller than target widths',
+      'MITS_IMAGESLIDER_VARIANTS_DETAIL_FALLBACK' => 'Fallback',
+
+
+      'MITS_IMAGESLIDER_VARIANTS_AUTO_INTRO'      => 'Processing continues automatically in small batches until all slider images are done. Please keep the browser window open.',
+      'MITS_IMAGESLIDER_VARIANTS_BTN_START_AUTO'  => 'Regenerate all images automatically',
+      'MITS_IMAGESLIDER_VARIANTS_BTN_STOP'        => 'Cancel',
+      'MITS_IMAGESLIDER_VARIANTS_BTN_RESET'       => 'Start a new run',
+      'MITS_IMAGESLIDER_VARIANTS_RUNNING'         => 'Running',
+      'MITS_IMAGESLIDER_VARIANTS_AUTO_REFRESH'    => 'The next batch starts automatically.',
+      'MITS_IMAGESLIDER_VARIANTS_STARTED'         => 'Started',
+      'MITS_IMAGESLIDER_VARIANTS_FINISHED'        => 'Finished',
+      'MITS_IMAGESLIDER_VARIANTS_BATCH_SIZE'      => 'Records per batch',
+      'MITS_IMAGESLIDER_VARIANTS_NOSCRIPT'        => 'JavaScript/meta refresh is disabled. Please start the next batch manually.',
 
       'MITS_IMAGESLIDER_VARIANTS_ERR_MODULE_DISABLED' => 'Module is not enabled.',
       'MITS_IMAGESLIDER_VARIANTS_ERR_HELPER_MISSING'  => 'Variant helper not found. Expected:',

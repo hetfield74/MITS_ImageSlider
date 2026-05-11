@@ -103,32 +103,40 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
         $tablet_width_breakpoint = defined('MODULE_MITS_IMAGESLIDER_TABLETWIDTH') && MODULE_MITS_IMAGESLIDER_TABLETWIDTH != '' ? MODULE_MITS_IMAGESLIDER_TABLETWIDTH : '1023';
         $group = strtolower($group);
 
-        $date_sliders_query = xtc_db_query("SELECT imagesliders_id, expires_date, date_scheduled FROM " . TABLE_MITS_IMAGESLIDER . " WHERE imagesliders_group = '" . xtc_db_input($group) . "'");
-        if (xtc_db_num_rows($date_sliders_query)) {
-            while ($date_sliders = xtc_db_fetch_array($date_sliders_query)) {
-                if (xtc_not_null($date_sliders['date_scheduled'])) {
-                    if (date('Y-m-d H:i:s') >= $date_sliders['date_scheduled']) {
-                        xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET status = 0 WHERE imagesliders_id = " . (int)$date_sliders['imagesliders_id']);
-                    }
-                }
-                if (xtc_not_null($date_sliders['expires_date'])) {
-                    if (date('Y-m-d H:i:s') >= $date_sliders['expires_date']) {
-                        xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET status = 1 WHERE imagesliders_id = " . (int)$date_sliders['imagesliders_id']);
-                    }
-                }
-            }
-        }
+        $today_md = xtc_db_input(date('m-d'));
+        $date_validity_sql = "
+          AND (
+            (
+              (i.recurring IS NULL OR i.recurring = 0)
+              AND (i.date_scheduled IS NULL OR i.date_scheduled = '0000-00-00 00:00:00' OR i.date_scheduled <= NOW())
+              AND (i.expires_date IS NULL OR i.expires_date = '0000-00-00 00:00:00' OR i.expires_date >= NOW())
+            )
+            OR
+            (
+              i.recurring = 1
+              AND i.recurring_start_md IS NOT NULL
+              AND i.recurring_start_md != ''
+              AND i.recurring_end_md IS NOT NULL
+              AND i.recurring_end_md != ''
+              AND (
+                (i.recurring_start_md <= i.recurring_end_md AND '" . $today_md . "' BETWEEN i.recurring_start_md AND i.recurring_end_md)
+                OR
+                (i.recurring_start_md > i.recurring_end_md AND ('" . $today_md . "' >= i.recurring_start_md OR '" . $today_md . "' <= i.recurring_end_md))
+              )
+            )
+          )";
 
         $mits_imagesliders_query = xtDBquery(
-          "SELECT * 
-                                            FROM " . TABLE_MITS_IMAGESLIDER . " i, 
-                                                 " . TABLE_MITS_IMAGESLIDER_INFO . " ii
-													                 WHERE ii.languages_id = " . (int)$_SESSION['languages_id'] . "
-													                   AND i.imagesliders_id = ii.imagesliders_id
-													                   AND ii.imagesliders_image != ''
-													                   AND i.status = 0
-													                   AND i.imagesliders_group = '" . xtc_db_input($group) . "'
-													              ORDER BY i.sorting, i.imagesliders_id ASC"
+          "SELECT *
+             FROM " . TABLE_MITS_IMAGESLIDER . " i,
+                  " . TABLE_MITS_IMAGESLIDER_INFO . " ii
+            WHERE ii.languages_id = " . (int)$_SESSION['languages_id'] . "
+              AND i.imagesliders_id = ii.imagesliders_id
+              AND ii.imagesliders_image != ''
+              AND i.status = 0
+              AND i.imagesliders_group = '" . xtc_db_input($group) . "'"
+              . $date_validity_sql . "
+         ORDER BY i.sorting, i.imagesliders_id ASC"
         );
         if (xtc_db_num_rows($mits_imagesliders_query, true)) {
             $datasrc = (defined('MODULE_MITS_IMAGESLIDER_LAZYLOAD') && MODULE_MITS_IMAGESLIDER_LAZYLOAD == 'true') ? 'data-' : '';

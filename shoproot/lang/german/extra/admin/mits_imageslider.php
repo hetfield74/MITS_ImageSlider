@@ -15,6 +15,7 @@
 if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true' && defined('MODULE_MITS_IMAGESLIDER_VERSION')) {
     $lang_array = array(
       'MITS_BOX_IMAGESLIDER'    => 'MITS ImageSlider - v' . MODULE_MITS_IMAGESLIDER_VERSION,
+      'MITS_BOX_IMAGESLIDER_IMPORT_BANNERS' => 'MITS ImageSlider - Banner-Import',
       'TEXT_IMAGESLIDERS_GROUP' => 'MITS ImageSlider-Gruppe:
         <span class="tooltip"><img src="images/icons/tooltip_icon.png"  style="border:0;">
           <em>Hier k&ouml;nnen Sie eine bestehende MITS ImageSlider-Gruppe zuordnen, die im Frontend angezeigt werden soll. Voraussetzung ist nat&uuml;rlich, dass die entsprechenden Template-Dateien erg&auml;nzt wurden.</em>
@@ -38,7 +39,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       'MITS_IMAGESLIDER_VARIANTS_BTN_SCAN'    => 'Scan (nur pr&uuml;fen)',
       'MITS_IMAGESLIDER_VARIANTS_BTN_EXECUTE' => 'Execute (Varianten erzeugen)',
       'MITS_IMAGESLIDER_VARIANTS_NOTE_LABEL'  => 'Hinweis',
-      'MITS_IMAGESLIDER_VARIANTS_NOTE'        => 'Im Modus <code>execute</code> werden Dateien erzeugt/&uuml;berschrieben. DB-Updates passieren erst nach Best&auml;tigung.',
+      'MITS_IMAGESLIDER_VARIANTS_NOTE'        => 'Die Verarbeitung l&auml;uft automatisch in kleinen Batches weiter, bis alle Sliderbilder fertig sind. Dateien werden erzeugt/&uuml;berschrieben und Datenbankpfade sowie Width/Height werden bei Bedarf aktualisiert.',
 
       'MITS_IMAGESLIDER_VARIANTS_EXECUTE_MODE'           => 'Execute-Modus',
       'MITS_IMAGESLIDER_VARIANTS_PLEASE_CONFIRM'         => 'Bitte best&auml;tigen, damit DB-Updates durchgef&uuml;hrt werden.',
@@ -57,6 +58,25 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
 
       'MITS_IMAGESLIDER_VARIANTS_YES' => '<span class="ok">ja</span>',
       'MITS_IMAGESLIDER_VARIANTS_NO'  => '<span class="warn">nein</span>',
+
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_CREATED' => 'neu erzeugt',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_UPDATED' => 'vorhanden/aktualisiert',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_MISSING' => 'fehlt',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_NOT_SUPPORTED' => 'vom Server nicht unterst&uuml;tzt',
+      'MITS_IMAGESLIDER_VARIANTS_STATUS_NOT_NEEDED' => 'nicht n&ouml;tig / Bild kleiner als Zielbreiten',
+      'MITS_IMAGESLIDER_VARIANTS_DETAIL_FALLBACK' => 'Fallback',
+
+
+      'MITS_IMAGESLIDER_VARIANTS_AUTO_INTRO'      => 'Die Verarbeitung l&auml;uft automatisch in kleinen Batches weiter, bis alle Sliderbilder fertig sind. Das Browserfenster bitte ge&ouml;ffnet lassen.',
+      'MITS_IMAGESLIDER_VARIANTS_BTN_START_AUTO'  => 'Alle Bilder automatisch regenerieren',
+      'MITS_IMAGESLIDER_VARIANTS_BTN_STOP'        => 'Abbrechen',
+      'MITS_IMAGESLIDER_VARIANTS_BTN_RESET'       => 'Neue Verarbeitung starten',
+      'MITS_IMAGESLIDER_VARIANTS_RUNNING'         => 'L&auml;uft',
+      'MITS_IMAGESLIDER_VARIANTS_AUTO_REFRESH'    => 'Der n&auml;chste Batch startet automatisch.',
+      'MITS_IMAGESLIDER_VARIANTS_STARTED'         => 'Gestartet',
+      'MITS_IMAGESLIDER_VARIANTS_FINISHED'        => 'Beendet',
+      'MITS_IMAGESLIDER_VARIANTS_BATCH_SIZE'      => 'Datens&auml;tze pro Batch',
+      'MITS_IMAGESLIDER_VARIANTS_NOSCRIPT'        => 'JavaScript/Meta-Refresh ist deaktiviert. Bitte den n&auml;chsten Batch manuell starten.',
 
       'MITS_IMAGESLIDER_VARIANTS_ERR_MODULE_DISABLED' => 'Modul ist nicht aktiviert.',
       'MITS_IMAGESLIDER_VARIANTS_ERR_HELPER_MISSING'  => 'Variant-Helper nicht gefunden. Erwartet:',
