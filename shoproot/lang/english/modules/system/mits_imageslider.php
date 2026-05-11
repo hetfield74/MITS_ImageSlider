@@ -78,7 +78,10 @@ $lang_array = array(
   'MODULE_' . $modulname . '_DELETE_MODUL'              => 'MITS ImageSlider komplett vom Server entfernen',
   'MODULE_' . $modulname . '_CONFIRM_DELETE_MODUL'      => 'M&ouml;chten sie das Modul MITS ImageSlider mit allen Dateien wirklich vom Server l&ouml;schen?',
   'MODULE_' . $modulname . '_DELETE_FINISHED'           => 'Das Modul MITS ImageSlider wurde vom Server gel&ouml;scht.',
-  'MODULE_' . $modulname . '_GENERATE_VARIANTS'         => 'Fehlende Aufl&ouml;sungen und Fallbacks generieren.',
+  'MODULE_' . $modulname . '_GENERATE_VARIANTS'         => 'Generate missing resolutions and fallbacks.',
+  'MODULE_' . $modulname . '_GENERATE_VARIANTS_DESC'    => 'Automatically regenerates WebP, JPG/PNG fallback and srcset variants for all existing ImageSlider images.',
+  'MODULE_' . $modulname . '_IMPORT_BANNERS'            => 'Import Banner Manager.',
+  'MODULE_' . $modulname . '_IMPORT_BANNERS_DESC'       => 'Imports banner groups and banner entries from the Banner Manager into MITS ImageSlider.',
 );
 
 foreach ($lang_array as $key => $val) {

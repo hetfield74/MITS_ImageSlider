@@ -14,3 +14,4 @@
 
 defined('FILENAME_MITS_IMAGESLIDER') or define('FILENAME_MITS_IMAGESLIDER', 'mits_imageslider.php');
 defined('FILENAME_MITS_IMAGESLIDER_GENERATE_VARIANTS') or define('FILENAME_MITS_IMAGESLIDER_GENERATE_VARIANTS', 'mits_imageslider_regenerate_variants.php');
+defined('FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS') or define('FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS', 'mits_imageslider_import_banners.php');
