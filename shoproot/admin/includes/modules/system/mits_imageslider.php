@@ -33,7 +33,7 @@ class mits_imageslider
     {
         $this->code = 'mits_imageslider';
         $this->name = 'MODULE_' . strtoupper($this->code);
-        $this->version = '2.36.0';
+        $this->version = '2.36.1';
 
         $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
         $this->enabled = defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true');

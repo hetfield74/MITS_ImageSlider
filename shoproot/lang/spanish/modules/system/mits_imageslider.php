@@ -26,10 +26,6 @@ $lang_array = array(
     </a><br />
     <p>Con el m&oacute;dulo MITS ImageSlider puede crear una presentaci&oacute;n de im&aacute;genes en la p&aacute;gina de inicio de su tienda. Las im&aacute;genes pueden enlazarse con categor&iacute;as, productos, contenido, otras p&aacute;ginas de la tienda o direcciones externas.</p>
     <div style="text-align:center;margin:20px 0;"><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>MITS ImageSlider</u></strong></a></div>
-    <div style="text-align:center;">
-      <small>Solo en Github est&aacute; siempre disponible la versi&oacute;n m&aacute;s reciente del m&oacute;dulo.</small><br />
-      <a style="background:#6a9;color:#444" target="_blank" href="https://github.com/hetfield74/MITS_ImageSlider" class="button" onclick="this.blur();">MITS_ImageSlider on Github</a>
-    </div>
     <p>MerZ IT-SerVice</p> 
     <div style="text-align:center;"><a style="background:#6a9;color:#444" target="_blank" href="https://www.merz-it-service.de/Kontakt.html" class="button" onclick="this.blur();">P&aacute;gina de contacto MerZ-IT-SerVice.de</a></div>
 ',

@@ -26,10 +26,6 @@ $lang_array = array(
     </a><br />
     <p>Con il modulo MITS ImageSlider puoi creare una slideshow di immagini nella homepage del tuo shop. Le immagini possono essere collegate a categorie, prodotti, contenuti, altre pagine dello shop o indirizzi esterni.</p>
     <div style="text-align:center;margin:20px 0;"><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>MITS ImageSlider</u></strong></a></div>
-    <div style="text-align:center;">
-      <small>Solo su Github &egrave; sempre disponibile la versione pi&ugrave; recente del modulo!</small><br />
-      <a style="background:#6a9;color:#444" target="_blank" href="https://github.com/hetfield74/MITS_ImageSlider" class="button" onclick="this.blur();">MITS_ImageSlider on Github</a>
-    </div>
     <p>MerZ IT-SerVice</p> 
     <div style="text-align:center;"><a style="background:#6a9;color:#444" target="_blank" href="https://www.merz-it-service.de/Kontakt.html" class="button" onclick="this.blur();">Pagina contatti MerZ-IT-SerVice.de</a></div>
 ',

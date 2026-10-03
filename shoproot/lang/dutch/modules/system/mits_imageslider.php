@@ -26,10 +26,6 @@ $lang_array = array(
     </a><br />
     <p>Met de MITS ImageSlider-module kunt u een afbeeldingenslideshow op de startpagina van uw shop maken. Afbeeldingen kunnen worden gekoppeld aan categorie&euml;n, producten, content, andere shoppagina&rsquo;s of externe adressen.</p>
     <div style="text-align:center;margin:20px 0;"><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>MITS ImageSlider</u></strong></a></div>
-    <div style="text-align:center;">
-      <small>Alleen op Github is altijd de nieuwste versie van de module beschikbaar!</small><br />
-      <a style="background:#6a9;color:#444" target="_blank" href="https://github.com/hetfield74/MITS_ImageSlider" class="button" onclick="this.blur();">MITS_ImageSlider on Github</a>
-    </div>
     <p>MerZ IT-SerVice</p> 
     <div style="text-align:center;"><a style="background:#6a9;color:#444" target="_blank" href="https://www.merz-it-service.de/Kontakt.html" class="button" onclick="this.blur();">Contactpagina op MerZ-IT-SerVice.de</a></div>
 ',

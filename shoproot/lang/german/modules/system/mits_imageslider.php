@@ -42,10 +42,6 @@ $lang_array = array(
     <p>Mit dem MITS ImageSlider-Modul k&ouml;nnen Sie eine Bilderslideshow auf der Startseite Ihres Shops erstellen. Sie k&ouml;nnen dort wechselnde Bilder mit Kategorien, Produkten, Content oder anderen Shopseiten ohne Sessionverlust verlinken oder zu einer externen Adresse verlinken.</p>
     <p>Das bereits mehrere tausendfach bew&auml;hrte MITS ImageSlider-Modul &copy by Hetfield erhalten Sie im Original nur vom Hersteller unter <a target="_blank" href="https://www.merz-it-service.de"><strong><u>MerZ IT-SerVice</u></strong></a> f&uuml;r Ihre modified eCommerce Shopsoftware.</p>
     <div style="text-align:center;margin:20px 0;"><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'Anleitung f&uuml;r das Modul MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>Anleitung f&uuml;r das Modul MITS ImageSlider</u></strong></a></div>
-    <div style="text-align:center;">
-      <small>Nur auf Github gibt es immer die aktuellste Version des Moduls!</small><br />
-      <a style="background:#6a9;color:#444" target="_blank" href="https://github.com/hetfield74/MITS_ImageSlider" class="button" onclick="this.blur();">MITS_ImageSlider on Github</a>
-    </div>
     <p>Bei Fragen, Problemen oder W&uuml;nschen zu diesem Modul oder auch zu anderen Anliegen rund um die modified eCommerce Shopsoftware nehmen Sie einfach Kontakt zu uns auf:</p> 
     <div style="text-align:center;"><a style="background:#6a9;color:#444" target="_blank" href="https://www.merz-it-service.de/Kontakt.html" class="button" onclick="this.blur();">Kontaktseite auf MerZ-IT-SerVice.de</strong></a></div>
     

@@ -26,10 +26,6 @@ $lang_array = array(
     </a><br />
     <p>Le module MITS ImageSlider permet de cr&eacute;er un diaporama d&rsquo;images pour la page d&rsquo;accueil de votre boutique. Les images peuvent &ecirc;tre li&eacute;es &agrave; des cat&eacute;gories, produits, contenus, autres pages de la boutique ou adresses externes.</p>
     <div style="text-align:center;margin:20px 0;"><a href="https://imageslider.merz-it-service.de/readme.html" target="_blank" onclick="window.open(\'https://imageslider.merz-it-service.de/readme.html\', \'MITS ImageSlider\', \'scrollbars=yes,resizable=yes,menubar=yes,width=960,height=600\'); return false"><strong><u>MITS ImageSlider</u></strong></a></div>
-    <div style="text-align:center;">
-      <small>La derni&egrave;re version du module est toujours disponible uniquement sur Github!</small><br />
-      <a style="background:#6a9;color:#444" target="_blank" href="https://github.com/hetfield74/MITS_ImageSlider" class="button" onclick="this.blur();">MITS_ImageSlider on Github</a>
-    </div>
     <p>MerZ IT-SerVice</p> 
     <div style="text-align:center;"><a style="background:#6a9;color:#444" target="_blank" href="https://www.merz-it-service.de/Kontakt.html" class="button" onclick="this.blur();">Page de contact MerZ-IT-SerVice.de</a></div>
 ',
