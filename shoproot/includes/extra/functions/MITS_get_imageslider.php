@@ -12,10 +12,85 @@
  * --------------------------------------------------------------
  */
 
+if (!function_exists('mits_imageslider_output_charset')) {
+    function mits_imageslider_output_charset()
+    {
+        $charset = !empty($_SESSION['language_charset']) ? $_SESSION['language_charset'] : (defined('CHARSET') ? CHARSET : 'UTF-8');
+        $charset_lc = strtolower((string)$charset);
+        return ($charset_lc == 'utf8' || $charset_lc == 'utf-8') ? 'UTF-8' : (string)$charset;
+    }
+}
+
+if (!function_exists('mits_imageslider_h')) {
+    function mits_imageslider_h($value)
+    {
+        return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, mits_imageslider_output_charset());
+    }
+}
+
+if (!function_exists('mits_imageslider_safe_href')) {
+    function mits_imageslider_safe_href($url)
+    {
+        $url = trim((string)$url);
+        if ($url == '') {
+            return '';
+        }
+        if (function_exists('mits_imageslider_is_allowed_url_scheme')) {
+            if (!mits_imageslider_is_allowed_url_scheme($url)) {
+                return '';
+            }
+        } elseif (preg_match('#^([a-z][a-z0-9+.-]*):#i', $url, $match)) {
+            if (!in_array(strtolower($match[1]), array('http', 'https', 'mailto', 'tel'), true)) {
+                return '';
+            }
+        }
+        if (strpos($url, '//') === 0) {
+            $url = 'https:' . $url;
+        }
+        return mits_imageslider_h($url);
+    }
+}
+
+if (!function_exists('mits_imageslider_target_attr')) {
+    function mits_imageslider_target_attr($target_id)
+    {
+        switch ((int)$target_id) {
+            case 1:
+                return ' target="_blank" rel="noopener noreferrer"';
+            case 2:
+                return ' target="_top"';
+            case 3:
+                return ' target="_self"';
+            case 4:
+                return ' target="_parent"';
+            default:
+                return '';
+        }
+    }
+}
+
+if (!function_exists('mits_imageslider_link_attrs')) {
+    function mits_imageslider_link_attrs($url, $linktitle, $target)
+    {
+        $href = mits_imageslider_safe_href($url);
+        if ($href == '') {
+            return '';
+        }
+        return ' href="' . $href . '"' . (((string)$linktitle != '') ? ' title="' . mits_imageslider_h($linktitle) . '"' : '') . $target;
+    }
+}
+
 if (!function_exists('mits_imageslider_render_image')) {
 
-    function mits_imageslider_render_image($sd, $index, $mobile_bp, $tablet_bp, $datasrc, $lazyloadclass)
+    function mits_imageslider_render_image($sd, $index, $mobile_bp, $tablet_bp, $datasrc, $lazyloadclass, $options = array())
     {
+        $options = is_array($options) ? $options : array();
+        $sizes_attr = isset($options['sizes']) && trim((string)$options['sizes']) != '' ? trim((string)$options['sizes']) : '100vw';
+        $img_class = isset($options['img_class']) && trim((string)$options['img_class']) != '' ? trim((string)$options['img_class']) : '';
+        $use_main_dimensions = !empty($options['use_main_dimensions']);
+        $img_alt = isset($sd['alt_raw']) ? $sd['alt_raw'] : (isset($sd['alt']) ? $sd['alt'] : '');
+        $img_title = isset($sd['title_raw']) ? $sd['title_raw'] : (isset($sd['title']) ? $sd['title'] : '');
+
         $has_main = (!empty($sd['main_rel']) && !empty($sd['main_image']));
         $has_tablet = (!empty($sd['tablet_rel']) && !empty($sd['tablet_image']));
         $has_mobile = (!empty($sd['mobile_rel']) && !empty($sd['mobile_image']));
@@ -36,7 +111,6 @@ if (!function_exists('mits_imageslider_render_image')) {
         $use_picture = ($has_mobile || $has_tablet || $has_webp);
 
         $srcset_prefix = ($index == 0) ? '' : $datasrc;
-        $sizes_attr = '100vw';
 
         if ($use_picture && function_exists('mits_imageslider_build_srcset')) {
             $html = '<picture>';
@@ -45,10 +119,10 @@ if (!function_exists('mits_imageslider_render_image')) {
                 $webp = mits_imageslider_build_srcset($sd['mobile_rel'], 'mobile', 'webp', $sd['mobile_width'] ?? null);
                 $fallback = mits_imageslider_build_srcset($sd['mobile_rel'], 'mobile', 'fallback', $sd['mobile_width'] ?? null);
                 if ($webp !== '') {
-                    $html .= '<source type="image/webp" media="(max-width:' . (int)$mobile_bp . 'px)" ' . $srcset_prefix . 'srcset="' . $webp . '" sizes="' . $sizes_attr . '">';
+                    $html .= '<source type="image/webp" media="(max-width:' . (int)$mobile_bp . 'px)" ' . $srcset_prefix . 'srcset="' . mits_imageslider_h($webp) . '" sizes="' . mits_imageslider_h($sizes_attr) . '">';
                 }
                 if ($fallback !== '') {
-                    $html .= '<source media="(max-width:' . (int)$mobile_bp . 'px)" ' . $srcset_prefix . 'srcset="' . $fallback . '" sizes="' . $sizes_attr . '">';
+                    $html .= '<source media="(max-width:' . (int)$mobile_bp . 'px)" ' . $srcset_prefix . 'srcset="' . mits_imageslider_h($fallback) . '" sizes="' . mits_imageslider_h($sizes_attr) . '">';
                 }
             }
 
@@ -56,10 +130,10 @@ if (!function_exists('mits_imageslider_render_image')) {
                 $webp = mits_imageslider_build_srcset($sd['tablet_rel'], 'tablet', 'webp', $sd['tablet_width'] ?? null);
                 $fallback = mits_imageslider_build_srcset($sd['tablet_rel'], 'tablet', 'fallback', $sd['tablet_width'] ?? null);
                 if ($webp !== '') {
-                    $html .= '<source type="image/webp" media="(max-width:' . (int)$tablet_bp . 'px)" ' . $srcset_prefix . 'srcset="' . $webp . '" sizes="' . $sizes_attr . '">';
+                    $html .= '<source type="image/webp" media="(max-width:' . (int)$tablet_bp . 'px)" ' . $srcset_prefix . 'srcset="' . mits_imageslider_h($webp) . '" sizes="' . mits_imageslider_h($sizes_attr) . '">';
                 }
                 if ($fallback !== '') {
-                    $html .= '<source media="(max-width:' . (int)$tablet_bp . 'px)" ' . $srcset_prefix . 'srcset="' . $fallback . '" sizes="' . $sizes_attr . '">';
+                    $html .= '<source media="(max-width:' . (int)$tablet_bp . 'px)" ' . $srcset_prefix . 'srcset="' . mits_imageslider_h($fallback) . '" sizes="' . mits_imageslider_h($sizes_attr) . '">';
                 }
             }
 
@@ -67,33 +141,43 @@ if (!function_exists('mits_imageslider_render_image')) {
                 $webp = mits_imageslider_build_srcset($sd['main_rel'], 'desktop', 'webp', $sd['main_width'] ?? null);
                 $fallback = mits_imageslider_build_srcset($sd['main_rel'], 'desktop', 'fallback', $sd['main_width'] ?? null);
                 if ($webp !== '') {
-                    $html .= '<source type="image/webp" ' . $srcset_prefix . 'srcset="' . $webp . '" sizes="' . $sizes_attr . '">';
+                    $html .= '<source type="image/webp" ' . $srcset_prefix . 'srcset="' . mits_imageslider_h($webp) . '" sizes="' . mits_imageslider_h($sizes_attr) . '">';
                 }
                 if ($fallback !== '') {
-                    $html .= '<source ' . $srcset_prefix . 'srcset="' . $fallback . '" sizes="' . $sizes_attr . '">';
+                    $html .= '<source ' . $srcset_prefix . 'srcset="' . mits_imageslider_h($fallback) . '" sizes="' . mits_imageslider_h($sizes_attr) . '">';
                 }
             }
 
+            $width = $use_main_dimensions ? (int)$sd['main_width'] : (int)$sd['current_w'];
+            $height = $use_main_dimensions ? (int)$sd['main_height'] : (int)$sd['current_h'];
+
             $html .= '<img '
+                . ($img_class != '' ? 'class="' . mits_imageslider_h($img_class) . '" ' : '')
                 . ($index == 0 ? 'fetchpriority="high" loading="eager" decoding="async" ' : 'loading="lazy" decoding="async" ' . $lazyloadclass . $datasrc)
-                . 'src="' . $sd['img_src'] . '"'
-                . ' width="' . (int)$sd['current_w'] . '" height="' . (int)$sd['current_h'] . '"'
-                . ' alt="' . $sd['alt'] . '" title="' . $sd['title'] . '">';
+                . 'src="' . mits_imageslider_h($sd['img_src']) . '"'
+                . ' width="' . $width . '" height="' . $height . '"'
+                . ' alt="' . mits_imageslider_h($img_alt) . '" title="' . mits_imageslider_h($img_title) . '">';
 
             $html .= '</picture>';
             return $html;
         }
 
         return '<img '
+            . ($img_class != '' ? 'class="' . mits_imageslider_h($img_class) . '" ' : '')
             . ($index == 0 ? 'fetchpriority="high" loading="eager" decoding="async" ' : '')
             . 'width="' . (int)$sd['main_width'] . '" height="' . (int)$sd['main_height'] . '" '
-            . $lazyloadclass . $datasrc . 'src="' . $sd['main_image'] . '" alt="' . $sd['alt'] . '" title="' . $sd['title'] . '">';
+            . $lazyloadclass . $datasrc . 'src="' . mits_imageslider_h($sd['main_image']) . '" alt="' . mits_imageslider_h($img_alt) . '" title="' . mits_imageslider_h($img_title) . '">';
     }
 }
 
 function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false')
 {
     if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
+        if (defined('DIR_FS_EXTERNAL') && is_file(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php')) {
+            require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php');
+        } elseif (defined('DIR_FS_CATALOG') && is_file(rtrim(DIR_FS_CATALOG, '/\\') . '/includes/external/mits_imageslider/functions/general.php')) {
+            require_once(rtrim(DIR_FS_CATALOG, '/\\') . '/includes/external/mits_imageslider/functions/general.php');
+        }
         if (defined('DIR_FS_EXTERNAL') && is_file(DIR_FS_EXTERNAL . 'mits_imageslider/functions/images.php')) {
             require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/images.php');
         } elseif (defined('DIR_FS_CATALOG') && is_file(rtrim(DIR_FS_CATALOG, '/\\') . '/includes/external/mits_imageslider/functions/images.php')) {
@@ -146,22 +230,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
             $sliderdata = array();
             $mits_imageslider_num = 1;
             while ($mits_imageslider_data = xtc_db_fetch_array($mits_imagesliders_query, true)) {
-                switch ($mits_imageslider_data['imagesliders_url_target']) {
-                    case 1:
-                        $target = ' target="_blank"';
-                        break;
-                    case 2:
-                        $target = ' target="_top"';
-                        break;
-                    case 3:
-                        $target = ' target="_self"';
-                        break;
-                    case 4:
-                        $target = ' target="_parent"';
-                        break;
-                    default:
-                        $target = '';
-                }
+                $target = mits_imageslider_target_attr($mits_imageslider_data['imagesliders_url_target']);
 
                 switch ($mits_imageslider_data['imagesliders_url_typ']) {
                     case 0:
@@ -173,7 +242,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     case 2:
                         $url = xtc_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$mits_imageslider_data['imagesliders_url']);
                         if (function_exists('xtc_product_link')) {
-                            $product_query = xtDBquery("SELECT products_id, products_name FROM " . TABLE_PRODUCTS_DESCRIPTION . " WHERE products_id = " . (int)$mits_imageslider_data['imagesliders_url']);
+                            $product_query = xtDBquery("SELECT products_id, products_name FROM " . TABLE_PRODUCTS_DESCRIPTION . " WHERE products_id = " . (int)$mits_imageslider_data['imagesliders_url'] . " AND language_id = " . (int)$_SESSION['languages_id']);
                             if (xtc_db_num_rows($product_query, true)) {
                                 $product = xtc_db_fetch_array($product_query, true);
                                 $url = xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($product['products_id'], $product['products_name']));
@@ -183,7 +252,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     case 3:
                         $url = xtc_href_link(FILENAME_DEFAULT, 'cPath=' . (int)$mits_imageslider_data['imagesliders_url']);
                         if (function_exists('xtc_category_link')) {
-                            $categorie_query = xtDBquery("SELECT categories_id, categories_name FROM " . TABLE_CATEGORIES_DESCRIPTION . " WHERE categories_id = " . (int)$mits_imageslider_data['imagesliders_url']);
+                            $categorie_query = xtDBquery("SELECT categories_id, categories_name FROM " . TABLE_CATEGORIES_DESCRIPTION . " WHERE categories_id = " . (int)$mits_imageslider_data['imagesliders_url'] . " AND language_id = " . (int)$_SESSION['languages_id']);
                             if (xtc_db_num_rows($categorie_query, true)) {
                                 $categorie = xtc_db_fetch_array($categorie_query, true);
                                 $url = xtc_href_link(FILENAME_DEFAULT, xtc_category_link((int)$categorie['categories_id'], $categorie['categories_name']));
@@ -214,6 +283,25 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                 $main_rel = ($mits_imageslider_data['imagesliders_image'] != '' && file_exists(DIR_FS_CATALOG . DIR_WS_IMAGES . $mits_imageslider_data['imagesliders_image'])) ? $mits_imageslider_data['imagesliders_image'] : '';
                 $tablet_rel = ($mits_imageslider_data['imagesliders_tablet_image'] != '' && file_exists(DIR_FS_CATALOG . DIR_WS_IMAGES . $mits_imageslider_data['imagesliders_tablet_image'])) ? $mits_imageslider_data['imagesliders_tablet_image'] : '';
                 $mobile_rel = ($mits_imageslider_data['imagesliders_mobile_image'] != '' && file_exists(DIR_FS_CATALOG . DIR_WS_IMAGES . $mits_imageslider_data['imagesliders_mobile_image'])) ? $mits_imageslider_data['imagesliders_mobile_image'] : '';
+
+                // If no dedicated tablet/mobile image was uploaded, use generated fallback variants from the main image.
+                // These fallback files are generated in admin/regenerator, not written into the DB fields.
+                if ($main_rel != '' && function_exists('mits_imageslider_resolve_auto_fallback_from_relative')) {
+                    if ($tablet_rel == '') {
+                        $tablet_auto_rel = mits_imageslider_resolve_auto_fallback_from_relative($main_rel, 'tablet', false);
+                        if ($tablet_auto_rel != '') {
+                            $tablet_rel = $tablet_auto_rel;
+                            $tablet_image = DIR_WS_BASE . DIR_WS_IMAGES . $tablet_auto_rel;
+                        }
+                    }
+                    if ($mobile_rel == '') {
+                        $mobile_auto_rel = mits_imageslider_resolve_auto_fallback_from_relative($main_rel, 'mobile', false);
+                        if ($mobile_auto_rel != '') {
+                            $mobile_rel = $mobile_auto_rel;
+                            $mobile_image = DIR_WS_BASE . DIR_WS_IMAGES . $mobile_auto_rel;
+                        }
+                    }
+                }
 
                 if ($main_image != '') {
                     $main_width = $main_height = $main_type = $main_image_attr = $tablet_width = $tablet_height = $tablet_type = $tablet_image_attr = $mobile_width = $mobile_height = $mobile_type = $mobile_image_attr = '';
@@ -322,8 +410,9 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
 
                     $sd = array(
                       'id'                => $mits_imageslider_data['imagesliders_id'],
-                      'link'              => $url,
-                      'linktitle'         => strip_tags(str_replace(array('"', "'"), array('&quot;', '&apos;'), $linktitle)),
+                      'link'              => mits_imageslider_safe_href($url),
+                      'linktitle'         => mits_imageslider_h(strip_tags($linktitle)),
+                      'linktitle_raw'     => strip_tags($linktitle),
                       'target'            => $target,
                       'main_image'        => $main_image,
                       'tablet_image'      => $tablet_image,
@@ -348,10 +437,13 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                       'img_src'           => $img_src,
                       'current_w'         => $current_w,
                       'current_h'         => $current_h,
-                      'title'             => strip_tags(str_replace(array('"', "'"), array('&quot;', '&apos;'), $mits_imageslider_data['imagesliders_title'])),
-                      'alt'               => strip_tags(str_replace(array('"', "'"), array('&quot;', '&apos;'), $alt)),
+                      'title'             => mits_imageslider_h(strip_tags($mits_imageslider_data['imagesliders_title'])),
+                      'title_raw'         => strip_tags($mits_imageslider_data['imagesliders_title']),
+                      'alt'               => mits_imageslider_h(strip_tags($alt)),
+                      'alt_raw'           => strip_tags($alt),
                       'text'              => $mits_imageslider_data['imagesliders_description']
                     );
+                    $sd['link_attrs'] = mits_imageslider_link_attrs($url, $sd['linktitle_raw'], $target);
 
                     $sd_pic = $sd;
                     $sd_pic['tablet_image'] = ($sd_pic['tablet_image'] != '') ? $sd_pic['tablet_image'] : $sd_pic['main_image'];
@@ -360,6 +452,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     $sd_pic['mobile_rel']   = ($sd_pic['mobile_rel']   != '') ? $sd_pic['mobile_rel']   : $sd_pic['tablet_rel'];
 
                     $sd['pictureset'] = mits_imageslider_render_image($sd_pic, $index, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
+                    $sd['pictureset_logo'] = mits_imageslider_render_image($sd_pic, $index, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass, array('sizes' => '(min-width:1024px) 25vw, (min-width:601px) 33vw, 50vw', 'img_class' => 'mits-imageslider-logo-img', 'use_main_dimensions' => true));
 
                     $sliderdata[] = $sd;
 
@@ -412,7 +505,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                         $slidertext = (($sliderdata[$i]['text'] != '') ? '<span class="' . $item_content_class . '">' . $sliderdata[$i]['text'] . '</span>' : '');                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         if ($no_banner) {
@@ -503,7 +596,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                         $slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="slider-desc">' . $sliderdata[$i]['text'] . '</div>' : '');                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $container_id = ($count_slides == 1) ? ' id="slider_img_' . $sliderdata[$i]['id'] . '"' : '';
@@ -529,7 +622,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                         $slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="slick-desc">' . $sliderdata[$i]['text'] . '</div>' : '');                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '
@@ -552,7 +645,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                         $slidertext = ($sliderdata[$i]['text'] != '') ? '<div class="slick-desc">' . $sliderdata[$i]['text'] . '</div>' : '';                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '
@@ -578,7 +671,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     for ($i = 0, $n = $count_slides; $i < $n; $i++) {                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '
@@ -603,7 +696,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     for ($i = 0, $n = $count_slides; $i < $n; $i++) {                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '
@@ -641,7 +734,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     for ($i = 0, $n = $count_slides; $i < $n; $i++) {                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '
@@ -667,7 +760,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                         $slidertext = (($sliderdata[$i]['text'] != '') ? '<div class="flex-caption"><div class="flex-caption-header">' . $sliderdata[$i]['title'] . '</div><div>' . $sliderdata[$i]['text'] . '</div></div>' : '<div class="flex-caption"><div class="flex-caption-header">' . $sliderdata[$i]['title'] . '</div></div>');                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '
@@ -695,7 +788,7 @@ function MITS_get_imageslider($group = 'mits_imageslider', $give_array = 'false'
                     for ($i = 0, $n = $count_slides; $i < $n; $i++) {                        $img = mits_imageslider_render_image($sliderdata[$i], $i, $mobile_width_breakpoint, $tablet_width_breakpoint, $datasrc, $lazyloadclass);
                         $link_begin = $link_end = '';
                         if ($sliderdata[$i]['link'] != '') {
-                            $link_begin = '<a href="' . $sliderdata[$i]['link'] . '"' . (($sliderdata[$i]['linktitle'] != '') ? ' title="' . $sliderdata[$i]['linktitle'] . '"' : '') . $sliderdata[$i]['target'] . '>';
+                            $link_begin = ($sliderdata[$i]['link_attrs'] != '') ? '<a' . $sliderdata[$i]['link_attrs'] . '>' : '';
                             $link_end = '</a>';
                         }
                         $mits_imagesliders_string .= '

@@ -57,6 +57,14 @@ defined('TEXT_DELETE_INTRO') or define('TEXT_DELETE_INTRO', 'Weet u zeker dat u 
 defined('TEXT_DELETE_IMAGE') or define('TEXT_DELETE_IMAGE', 'Ook het afbeeldingsbestand verwijderen?');
 defined('ERROR_DIRECTORY_NOT_WRITEABLE') or define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Fout: de map %s is niet beschrijfbaar. Corrigeer de toegangsrechten.');
 defined('ERROR_DIRECTORY_DOES_NOT_EXIST') or define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Fout: de map %s bestaat niet.');
+defined('TEXT_IMAGESLIDER_SORT_PAGE_NOTE') or define('TEXT_IMAGESLIDER_SORT_PAGE_NOTE', 'Wijzig de volgorde met drag &amp; drop binnen de huidige pagina. De sortering wordt automatisch per slidergroep opgeslagen zodra u loslaat; items kunnen niet tussen groepen worden verplaatst.');
+defined('TEXT_IMAGESLIDER_SORT_HINT') or define('TEXT_IMAGESLIDER_SORT_HINT', 'Sleep de rijen met het greepsymbool naar de gewenste positie op deze pagina. De sortering wordt automatisch opgeslagen.');
+defined('TEXT_IMAGESLIDER_SORT_SAVING') or define('TEXT_IMAGESLIDER_SORT_SAVING', 'Sortering wordt opgeslagen...');
+defined('TEXT_IMAGESLIDER_SORT_SAVED') or define('TEXT_IMAGESLIDER_SORT_SAVED', 'Sortering opgeslagen.');
+defined('TEXT_IMAGESLIDER_SORT_NO_ITEMS') or define('TEXT_IMAGESLIDER_SORT_NO_ITEMS', 'Er zijn geen sorteerbare items verzonden.');
+defined('TEXT_IMAGESLIDER_SORT_ERROR') or define('TEXT_IMAGESLIDER_SORT_ERROR', 'Sortering kon niet worden opgeslagen. Laad de pagina opnieuw en probeer het nogmaals.');
+defined('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY') or define('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY', 'Items kunnen alleen binnen dezelfde slidergroep worden gesorteerd.');
+
 defined('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS') or define('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS', 'Getoond worden <b>%d</b> tot <b>%d</b> (van in totaal <b>%d</b> ImageSlider-items)');
 defined('IMAGE_ICON_STATUS_GREEN') or define('IMAGE_ICON_STATUS_GREEN', 'Actief');
 defined('IMAGE_ICON_STATUS_GREEN_LIGHT') or define('IMAGE_ICON_STATUS_GREEN_LIGHT', 'Activeren');

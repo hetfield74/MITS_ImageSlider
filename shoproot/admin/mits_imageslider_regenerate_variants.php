@@ -331,6 +331,28 @@ function mits_imageslider_variants_process_row($row): array
         }
     }
 
+    $mainRel = trim((string)($row['imagesliders_image'] ?? ''));
+    if ($mainRel !== '' && function_exists('mits_imageslider_generate_auto_fallback_from_relative')) {
+        foreach (array(
+          array('field' => 'imagesliders_tablet_image', 'profile' => 'tablet'),
+          array('field' => 'imagesliders_mobile_image', 'profile' => 'mobile'),
+        ) as $autoVariant) {
+            if (trim((string)($row[$autoVariant['field']] ?? '')) !== '') {
+                continue;
+            }
+            $autoRel = mits_imageslider_generate_auto_fallback_from_relative($mainRel, $autoVariant['profile']);
+            if ($autoRel !== '') {
+                $log[] = sprintf(
+                  '%s: automatische %s-Fallback-Varianten aus dem Hauptbild erzeugt: %s',
+                  htmlspecialchars($autoVariant['field']),
+                  htmlspecialchars($autoVariant['profile']),
+                  htmlspecialchars($autoRel)
+                );
+                $log[] = mits_imageslider_variant_details_html($autoVariant['field'], $autoRel, $autoVariant['profile'], array(), mits_imageslider_variant_state($autoRel, $autoVariant['profile']));
+            }
+        }
+    }
+
     $updated = false;
     if (count($updates) > 0) {
         xtc_db_perform(

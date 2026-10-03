@@ -33,7 +33,7 @@ class mits_imageslider
     {
         $this->code = 'mits_imageslider';
         $this->name = 'MODULE_' . strtoupper($this->code);
-        $this->version = '2.28';
+        $this->version = '2.36';
 
         $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
         $this->enabled = defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true');
@@ -61,6 +61,13 @@ class mits_imageslider
                 $this->description .= '<div style="text-align:center;margin:10px 0"><a class="button but_green" style="text-align:center;" onclick="this.blur();" href="' . xtc_href_link(FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS) . '">' . constant($this->name . '_IMPORT_BANNERS') . '</a></div>';
             }	
 						$this->description .= '<br>';
+        }
+
+        $mitsUpdateClientFile = DIR_FS_CATALOG . 'includes/external/mits_module_update_client/MitsModuleUpdateClient.php';
+
+        if (is_file($mitsUpdateClientFile)) {
+            require_once $mitsUpdateClientFile;
+            MitsModuleUpdateClient::integrate($this);
         }
     }
 
@@ -228,10 +235,10 @@ class mits_imageslider
             `date_added` datetime default NULL,
             `last_modified` datetime default NULL,
             `status` tinyint(1) NOT NULL default '0',
-            `sorting` tinyint(1) NOT NULL default '0',
+            `sorting` int(11) NOT NULL default '0',
             `imagesliders_group` varchar(255) NOT NULL default 'mits_imageslider',
             PRIMARY KEY (`imagesliders_id`),
-            KEY `idx_mits_imageslider_group_status_dates` (`imagesliders_group`,`status`,`recurring`,`date_scheduled`,`expires_date`)
+            KEY `idx_mits_imageslider_group_status_dates` (`imagesliders_group`(128),`status`,`recurring`,`date_scheduled`,`expires_date`)
           )"
         );
 
@@ -271,6 +278,8 @@ class mits_imageslider
             KEY `idx_mits_imageslider_import_map_slider` (`imagesliders_id`)
           )"
         );
+
+        $this->ensureImagesliderTableSchema();
 
         if (!$this->columnExists(TABLE_ADMIN_ACCESS, $this->code)) {
             if ($this->columnExists(TABLE_ADMIN_ACCESS, 'imagesliders')) {
@@ -317,7 +326,7 @@ class mits_imageslider
             xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " ADD COLUMN `recurring_end_md` CHAR(5) DEFAULT NULL AFTER `recurring_start_md`");
         }
         if (!$this->indexExists(TABLE_MITS_IMAGESLIDER, 'idx_mits_imageslider_group_status_dates')) {
-            xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " ADD INDEX `idx_mits_imageslider_group_status_dates` (`imagesliders_group`,`status`,`recurring`,`date_scheduled`,`expires_date`)");
+            xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " ADD INDEX `idx_mits_imageslider_group_status_dates` (`imagesliders_group`(128),`status`,`recurring`,`date_scheduled`,`expires_date`)");
         }
 
         if (!$this->columnExists(TABLE_MITS_IMAGESLIDER_INFO, 'imagesliders_mobile_image')) {
@@ -482,6 +491,171 @@ class mits_imageslider
     {
         $res = xtc_db_query("SHOW INDEX FROM {$table} WHERE Key_name = '" . xtc_db_input($index) . "'");
         return xtc_db_num_rows($res) > 0;
+    }
+
+    /**
+     * @param string $table
+     * @return bool
+     */
+    private function primaryKeyExists(string $table): bool
+    {
+        $res = xtc_db_query("SHOW KEYS FROM " . $table . " WHERE Key_name = 'PRIMARY'");
+        return xtc_db_num_rows($res) > 0;
+    }
+
+    /**
+     * @param string $table
+     * @param string $column
+     * @return bool
+     */
+    private function columnHasAutoIncrement(string $table, string $column): bool
+    {
+        $res = xtc_db_query("SHOW COLUMNS FROM " . $table . " LIKE '" . xtc_db_input($column) . "'");
+        if (xtc_db_num_rows($res) < 1) {
+            return false;
+        }
+
+        $row = xtc_db_fetch_array($res);
+        return (isset($row['Extra']) && stripos($row['Extra'], 'auto_increment') !== false);
+    }
+
+    /**
+     * @return void
+     */
+    private function ensureImagesliderTableSchema(): void
+    {
+        $this->repairImagesliderZeroIds();
+
+        if ($this->tableExists(TABLE_MITS_IMAGESLIDER)) {
+            if (!$this->primaryKeyExists(TABLE_MITS_IMAGESLIDER) && $this->countRows(TABLE_MITS_IMAGESLIDER, "`imagesliders_id` = 0") <= 1) {
+                xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " ADD PRIMARY KEY (`imagesliders_id`)");
+            }
+
+            if (!$this->columnHasAutoIncrement(TABLE_MITS_IMAGESLIDER, 'imagesliders_id') && $this->countRows(TABLE_MITS_IMAGESLIDER, "`imagesliders_id` = 0") <= 1) {
+                xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " CHANGE `imagesliders_id` `imagesliders_id` INT(11) NOT NULL AUTO_INCREMENT");
+            }
+
+            if ($this->columnExists(TABLE_MITS_IMAGESLIDER, 'sorting')) {
+                xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER . " CHANGE `sorting` `sorting` INT(11) NOT NULL DEFAULT '0'");
+            }
+        }
+
+        if ($this->tableExists(TABLE_MITS_IMAGESLIDER_INFO)) {
+            if (!$this->primaryKeyExists(TABLE_MITS_IMAGESLIDER_INFO)) {
+                xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " ADD PRIMARY KEY (`imagesliders_id`, `languages_id`)");
+            }
+
+            xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " CHANGE `imagesliders_id` `imagesliders_id` INT(11) NOT NULL");
+            xtc_db_query("ALTER TABLE " . TABLE_MITS_IMAGESLIDER_INFO . " CHANGE `languages_id` `languages_id` INT(11) NOT NULL");
+        }
+    }
+
+    /**
+     * @param string $table
+     * @param string $where
+     * @return int
+     */
+    private function countRows(string $table, string $where = '1'): int
+    {
+        $res = xtc_db_query("SELECT COUNT(*) AS total FROM " . $table . " WHERE " . $where);
+        $row = xtc_db_fetch_array($res);
+        return (int)($row['total'] ?? 0);
+    }
+
+    /**
+     * @return int
+     */
+    private function getMaxImagesliderId(): int
+    {
+        $res = xtc_db_query("SELECT MAX(`imagesliders_id`) AS max_id FROM " . TABLE_MITS_IMAGESLIDER);
+        $row = xtc_db_fetch_array($res);
+        return (int)($row['max_id'] ?? 0);
+    }
+
+    /**
+     * @return int
+     */
+    private function getSingleImagesliderIdWithoutInfo(): int
+    {
+        if (!$this->tableExists(TABLE_MITS_IMAGESLIDER) || !$this->tableExists(TABLE_MITS_IMAGESLIDER_INFO)) {
+            return 0;
+        }
+
+        $ids = array();
+        $res = xtc_db_query(
+          "SELECT m.`imagesliders_id`
+" .
+          "  FROM " . TABLE_MITS_IMAGESLIDER . " m
+" .
+          "  LEFT JOIN " . TABLE_MITS_IMAGESLIDER_INFO . " i
+" .
+          "    ON i.`imagesliders_id` = m.`imagesliders_id`
+" .
+          " WHERE i.`imagesliders_id` IS NULL
+" .
+          " GROUP BY m.`imagesliders_id`
+" .
+          " ORDER BY m.`imagesliders_id` ASC"
+        );
+
+        while ($row = xtc_db_fetch_array($res)) {
+            $ids[] = (int)$row['imagesliders_id'];
+            if (count($ids) > 1) {
+                return 0;
+            }
+        }
+
+        return count($ids) === 1 ? $ids[0] : 0;
+    }
+
+    /**
+     * @return void
+     */
+    private function repairImagesliderZeroIds(): void
+    {
+        if (!$this->tableExists(TABLE_MITS_IMAGESLIDER)) {
+            return;
+        }
+
+        $zero_main_count = $this->countRows(TABLE_MITS_IMAGESLIDER, "`imagesliders_id` = 0");
+
+        if ($zero_main_count === 1) {
+            $new_id = $this->getMaxImagesliderId() + 1;
+
+            xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER . " SET `imagesliders_id` = " . (int)$new_id . " WHERE `imagesliders_id` = 0 LIMIT 1");
+
+            if ($this->tableExists(TABLE_MITS_IMAGESLIDER_INFO)) {
+                xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER_INFO . " SET `imagesliders_id` = " . (int)$new_id . " WHERE `imagesliders_id` = 0");
+            }
+
+            if ($this->tableExists('mits_imageslider_import_map')) {
+                xtc_db_query("UPDATE mits_imageslider_import_map SET `imagesliders_id` = " . (int)$new_id . " WHERE `imagesliders_id` = 0");
+            }
+        }
+
+        if (!$this->tableExists(TABLE_MITS_IMAGESLIDER_INFO) || $this->countRows(TABLE_MITS_IMAGESLIDER_INFO, "`imagesliders_id` = 0") < 1) {
+            return;
+        }
+
+        $target_id = $this->getSingleImagesliderIdWithoutInfo();
+
+        if ($target_id < 1 && $this->countRows(TABLE_MITS_IMAGESLIDER) === 1) {
+            $res = xtc_db_query("SELECT `imagesliders_id` FROM " . TABLE_MITS_IMAGESLIDER . " LIMIT 1");
+            $row = xtc_db_fetch_array($res);
+            $possible_id = (int)($row['imagesliders_id'] ?? 0);
+
+            if ($possible_id > 0 && $this->countRows(TABLE_MITS_IMAGESLIDER_INFO, "`imagesliders_id` = " . (int)$possible_id) < 1) {
+                $target_id = $possible_id;
+            }
+        }
+
+        if ($target_id > 0) {
+            xtc_db_query("UPDATE " . TABLE_MITS_IMAGESLIDER_INFO . " SET `imagesliders_id` = " . (int)$target_id . " WHERE `imagesliders_id` = 0");
+
+            if ($this->tableExists('mits_imageslider_import_map')) {
+                xtc_db_query("UPDATE mits_imageslider_import_map SET `imagesliders_id` = " . (int)$target_id . " WHERE `imagesliders_id` = 0");
+            }
+        }
     }
 
     /**
