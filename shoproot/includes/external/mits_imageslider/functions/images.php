@@ -182,12 +182,44 @@ if (!function_exists('mits_imageslider_save_image')) {
                 break;
 
             case 'webp':
-                if (function_exists('imagewebp')) {
-                    $q = is_numeric($quality_or_compress) ? (int)$quality_or_compress : 82;
-                    $q = max(0, min(100, $q));
-                    $ok = @imagewebp($img, $abs_dest, $q);
-                }
-                break;
+								if (function_exists('imagewebp')) {
+										$tmp_img = null;
+
+										if (function_exists('imageistruecolor') && !@imageistruecolor($img)) {
+												if (function_exists('imagepalettetotruecolor')) {
+														@imagepalettetotruecolor($img);
+												} else {
+														$w = @imagesx($img);
+														$h = @imagesy($img);
+
+														if ($w > 0 && $h > 0) {
+																$tmp_img = @imagecreatetruecolor($w, $h);
+
+																if ($tmp_img) {
+																		@imagealphablending($tmp_img, false);
+																		@imagesavealpha($tmp_img, true);
+
+																		$transparent = @imagecolorallocatealpha($tmp_img, 0, 0, 0, 127);
+																		@imagefilledrectangle($tmp_img, 0, 0, $w, $h, $transparent);
+
+																		@imagecopy($tmp_img, $img, 0, 0, 0, 0, $w, $h);
+																		$img = $tmp_img;
+																}
+														}
+												}
+										}
+
+										@imagesavealpha($img, true);
+
+										$q = is_numeric($quality_or_compress) ? (int)$quality_or_compress : 82;
+										$q = max(0, min(100, $q));
+										$ok = @imagewebp($img, $abs_dest, $q);
+
+										if ($tmp_img && (is_resource($tmp_img) || $tmp_img instanceof \GdImage)) {
+												@imagedestroy($tmp_img);
+										}
+								}
+								break;
         }
         ob_end_clean();
 
@@ -367,6 +399,150 @@ if (!function_exists('mits_imageslider_generate_variants_from_relative')) {
         }
 
         return $fallback_rel;
+    }
+}
+
+
+if (!function_exists('mits_imageslider_auto_fallback_candidates')) {
+    function mits_imageslider_auto_fallback_candidates($source_rel, $profile): array
+    {
+        $source_rel = ltrim((string)$source_rel, '/\\');
+        $profile = (string)$profile;
+        if ($source_rel === '' || !in_array($profile, array('tablet', 'mobile'), true)) {
+            return array();
+        }
+
+        $dir_rel = dirname($source_rel);
+        $dir_rel = ($dir_rel === '.' ? '' : $dir_rel);
+        $base = pathinfo($source_rel, PATHINFO_FILENAME) . '__auto_' . $profile;
+        $source_ext = mits_imageslider_normalize_ext(pathinfo($source_rel, PATHINFO_EXTENSION));
+        $target_dir = ($dir_rel !== '' ? $dir_rel . '/' : '') . $profile;
+
+        $extensions = array();
+        foreach (array($source_ext, 'jpg', 'png', 'webp', 'gif') as $ext) {
+            $ext = mits_imageslider_normalize_ext($ext);
+            if ($ext !== '' && !in_array($ext, $extensions, true)) {
+                $extensions[] = $ext;
+            }
+        }
+
+        $candidates = array();
+        foreach ($extensions as $ext) {
+            $candidates[] = $target_dir . '/' . $base . '.' . $ext;
+        }
+        return $candidates;
+    }
+}
+
+if (!function_exists('mits_imageslider_auto_fallback_relative')) {
+    function mits_imageslider_auto_fallback_relative($source_rel, $profile): string
+    {
+        $candidates = mits_imageslider_auto_fallback_candidates($source_rel, $profile);
+        return isset($candidates[0]) ? $candidates[0] : '';
+    }
+}
+
+if (!function_exists('mits_imageslider_resolve_auto_fallback_from_relative')) {
+    function mits_imageslider_resolve_auto_fallback_from_relative($source_rel, $profile, $generate = false): string
+    {
+        $source_rel = ltrim((string)$source_rel, '/\\');
+        $profile = (string)$profile;
+        if ($source_rel === '' || !in_array($profile, array('tablet', 'mobile'), true)) {
+            return '';
+        }
+
+        if ($generate && function_exists('mits_imageslider_generate_auto_fallback_from_relative')) {
+            $generated = mits_imageslider_generate_auto_fallback_from_relative($source_rel, $profile);
+            if ($generated !== '') {
+                return $generated;
+            }
+        }
+
+        foreach (mits_imageslider_auto_fallback_candidates($source_rel, $profile) as $candidate_rel) {
+            if (is_file(mits_imageslider_abs_image_path($candidate_rel))) {
+                return $candidate_rel;
+            }
+        }
+        return '';
+    }
+}
+
+if (!function_exists('mits_imageslider_generate_auto_fallback_from_relative')) {
+    function mits_imageslider_generate_auto_fallback_from_relative($source_rel, $profile): string
+    {
+        $source_rel = ltrim((string)$source_rel, '/\\');
+        $profile = (string)$profile;
+        if ($source_rel === '' || !in_array($profile, array('tablet', 'mobile'), true)) {
+            return '';
+        }
+        if (!mits_imageslider_can_process_with_gd()) {
+            return mits_imageslider_resolve_auto_fallback_from_relative($source_rel, $profile, false);
+        }
+
+        $abs_source = mits_imageslider_abs_image_path($source_rel);
+        if (!is_file($abs_source)) {
+            return '';
+        }
+
+        $existing_rel = mits_imageslider_resolve_auto_fallback_from_relative($source_rel, $profile, false);
+        if ($existing_rel !== '') {
+            $abs_existing = mits_imageslider_abs_image_path($existing_rel);
+            if (is_file($abs_existing) && filemtime($abs_source) !== false && filemtime($abs_existing) !== false && filemtime($abs_existing) >= filemtime($abs_source)) {
+                if (function_exists('mits_imageslider_generate_variants_from_relative')) {
+                    $maybe_existing = mits_imageslider_generate_variants_from_relative($existing_rel, $profile);
+                    if (is_string($maybe_existing) && $maybe_existing !== '' && is_file(mits_imageslider_abs_image_path($maybe_existing))) {
+                        return $maybe_existing;
+                    }
+                }
+                return $existing_rel;
+            }
+        }
+
+        $target_rel = mits_imageslider_auto_fallback_relative($source_rel, $profile);
+        if ($target_rel === '') {
+            return '';
+        }
+        $abs_target = mits_imageslider_abs_image_path($target_rel);
+        $abs_target_dir = dirname($abs_target);
+        if (!is_dir($abs_target_dir)) {
+            @mkdir($abs_target_dir, 0775, true);
+        }
+
+        @copy($abs_source, $abs_target);
+        @chmod($abs_target, 0644);
+
+        $generated_rel = $target_rel;
+        if (function_exists('mits_imageslider_generate_variants_from_relative')) {
+            $maybe_generated = mits_imageslider_generate_variants_from_relative($target_rel, $profile);
+            if (is_string($maybe_generated) && $maybe_generated !== '') {
+                $generated_rel = $maybe_generated;
+            }
+        }
+
+        foreach (mits_imageslider_auto_fallback_candidates($source_rel, $profile) as $candidate_rel) {
+            if (is_file(mits_imageslider_abs_image_path($candidate_rel))) {
+                return $candidate_rel;
+            }
+        }
+
+        return is_file(mits_imageslider_abs_image_path($generated_rel)) ? $generated_rel : '';
+    }
+}
+
+if (!function_exists('mits_imageslider_delete_auto_fallbacks_from_relative')) {
+    function mits_imageslider_delete_auto_fallbacks_from_relative($source_rel): void
+    {
+        $source_rel = ltrim((string)$source_rel, '/\\');
+        if ($source_rel === '') {
+            return;
+        }
+        foreach (array('tablet', 'mobile') as $profile) {
+            foreach (mits_imageslider_auto_fallback_candidates($source_rel, $profile) as $candidate_rel) {
+                if (is_file(mits_imageslider_abs_image_path($candidate_rel))) {
+                    mits_imageslider_delete_variants_from_relative($candidate_rel);
+                }
+            }
+        }
     }
 }
 

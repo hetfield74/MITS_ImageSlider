@@ -57,6 +57,14 @@ defined('TEXT_DELETE_INTRO') or define('TEXT_DELETE_INTRO', 'Sind Sie sicher, da
 defined('TEXT_DELETE_IMAGE') or define('TEXT_DELETE_IMAGE', 'Bild ebenfalls l&ouml;schen?');
 defined('ERROR_DIRECTORY_NOT_WRITEABLE') or define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Fehler: Das Verzeichnis %s ist schreibgesch&uuml;tzt. Bitte korrigieren Sie die Zugriffsrechte zu diesem Verzeichnis!');
 defined('ERROR_DIRECTORY_DOES_NOT_EXIST') or define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Fehler: Das Verzeichnis %s existiert nicht!');
+defined('TEXT_IMAGESLIDER_SORT_PAGE_NOTE') or define('TEXT_IMAGESLIDER_SORT_PAGE_NOTE', 'Reihenfolge per Drag-&amp;-Drop innerhalb der aktuellen Seite &auml;ndern. Die Sortierung wird beim Loslassen automatisch je Slidergruppe gespeichert; Eintr&auml;ge k&ouml;nnen nicht zwischen Gruppen verschoben werden.');
+defined('TEXT_IMAGESLIDER_SORT_HINT') or define('TEXT_IMAGESLIDER_SORT_HINT', 'Ziehen Sie die Zeilen am Griffsymbol an die gew&uuml;nschte Position auf dieser Seite. Die Sortierung wird automatisch gespeichert.');
+defined('TEXT_IMAGESLIDER_SORT_SAVING') or define('TEXT_IMAGESLIDER_SORT_SAVING', 'Sortierung wird gespeichert...');
+defined('TEXT_IMAGESLIDER_SORT_SAVED') or define('TEXT_IMAGESLIDER_SORT_SAVED', 'Sortierung gespeichert.');
+defined('TEXT_IMAGESLIDER_SORT_NO_ITEMS') or define('TEXT_IMAGESLIDER_SORT_NO_ITEMS', 'Es wurden keine sortierbaren Eintr&auml;ge &uuml;bergeben.');
+defined('TEXT_IMAGESLIDER_SORT_ERROR') or define('TEXT_IMAGESLIDER_SORT_ERROR', 'Sortierung konnte nicht gespeichert werden. Bitte Seite neu laden und erneut versuchen.');
+defined('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY') or define('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY', 'Eintr&auml;ge k&ouml;nnen nur innerhalb derselben Slidergruppe sortiert werden.');
+
 defined('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS') or define('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS', 'Angezeigt werden <b>%d</b> bis <b>%d</b> (von insgesamt <b>%d</b> ImageSlider-Eintr&auml;gen)');
 defined('IMAGE_ICON_STATUS_GREEN') or define('IMAGE_ICON_STATUS_GREEN', 'Aktiv');
 defined('IMAGE_ICON_STATUS_GREEN_LIGHT') or define('IMAGE_ICON_STATUS_GREEN_LIGHT', 'Aktivieren');

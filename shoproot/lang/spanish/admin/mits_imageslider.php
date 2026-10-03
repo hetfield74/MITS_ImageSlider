@@ -57,6 +57,14 @@ defined('TEXT_DELETE_INTRO') or define('TEXT_DELETE_INTRO', '&iquest;Seguro que 
 defined('TEXT_DELETE_IMAGE') or define('TEXT_DELETE_IMAGE', '&iquest;Eliminar tambi&eacute;n el archivo de imagen?');
 defined('ERROR_DIRECTORY_NOT_WRITEABLE') or define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Error: el directorio %s no tiene permisos de escritura. Corrija los derechos de acceso.');
 defined('ERROR_DIRECTORY_DOES_NOT_EXIST') or define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Error: el directorio %s no existe.');
+defined('TEXT_IMAGESLIDER_SORT_PAGE_NOTE') or define('TEXT_IMAGESLIDER_SORT_PAGE_NOTE', 'Cambie el orden mediante arrastrar y soltar dentro de la p&aacute;gina actual. La ordenaci&oacute;n se guarda autom&aacute;ticamente por grupo de slider al soltar; las entradas no se pueden mover entre grupos.');
+defined('TEXT_IMAGESLIDER_SORT_HINT') or define('TEXT_IMAGESLIDER_SORT_HINT', 'Arrastre las filas mediante el icono de agarre a la posici&oacute;n deseada en esta p&aacute;gina. La ordenaci&oacute;n se guarda autom&aacute;ticamente.');
+defined('TEXT_IMAGESLIDER_SORT_SAVING') or define('TEXT_IMAGESLIDER_SORT_SAVING', 'Guardando ordenaci&oacute;n...');
+defined('TEXT_IMAGESLIDER_SORT_SAVED') or define('TEXT_IMAGESLIDER_SORT_SAVED', 'Ordenaci&oacute;n guardada.');
+defined('TEXT_IMAGESLIDER_SORT_NO_ITEMS') or define('TEXT_IMAGESLIDER_SORT_NO_ITEMS', 'No se han enviado entradas ordenables.');
+defined('TEXT_IMAGESLIDER_SORT_ERROR') or define('TEXT_IMAGESLIDER_SORT_ERROR', 'No se pudo guardar la ordenaci&oacute;n. Vuelva a cargar la p&aacute;gina e int&eacute;ntelo de nuevo.');
+defined('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY') or define('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY', 'Las entradas solo se pueden ordenar dentro del mismo grupo de slider.');
+
 defined('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS') or define('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS', 'Mostrando <b>%d</b> a <b>%d</b> (de <b>%d</b> entradas ImageSlider)');
 defined('IMAGE_ICON_STATUS_GREEN') or define('IMAGE_ICON_STATUS_GREEN', 'Activo');
 defined('IMAGE_ICON_STATUS_GREEN_LIGHT') or define('IMAGE_ICON_STATUS_GREEN_LIGHT', 'Activar');

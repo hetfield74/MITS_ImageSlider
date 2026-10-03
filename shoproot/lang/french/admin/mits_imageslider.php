@@ -57,6 +57,14 @@ defined('TEXT_DELETE_INTRO') or define('TEXT_DELETE_INTRO', 'Voulez-vous vraimen
 defined('TEXT_DELETE_IMAGE') or define('TEXT_DELETE_IMAGE', 'Supprimer aussi l&rsquo;image?');
 defined('ERROR_DIRECTORY_NOT_WRITEABLE') or define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Erreur: le r&eacute;pertoire %s n&rsquo;est pas accessible en &eacute;criture. Veuillez corriger les droits d&rsquo;acc&egrave;s!');
 defined('ERROR_DIRECTORY_DOES_NOT_EXIST') or define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Erreur: le r&eacute;pertoire %s n&rsquo;existe pas!');
+defined('TEXT_IMAGESLIDER_SORT_PAGE_NOTE') or define('TEXT_IMAGESLIDER_SORT_PAGE_NOTE', 'Modifiez l&rsquo;ordre par glisser-d&eacute;poser sur la page actuelle. Le tri est enregistr&eacute; automatiquement par groupe de sliders au rel&acirc;chement; les entr&eacute;es ne peuvent pas &ecirc;tre d&eacute;plac&eacute;es entre les groupes.');
+defined('TEXT_IMAGESLIDER_SORT_HINT') or define('TEXT_IMAGESLIDER_SORT_HINT', 'Faites glisser les lignes avec l&rsquo;ic&ocirc;ne de poign&eacute;e &agrave; la position souhait&eacute;e sur cette page. Le tri est enregistr&eacute; automatiquement.');
+defined('TEXT_IMAGESLIDER_SORT_SAVING') or define('TEXT_IMAGESLIDER_SORT_SAVING', 'Enregistrement du tri...');
+defined('TEXT_IMAGESLIDER_SORT_SAVED') or define('TEXT_IMAGESLIDER_SORT_SAVED', 'Tri enregistr&eacute;.');
+defined('TEXT_IMAGESLIDER_SORT_NO_ITEMS') or define('TEXT_IMAGESLIDER_SORT_NO_ITEMS', 'Aucune entr&eacute;e triable n&rsquo;a &eacute;t&eacute; transmise.');
+defined('TEXT_IMAGESLIDER_SORT_ERROR') or define('TEXT_IMAGESLIDER_SORT_ERROR', 'Le tri n&rsquo;a pas pu &ecirc;tre enregistr&eacute;. Veuillez recharger la page et r&eacute;essayer.');
+defined('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY') or define('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY', 'Les entr&eacute;es ne peuvent &ecirc;tre tri&eacute;es qu&rsquo;au sein du m&ecirc;me groupe de sliders.');
+
 defined('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS') or define('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS', 'Affichage de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> entr&eacute;es ImageSlider)');
 defined('IMAGE_ICON_STATUS_GREEN') or define('IMAGE_ICON_STATUS_GREEN', 'Actif');
 defined('IMAGE_ICON_STATUS_GREEN_LIGHT') or define('IMAGE_ICON_STATUS_GREEN_LIGHT', 'Activer');

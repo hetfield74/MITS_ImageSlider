@@ -16,6 +16,9 @@ require_once('includes/application_top.php');
 defined('TABLE_BANNERS') or define('TABLE_BANNERS', 'banners');
 defined('TABLE_MITS_IMAGESLIDER_IMPORT_MAP') or define('TABLE_MITS_IMAGESLIDER_IMPORT_MAP', 'mits_imageslider_import_map');
 
+if (defined('DIR_FS_EXTERNAL') && is_file(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php')) {
+    require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/general.php');
+}
 if (defined('DIR_FS_EXTERNAL') && is_file(DIR_FS_EXTERNAL . 'mits_imageslider/functions/images.php')) {
     require_once(DIR_FS_EXTERNAL . 'mits_imageslider/functions/images.php');
 }
@@ -27,7 +30,10 @@ function mits_imageslider_import_t($constant, $fallback)
 
 function mits_imageslider_import_h($value)
 {
-    return htmlspecialchars((string)$value, ENT_QUOTES, $_SESSION['language_charset'] ?? 'UTF-8');
+    $charset = !empty($_SESSION['language_charset']) ? $_SESSION['language_charset'] : 'UTF-8';
+    $charset_lc = strtolower((string)$charset);
+    $charset = ($charset_lc == 'utf8' || $charset_lc == 'utf-8') ? 'UTF-8' : $charset;
+    return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
 }
 
 function mits_imageslider_import_table_exists($table)
@@ -503,13 +509,16 @@ function mits_imageslider_import_process_banner($banner, $execute, $overwrite, $
 
         $generated_images[] = 'D:' . $generated['image'] . ($generated_tablet['image'] !== '' ? ' T:' . $generated_tablet['image'] : '') . ($generated_mobile['image'] !== '' ? ' M:' . $generated_mobile['image'] : '');
 
+        $url_type = mits_imageslider_import_url_type($url);
+        $url_prepared = function_exists('mits_imageslider_prepare_url_for_save') ? mits_imageslider_prepare_url_for_save($url, $url_type) : array('url' => $url, 'typ' => $url_type);
+
         $lang_data = array(
           'imagesliders_title'               => xtc_db_prepare_input($title),
           'imagesliders_alt'                 => xtc_db_prepare_input($title),
           'imagesliders_linktitle'           => xtc_db_prepare_input($title),
-          'imagesliders_url'                 => xtc_db_prepare_input($url),
+          'imagesliders_url'                 => xtc_db_prepare_input($url_prepared['url']),
           'imagesliders_url_target'          => 0,
-          'imagesliders_url_typ'             => mits_imageslider_import_url_type($url),
+          'imagesliders_url_typ'             => (int)$url_prepared['typ'],
           'imagesliders_description'         => xtc_db_prepare_input($description),
           'imagesliders_image'               => $generated['image'],
           'imagesliders_image_width'         => $generated['width'],
@@ -527,10 +536,10 @@ function mits_imageslider_import_process_banner($banner, $execute, $overwrite, $
     return array('status' => $status, 'banner_id' => $banner_id, 'title' => $title, 'message' => $group . ' / ' . implode(', ', $generated_images));
 }
 
-$execute = (isset($_GET['import']) && $_GET['import'] == '1');
-$run_import_check = ($execute || isset($_GET['dry_run']));
-$overwrite = (isset($_GET['overwrite']) && $_GET['overwrite'] == '1');
-$group_filter = isset($_GET['groupfilter']) ? xtc_db_prepare_input($_GET['groupfilter']) : '';
+$execute = (isset($_POST['import']) && $_POST['import'] == '1');
+$run_import_check = ($execute || isset($_POST['dry_run']) || isset($_GET['dry_run']));
+$overwrite = (isset($_POST['overwrite']) && $_POST['overwrite'] == '1');
+$group_filter = isset($_POST['groupfilter']) ? xtc_db_prepare_input($_POST['groupfilter']) : (isset($_GET['groupfilter']) ? xtc_db_prepare_input($_GET['groupfilter']) : '');
 $results = array();
 $summary = array('total' => 0, 'imported' => 0, 'updated' => 0, 'skipped' => 0, 'errors' => 0);
 $groups = array();
@@ -615,7 +624,7 @@ require_once(DIR_WS_INCLUDES . 'head.php');
         <?php if (!$table_ok) { ?>
           <p class="mits-import-error"><?php echo mits_imageslider_import_t('MITS_IMAGESLIDER_IMPORT_NO_BANNERS_TABLE', 'The banners table was not found.'); ?></p>
         <?php } else { ?>
-          <?php echo xtc_draw_form('mits_imageslider_import', FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS, '', 'get'); ?>
+          <?php echo xtc_draw_form('mits_imageslider_import', FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS, '', 'post'); ?>
             <label><?php echo mits_imageslider_import_t('MITS_IMAGESLIDER_IMPORT_GROUP_FILTER', 'Filter banner group'); ?>:
               <select name="groupfilter">
                 <option value="">--</option>

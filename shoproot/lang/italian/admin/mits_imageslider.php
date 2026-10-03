@@ -57,6 +57,14 @@ defined('TEXT_DELETE_INTRO') or define('TEXT_DELETE_INTRO', 'Sei sicuro di voler
 defined('TEXT_DELETE_IMAGE') or define('TEXT_DELETE_IMAGE', 'Eliminare anche il file immagine?');
 defined('ERROR_DIRECTORY_NOT_WRITEABLE') or define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Errore: la directory %s non &egrave; scrivibile. Correggere i permessi di accesso!');
 defined('ERROR_DIRECTORY_DOES_NOT_EXIST') or define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Errore: la directory %s non esiste!');
+defined('TEXT_IMAGESLIDER_SORT_PAGE_NOTE') or define('TEXT_IMAGESLIDER_SORT_PAGE_NOTE', 'Modifica l&rsquo;ordine tramite drag &amp; drop nella pagina corrente. L&rsquo;ordinamento viene salvato automaticamente per gruppo di slider al rilascio; le voci non possono essere spostate tra gruppi diversi.');
+defined('TEXT_IMAGESLIDER_SORT_HINT') or define('TEXT_IMAGESLIDER_SORT_HINT', 'Trascina le righe tramite l&rsquo;icona maniglia nella posizione desiderata in questa pagina. L&rsquo;ordinamento viene salvato automaticamente.');
+defined('TEXT_IMAGESLIDER_SORT_SAVING') or define('TEXT_IMAGESLIDER_SORT_SAVING', 'Salvataggio ordinamento...');
+defined('TEXT_IMAGESLIDER_SORT_SAVED') or define('TEXT_IMAGESLIDER_SORT_SAVED', 'Ordinamento salvato.');
+defined('TEXT_IMAGESLIDER_SORT_NO_ITEMS') or define('TEXT_IMAGESLIDER_SORT_NO_ITEMS', 'Non sono state inviate voci ordinabili.');
+defined('TEXT_IMAGESLIDER_SORT_ERROR') or define('TEXT_IMAGESLIDER_SORT_ERROR', 'Impossibile salvare l&rsquo;ordinamento. Ricarica la pagina e riprova.');
+defined('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY') or define('TEXT_IMAGESLIDER_SORT_SAME_GROUP_ONLY', 'Le voci possono essere ordinate solo all&rsquo;interno dello stesso gruppo di slider.');
+
 defined('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS') or define('TEXT_DISPLAY_NUMBER_OF_IMAGESLIDERS', 'Visualizzazione da <b>%d</b> a <b>%d</b> (di <b>%d</b> voci ImageSlider)');
 defined('IMAGE_ICON_STATUS_GREEN') or define('IMAGE_ICON_STATUS_GREEN', 'Attivo');
 defined('IMAGE_ICON_STATUS_GREEN_LIGHT') or define('IMAGE_ICON_STATUS_GREEN_LIGHT', 'Attiva');
