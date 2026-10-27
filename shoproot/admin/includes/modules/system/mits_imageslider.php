@@ -33,7 +33,7 @@ class mits_imageslider
     {
         $this->code = 'mits_imageslider';
         $this->name = 'MODULE_' . strtoupper($this->code);
-        $this->version = '2.36.1';
+        $this->version = '2.36.2';
 
         $this->sort_order = defined($this->name . '_SORT_ORDER') ? constant($this->name . '_SORT_ORDER') : 0;
         $this->enabled = defined($this->name . '_STATUS') && (constant($this->name . '_STATUS') == 'true');
@@ -63,11 +63,13 @@ class mits_imageslider
 						$this->description .= '<br>';
         }
 
-        $mitsUpdateClientFile = DIR_FS_CATALOG . 'includes/external/mits_module_update_client/MitsModuleUpdateClient.php';
+        if (defined('RUN_MODE_ADMIN')) {
+            $mitsUpdateClientFile = DIR_FS_CATALOG . 'includes/external/mits_module_update_client/MitsModuleUpdateClient.php';
 
-        if (is_file($mitsUpdateClientFile)) {
-            require_once $mitsUpdateClientFile;
-            MitsModuleUpdateClient::integrate($this);
+            if (is_file($mitsUpdateClientFile)) {
+                require_once $mitsUpdateClientFile;
+                MitsModuleUpdateClient::integrate($this);
+            }
         }
     }
 
