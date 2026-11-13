@@ -12,6 +12,7 @@
  */
 
 require_once('includes/application_top.php');
+require_once(DIR_FS_ADMIN . 'includes/extra/functions/mits_imageslider_security.php');
 
 defined('TABLE_BANNERS') or define('TABLE_BANNERS', 'banners');
 defined('TABLE_MITS_IMAGESLIDER_IMPORT_MAP') or define('TABLE_MITS_IMAGESLIDER_IMPORT_MAP', 'mits_imageslider_import_map');
@@ -537,6 +538,10 @@ function mits_imageslider_import_process_banner($banner, $execute, $overwrite, $
 }
 
 $execute = (isset($_POST['import']) && $_POST['import'] == '1');
+if ($execute && !mits_imageslider_admin_check_csrf()) {
+    http_response_code(403);
+    exit('Invalid security token. Please reload the page.');
+}
 $run_import_check = ($execute || isset($_POST['dry_run']) || isset($_GET['dry_run']));
 $overwrite = (isset($_POST['overwrite']) && $_POST['overwrite'] == '1');
 $group_filter = isset($_POST['groupfilter']) ? xtc_db_prepare_input($_POST['groupfilter']) : (isset($_GET['groupfilter']) ? xtc_db_prepare_input($_GET['groupfilter']) : '');
@@ -624,7 +629,7 @@ require_once(DIR_WS_INCLUDES . 'head.php');
         <?php if (!$table_ok) { ?>
           <p class="mits-import-error"><?php echo mits_imageslider_import_t('MITS_IMAGESLIDER_IMPORT_NO_BANNERS_TABLE', 'The banners table was not found.'); ?></p>
         <?php } else { ?>
-          <?php echo xtc_draw_form('mits_imageslider_import', FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS, '', 'post'); ?>
+          <?php echo xtc_draw_form('mits_imageslider_import', FILENAME_MITS_IMAGESLIDER_IMPORT_BANNERS, '', 'post') . mits_imageslider_admin_csrf_fields(); ?>
             <label><?php echo mits_imageslider_import_t('MITS_IMAGESLIDER_IMPORT_GROUP_FILTER', 'Filter banner group'); ?>:
               <select name="groupfilter">
                 <option value="">--</option>

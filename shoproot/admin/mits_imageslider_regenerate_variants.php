@@ -13,6 +13,7 @@
  */
 
 require_once('includes/application_top.php');
+require_once(DIR_FS_ADMIN . 'includes/extra/functions/mits_imageslider_security.php');
 
 @set_time_limit(120);
 
@@ -384,11 +385,19 @@ $hasNext = false;
 $doneNow = false;
 
 if ($action === 'stop') {
+    if (!mits_imageslider_admin_check_csrf()) {
+        http_response_code(403);
+        exit('Invalid security token. Please reload the page.');
+    }
     unset($_SESSION[$sessionKey]);
     xtc_redirect(basename(__FILE__));
 }
 
 if ($action === 'start' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!mits_imageslider_admin_check_csrf()) {
+        http_response_code(403);
+        exit('Invalid security token. Please reload the page.');
+    }
     $limit = isset($_POST['limit']) ? (int)$_POST['limit'] : 20;
     $limit = max(1, min(100, $limit));
 
@@ -405,10 +414,14 @@ if ($action === 'start' && $_SERVER['REQUEST_METHOD'] === 'POST') {
       'finished'  => '',
     );
 
-    xtc_redirect(basename(__FILE__) . '?run=1');
+    $_POST['run'] = '1';
 }
 
-if (isset($_GET['run']) && isset($_SESSION[$sessionKey]) && !empty($_SESSION[$sessionKey]['running'])) {
+if (isset($_POST['run']) && $_POST['run'] == '1' && isset($_SESSION[$sessionKey]) && !empty($_SESSION[$sessionKey]['running'])) {
+    if (!mits_imageslider_admin_check_csrf()) {
+        http_response_code(403);
+        exit('Invalid security token. Please reload the page.');
+    }
     $runActive = true;
     $run = $_SESSION[$sessionKey];
     $limit = isset($run['limit']) ? max(1, min(100, (int)$run['limit'])) : 20;
@@ -459,7 +472,7 @@ $autoContinue = ($runActive && $hasNext);
 
 require_once(DIR_WS_INCLUDES . 'head.php');
 if ($autoContinue) {
-    echo '<meta http-equiv="refresh" content="1;url=' . htmlspecialchars(basename(__FILE__)) . '?run=1">' . PHP_EOL;
+    echo '<script>document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){var f=document.getElementById("mits-variants-run-form");if(f)f.submit();},1000);});</script>' . PHP_EOL;
 }
 ?>
 <script type="text/javascript" src="includes/general.js"></script>
@@ -540,12 +553,13 @@ if ($autoContinue) {
 
         <?php if ($autoContinue): ?>
           <p class="small ok"><strong><?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_RUNNING', 'L&auml;uft'); ?>:</strong> <?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_AUTO_REFRESH', 'Der n&auml;chste Batch startet automatisch.'); ?></p>
-          <p><a class="btn2" href="<?php echo htmlspecialchars(basename(__FILE__)); ?>?action=stop"><?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_BTN_STOP', 'Abbrechen'); ?></a></p>
+          <form method="post" action="<?php echo htmlspecialchars(basename(__FILE__)); ?>?action=stop"><?php echo mits_imageslider_admin_csrf_fields(); ?><button class="btn2" type="submit"><?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_BTN_STOP', 'Abbrechen'); ?></button></form>
+          <form method="post" id="mits-variants-run-form" action="<?php echo htmlspecialchars(basename(__FILE__)); ?>?run=1"><?php echo mits_imageslider_admin_csrf_fields(); ?><input type="hidden" name="run" value="1"><button class="btn" type="submit"><?php echo MITS_IMAGESLIDER_VARIANTS_NEXT_BATCH; ?></button></form>
         <?php elseif ($doneNow || (!empty($currentRun) && empty($currentRun['running']) && $processedTotal > 0)): ?>
           <p class="ok"><strong><?php echo MITS_IMAGESLIDER_VARIANTS_DONE; ?></strong></p>
-          <p><a class="btn2" href="<?php echo htmlspecialchars(basename(__FILE__)); ?>?action=stop"><?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_BTN_RESET', 'Neue Verarbeitung starten'); ?></a></p>
+          <form method="post" action="<?php echo htmlspecialchars(basename(__FILE__)); ?>?action=stop"><?php echo mits_imageslider_admin_csrf_fields(); ?><button class="btn2" type="submit"><?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_BTN_RESET', 'Neue Verarbeitung starten'); ?></button></form>
         <?php else: ?>
-          <?php echo xtc_draw_form('imagesliders_variants_start', basename(__FILE__) . '?action=start', '', 'post'); ?>
+          <?php echo xtc_draw_form('imagesliders_variants_start', basename(__FILE__) . '?action=start', '', 'post') . mits_imageslider_admin_csrf_fields(); ?>
             <p class="small"><strong><?php echo MITS_IMAGESLIDER_VARIANTS_NOTE_LABEL; ?>:</strong> <?php echo MITS_IMAGESLIDER_VARIANTS_NOTE; ?></p>
             <label>
               <?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_BATCH_SIZE', 'Datens&auml;tze pro Batch'); ?>:
@@ -583,7 +597,7 @@ if ($autoContinue) {
           <noscript>
             <div class="box warn">
               <?php echo mits_imageslider_variants_t('MITS_IMAGESLIDER_VARIANTS_NOSCRIPT', 'JavaScript/Meta-Refresh ist deaktiviert. Bitte den n&auml;chsten Batch manuell starten.'); ?>
-              <br><a class="btn" href="<?php echo htmlspecialchars(basename(__FILE__)); ?>?run=1"><?php echo MITS_IMAGESLIDER_VARIANTS_NEXT_BATCH; ?></a>
+              <br><button class="btn" type="button" onclick="document.getElementById('mits-variants-run-form').submit();"><?php echo MITS_IMAGESLIDER_VARIANTS_NEXT_BATCH; ?></button>
             </div>
           </noscript>
         <?php endif; ?>

@@ -13,6 +13,7 @@
  */
 
 require_once('includes/application_top.php');
+require_once(DIR_FS_ADMIN . 'includes/extra/functions/mits_imageslider_security.php');
 
 if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS == 'true') {
   // include needed function
@@ -62,6 +63,17 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
       }
       return xtc_date_short($value);
     }
+  }
+
+  if (in_array($action, array('save_sorting', 'insert', 'save', 'deleteconfirm', 'setflag'), true) && !mits_imageslider_admin_check_csrf()) {
+    http_response_code(403);
+    if (isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1') {
+      header('Content-Type: application/json; charset=UTF-8');
+      echo json_encode(array('success' => false, 'message' => 'Security token invalid'));
+    } else {
+      echo 'Invalid security token. Please reload the page.';
+    }
+    exit;
   }
 
   switch ($action) {
@@ -666,7 +678,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
               }
             }
 
-            echo xtc_draw_form('imagesliders', FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . ((isset($_GET['page'])) ? 'page=' . (int)$_GET['page'] . '&' : '') . ((isset($_GET['iID'])) ? 'iID=' . (int)$_GET['iID'] . '&' : '') . 'action=' . (($action == 'new') ? 'insert' : 'save'), 'post', 'enctype="multipart/form-data"');
+            echo xtc_draw_form('imagesliders', FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'page')) . ((isset($_GET['page'])) ? 'page=' . (int)$_GET['page'] . '&' : '') . ((isset($_GET['iID'])) ? 'iID=' . (int)$_GET['iID'] . '&' : '') . 'action=' . (($action == 'new') ? 'insert' : 'save'), 'post', 'enctype="multipart/form-data"') . mits_imageslider_admin_csrf_fields();
             ?>
             <div class="mits-edit-actionbar">
               <div class="mits-edit-actionbar__title">
@@ -872,7 +884,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                   }
                   ?>
                 </div>
-                <?php echo xtc_draw_form('imagesliders', FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('action')) . 'action=deleteconfirm'); ?>
+                <?php echo xtc_draw_form('imagesliders', FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('action')) . 'action=deleteconfirm') . mits_imageslider_admin_csrf_fields(); ?>
                   <label><?php echo xtc_draw_checkbox_field('delete_image', '', true) . ' ' . TEXT_DELETE_IMAGE; ?></label>
                   <div class="mits-actions" style="justify-content:flex-start;margin-top:14px;">
                     <button type="submit" class="mits-button mits-button--danger"><?php echo BUTTON_DELETE; ?></button>
@@ -914,6 +926,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                   <div class="mits-empty">Es sind noch keine Sliderbilder vorhanden.</div>
                 <?php } else { ?>
                   <form method="post" action="<?php echo xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('action', 'iID', 'flag')) . 'action=save_sorting'); ?>" id="mits-imageslider-sort-form">
+                    <?php echo mits_imageslider_admin_csrf_fields(); ?>
                     <div class="mits-toolbar">
                       <span class="mits-subtle" id="mits-sort-hint"><?php echo mits_imageslider_admin_text('TEXT_IMAGESLIDER_SORT_HINT', 'Ziehen Sie die Zeilen am Griffsymbol an die gew&uuml;nschte Position auf dieser Seite. Die Sortierung wird automatisch gespeichert.'); ?></span>
                     </div>
@@ -962,6 +975,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                                   </span>
                                   <form class="mits-status-form" method="post" action="<?php echo xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'flag')) . 'action=setflag'); ?>">
+                                    <?php echo mits_imageslider_admin_csrf_fields(); ?>
                                     <input type="hidden" name="iID" value="<?php echo (int)$imagesliders['imagesliders_id']; ?>">
                                     <input type="hidden" name="flag" value="1">
                                     <button type="submit" class="mits-icon-action mits-icon-action--status is-inactive is-muted" title="<?php echo mits_imageslider_admin_text('MITS_NOTACTIVE', 'deaktivieren'); ?>" aria-label="<?php echo mits_imageslider_admin_text('MITS_NOTACTIVE', 'deaktivieren'); ?>">
@@ -970,6 +984,7 @@ if (defined('MODULE_MITS_IMAGESLIDER_STATUS') && MODULE_MITS_IMAGESLIDER_STATUS 
                                   </form>
                                 <?php } else { ?>
                                   <form class="mits-status-form" method="post" action="<?php echo xtc_href_link(FILENAME_MITS_IMAGESLIDER, xtc_get_all_get_params(array('iID', 'action', 'flag')) . 'action=setflag'); ?>">
+                                    <?php echo mits_imageslider_admin_csrf_fields(); ?>
                                     <input type="hidden" name="iID" value="<?php echo (int)$imagesliders['imagesliders_id']; ?>">
                                     <input type="hidden" name="flag" value="0">
                                     <button type="submit" class="mits-icon-action mits-icon-action--status is-active is-muted" title="<?php echo mits_imageslider_admin_text('MITS_ACTIVE', 'aktivieren'); ?>" aria-label="<?php echo mits_imageslider_admin_text('MITS_ACTIVE', 'aktivieren'); ?>">
